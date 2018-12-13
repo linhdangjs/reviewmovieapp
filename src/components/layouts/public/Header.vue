@@ -1,0 +1,201 @@
+ <template>
+ <div class="wrap-header">
+   <!-- BEGIN | Header -->
+    <header class="ht-header">
+        <div class="container">
+            <nav class="navbar navbar-default navbar-custom">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header logo">
+                        <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <div id="nav-icon1">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <a href="index.html"><img class="logo" src="/static/images/logo1.png" alt="" width="119" height="58"></a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav flex-child-menu menu-left">
+                            <li class="hidden">
+                                <a href="index.html#page-top"></a>
+                            </li>
+            
+                            <router-link
+                                tag="li"
+                                class="dropdown first" 
+                                to="/"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
+                                Home
+                                </a>
+
+                            </router-link>
+
+                            <li class="dropdown first">
+                                <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                                movies<i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <ul class="dropdown-menu level1">
+                                    <li class="dropdown">
+                                        <a href="index.html#" class="dropdown-toggle" data-toggle="dropdown" >Movie grid<i class="ion-ios-arrow-forward"></i></a>
+                                        <ul class="dropdown-menu level2">
+                                            <li><a href="#">Movie grid</a></li>
+                                            <li><a href="#">movie grid full width</a></li>
+                                        </ul>
+                                    </li>			
+                                    <li><a href="#">Movie list</a></li>
+                                    <li><a href="#">Movie single</a></li>
+                                    <li class="it-last"><a href="#">Series single</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown first">
+                                <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                                celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <ul class="dropdown-menu level1">
+                                    <li><a href="#">celebrity grid 01</a></li>
+                                    <li><a href="#">celebrity grid 02 </a></li>
+                                    <li><a href="#">celebrity list</a></li>
+                                    <li class="it-last"><a href="#">celebrity single</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown first">
+                                <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                                news <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <ul class="dropdown-menu level1">
+                                    <li><a href="#">blog List</a></li>
+                                    <li><a href="#">blog Grid</a></li>
+                                    <li class="it-last"><a href="#">blog Detail</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown first">
+                                <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                                community <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                                <ul class="dropdown-menu level1">
+                                    <li><a href="#">user favorite grid</a></li>
+                                    <li><a href="#">user favorite list</a></li>
+                                    <li><a href="#">user profile</a></li>
+                                    <li class="it-last"><a href="#">user rate</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav flex-child-menu menu-right">   
+                            <li v-show="isLoggedIn"> <span id="welcome" style="color: #dd003f; font-size: 16px; cursor: context-menu">Welcome </span></li>   
+                            <li v-show="isLoggedIn"  id="user-area" class="dropdown first">       
+                              <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
+                              <span style="border: 2px solid white; border-radius: 10px; padding: 8px 8px">{{ currentUser.email }}<i class="fa fa-angle-down" aria-hidden="true"></i></span> 
+                                </a>
+                                <ul class="dropdown-menu level1">
+                                    <!-- <li><a href="#">Profile</a></li> -->
+                                    <router-link
+                                        tag="li" 
+                                        to="/user/01"
+                                        active-class="active"
+                                        exact><a href="#">Profile</a>
+                                    </router-link>
+                                    <li><a href="#">Setting</a></li>
+                                    <li class="it-last"><a href="#">Log Out</a></li>
+                                </ul>
+                            </li>   
+                            <li v-show="!isLoggedIn" id="loginLink"><a>LOG In</a></li>  
+                            <li v-show="!isLoggedIn" id="btn"><a id="signupLink" href="#">sign up</a></li>           
+                            <li v-show="isLoggedIn"  class="logout" @click="logout"><a>Log Out</a></li>
+                            
+                        </ul>
+                    </div>
+                <!-- /.navbar-collapse -->
+            </nav>
+            
+            <!-- top search form -->
+            <div class="top-search">
+                <select>
+                    <option value="united">TV show</option>
+                    <option value="saab">Others</option>
+                </select>
+                <input type="text" placeholder="Search for a movie, TV Show or celebrity that you are looking for">
+            </div>
+        </div>
+    </header>
+        <!-- END | Header -->
+    <appLogin />
+    <appSignUp />
+ </div>
+     
+    
+</template>
+
+<script>
+import Login from '@/components/layouts/public/Login'
+import SignUp from '@/components/layouts/public/SignUp'
+import firebase from 'firebase'
+export default {
+    data() {
+        return {
+           //isLoggedIn : false
+            currentUser: false
+        }
+    },
+    created() {
+        var tokenUser = localStorage.getItem("current-user");
+        console.log(tokenUser);
+        if(tokenUser) this.currentUser = JSON.parse(tokenUser);
+        this.$store.commit('setUser', JSON.parse(tokenUser))
+    },
+    computed: {
+        isLoggedIn () {
+            console.log("computed login")
+            let isLoggedIn;
+            if(this.userIsAuthenticated) isLoggedIn = true;
+            else isLoggedIn = false;
+            return isLoggedIn;
+        },
+    
+        userIsAuthenticated() {
+            return this.$store.getters.user !== null && this.$store.getters.user !== undefined;
+        },
+        user() {
+                return this.$store.getters.user;
+            }
+    },
+    watch: {
+            user (value) {
+                console.log("watch login")
+                if(value !== null && value !== undefined) {
+                   this.currentUser = value;
+                }
+            }
+        },
+    // created() {
+    //     if(firebase.auth().currentUser) {
+    //         this.isLoggedIn = true;
+    //         this.currentUser = firebase.auth().currentUser.email;
+    //     }
+    // },
+    methods: {
+        // goBackHome() {
+        //     this.$router.push('/');
+        // },
+        logout: function() {
+            firebase
+                .auth()
+                .signOut()
+                .then(() => {
+                localStorage.removeItem('current-user');
+                this.$store.commit('setUser', JSON.parse(localStorage.getItem("current-user")));
+            })
+        }
+    },
+    components : {
+        appLogin : Login,
+        appSignUp : SignUp
+    }
+}      
+</script>
+
+<style>
+    
+ </style>
+    
