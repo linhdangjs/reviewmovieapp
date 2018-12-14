@@ -27,9 +27,9 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  created() {
-    firebase.initializeApp(firebaseConfig);
-  },
+  // created() {
+  //   firebase.initializeApp(firebaseConfig);
+  // },
   // template: '<App/>',
   // components: { App },
 })

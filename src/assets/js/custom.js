@@ -1,18 +1,18 @@
 //preloading for page
-$(window).on('load', function() { // makes sure the whole site is loaded 
-	var status = $('#status');
-	var preloader = $('#preloader');
-	var body = $('body');
-	status.fadeOut(); // will first fade out the loading animation 
-	preloader.delay(0).fadeOut('fast'); // will fade out the white DIV that covers the website. 
-	body.delay(0).css({'overflow':'visible'});
-	var vidDefer = document.getElementsByTagName('iframe');
-	for (var i=0; i<vidDefer.length; i++) {
-		if(vidDefer[i].getAttribute('data-src')) {
-			vidDefer[i].setAttribute('src',vidDefer[i].getAttribute('data-src'));
-		} 
-	}
-})
+// $(window).on('load', function() { // makes sure the whole site is loaded 
+// 	var status = $('#status');
+// 	var preloader = $('#preloader');
+// 	var body = $('body');
+// 	status.fadeOut(); // will first fade out the loading animation 
+// 	preloader.delay(0).fadeOut('fast'); // will fade out the white DIV that covers the website. 
+// 	body.delay(0).css({'overflow':'visible'});
+// 	var vidDefer = document.getElementsByTagName('iframe');
+// 	for (var i=0; i<vidDefer.length; i++) {
+// 		if(vidDefer[i].getAttribute('data-src')) {
+// 			vidDefer[i].setAttribute('src',vidDefer[i].getAttribute('data-src'));
+// 		} 
+// 	}
+// })
 
 
 $(function(){
@@ -457,64 +457,8 @@ $(function(){
 	var frmSignup = $("#frmSignup");
 	var frmLogin = $("#frmLogin");
 	var swalConfirm = $(".swal2-confirm");
-	loginWrap.each( function(){
-		$(this).wrap('<div class="overlay"></div>')
-	});
-	//pop up for login form
-		userArea.on('click', (event) => {
-			event.preventDefault();
-			return;
-		})
-    loginLink.on('click', function(event){
-			event.preventDefault();
-			frmLogin[0].reset();
-    	loginct.parents(overlay).addClass("openform");
-		$(document).on('click', function(e){
-		var target = $(e.target);
-		if ($(target).hasClass("overlay")){
-				$(target).find(loginct).each( function(){
-					$(this).removeClass("openform");
-				});
-				setTimeout( function(){
-					$(target).removeClass("openform");
-				}, 350);
-			}	
-		});
-    });
-    //pop up for signup form
-    signupLink.on('click', function(event){
-			event.preventDefault();
-			
-    	signupct.parents(overlay).addClass("openform");
-		$(document).on('click', function(e){
-		var target = $(e.target);
-		if ($(target).hasClass("overlay")){
-				$(target).find(signupct).each( function(){
-					$(this).removeClass("openform");
-				});
-				setTimeout( function(){
-					$(target).removeClass("openform");
-				}, 350);
-			}	
-		});
-    });
-    // close popup for mobile
-    var closebt = $(".close");
-   	closebt.on('click', function(e){
-		e.preventDefault();
-		var overlay = $(".overlay");
-		overlay.removeClass("openform");
-	});	
 
 
-// 	btnLogin.on('click', function(e){
-// 		setTimeout(() => {
-// 			e.preventDefault();
-// 			var overlay = $(".overlay");
-// 			overlay.removeClass("openform");
-// 		},1500)
-
-// });	
 
 
     //js for multi selected

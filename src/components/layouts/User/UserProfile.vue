@@ -6,7 +6,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="hero-ct">
-                                <h1>Edward kennedy’s profile</h1>
+                                <h1>{{ currentUser.displayName ? currentUser.displayName :  currentUser.email }}'s profile</h1>
                                 <ul class="breadcumb">
                                     <li class="active"><a href="#">Home</a></li>
                                     <li> <span class="ion-ios-arrow-right"></span>Profile</li>
@@ -44,29 +44,29 @@
                         </div>
                         <div class="col-md-9 col-sm-12 col-xs-12">
                             <div class="form-style-1 user-pro" action="">
-                                <form class="user">
+                                <form @submit.prevent="updateUser" class="user">
                                     <h4>01. Profile details</h4>
                                     <div class="row">
                                         <div class="col-md-6 form-it">
-                                            <label>Username</label>
-                                            <input type="text" placeholder="">
+                                            <label>Email:</label>
+                                            <input type="text" v-model="currentUser.email" placeholder="" readonly>
                                         </div>
                                         <div class="col-md-6 form-it">
-                                            <label>Email Address</label>
-                                            <input type="text" placeholder="">
+                                            <label>User UID</label>
+                                            <input type="text" v-model="currentUser.uid" placeholder="" readonly>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 form-it">
-                                            <label>First Name</label>
-                                            <input type="text" placeholder="">
+                                            <label>Display Name</label>
+                                            <input type="text" v-model="currentUser.displayName" placeholder="" maxlength="20">
                                         </div>
                                         <div class="col-md-6 form-it">
-                                            <label>Last Name</label>
-                                            <input type="text" placeholder="">
+                                            <label>Photo Url</label>
+                                            <input type="text" v-model="currentUser.photoUrl" placeholder="" readonly>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-md-6 form-it">
                                             <label>Country</label>
                                             <select>
@@ -81,7 +81,7 @@
                                             <option value="saab">Others</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="row">
                                         <div class="col-md-2">
                                             <input class="submit" type="submit" value="save">
@@ -124,20 +124,35 @@
 </template>
 
 <script>
-
+import firebase from 'firebase'
 import Preloader from '@/components/layouts/public/Preloader.vue'
 import Header from '@/components/layouts/public/Header.vue'
 import Footer from '@/components/layouts/public/Footer.vue'
     export default {
         data() {
             return {
+                currentUser: this.$store.getters.user,
 
+
+            }
+        },
+        watch: {
+            currentUser (value) {
+                console.log("watch login")
+                if(value !== null && value !== undefined) {
+                   this.currentUser = value;
+                }
             }
         },
         components : {
             appPreloader: Preloader,
             appHeader: Header,
             appFooter: Footer
+        },
+        methods: {
+            updateUser() {
+                this.$store.dispatch("updateUser", this.currentUser.displayName)
+            }
         }
     }
 </script>

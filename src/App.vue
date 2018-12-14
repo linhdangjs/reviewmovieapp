@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <appPreloader />
-    <appHeader />
+    <appPreloader v-if="loading"/>
+    <appHeader v-if="!loading"/>
     <transition name="slide">
-      <router-view />
+      <router-view v-if="!loading"/>
     </transition>
-    <appFooter />
+    <appFooter v-if="!loading"/>
   </div>
 </template>
 
@@ -13,8 +13,22 @@
 import Header from '@/components/layouts/public/Header.vue';
 import Preloader from '@/components/layouts/public/Preloader.vue';
 import Footer from '@/components/layouts/public/Footer.vue';
+import { setTimeout } from 'timers';
 
 export default {
+  data() {
+    return {
+      loading : true,
+    }
+  },
+  mounted() {
+        window.addEventListener('load', () => {
+          setTimeout(() => {
+            this.loading = false;
+          }, 2000)
+        
+    })
+  },
   name: 'App',
   components: {
     appPreloader: Preloader,

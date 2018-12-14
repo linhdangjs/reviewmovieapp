@@ -153,7 +153,7 @@ import Slick from 'vue-slick';
                         arrows: false,
                         draggable:true,
                         autoplay: true,
-                        autoplaySpeed: 2000,
+                        autoplaySpeed: 1500,
                         dots: true,
                         responsive: [
                         {

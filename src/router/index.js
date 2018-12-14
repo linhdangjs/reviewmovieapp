@@ -3,27 +3,71 @@ import Router from 'vue-router'
 import HomePage from '@/components/layouts/Index'
 import UserProfile from '@/components/layouts/User/UserProfile'
 import Page404 from '@/components/layouts/Page404'
-// import HelloWorld from '@/components/HelloWorld'
+import firebase from 'firebase'
 
 Vue.use(Router)
 
-export default new Router({
+let router =  new Router({
   routes: [
     {
       path: '/',
       name: 'HomePage',
-      component: HomePage
+      component: HomePage,
+      meta: {
+        requiresGuest: true
+      }
     },
     {
-      path: '/user/:id',
+      path: '/user/profile',
       name: 'UserProfile',
-      component: UserProfile
+      component: UserProfile,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '*',
       name: 'Page404',
-      component: Page404
+      component: Page404,
+      meta: {
+        requiresGuest: true
+      }
     }
   ],
   mode: 'history'
+});
+
+
+//nav guard
+router.beforeEach((to, from, next ) => {
+  //check for requiredAuth guard
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    //check if NOT logged in
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        next();
+      } else {
+        next({
+          path: '/',
+          query: {
+            redirect: to.fullPath
+          }
+        });
+      }
+    })
+  } else if(to.matched.some(record => record.meta.requiresGuest)) {
+        //check if logged in
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            next();
+          } else {
+            next();
+          }
+        })
+  } else {
+    // Proceed to route
+    next();
+  }
 })
+
+export default router;

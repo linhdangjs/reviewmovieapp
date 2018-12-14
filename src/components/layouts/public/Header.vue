@@ -86,13 +86,13 @@
                             <li v-show="isLoggedIn"> <span id="welcome" style="color: #dd003f; font-size: 16px; cursor: context-menu">Welcome </span></li>   
                             <li v-show="isLoggedIn"  id="user-area" class="dropdown first">       
                               <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                              <span style="border: 2px solid white; border-radius: 10px; padding: 8px 8px">{{ currentUser.email }}<i class="fa fa-angle-down" aria-hidden="true"></i></span> 
+                              <span style="border: 2px solid white; border-radius: 10px; padding: 8px 8px">{{ currentUser.displayName ? currentUser.displayName :  currentUser.email }}<i class="fa fa-angle-down" aria-hidden="true"></i></span> 
                                 </a>
                                 <ul class="dropdown-menu level1">
                                     <!-- <li><a href="#">Profile</a></li> -->
                                     <router-link
                                         tag="li" 
-                                        to="/user/01"
+                                        to="/user/profile"
                                         active-class="active"
                                         exact><a href="#">Profile</a>
                                     </router-link>
@@ -100,8 +100,8 @@
                                     <li class="it-last"><a href="#">Log Out</a></li>
                                 </ul>
                             </li>   
-                            <li v-show="!isLoggedIn" id="loginLink"><a>LOG In</a></li>  
-                            <li v-show="!isLoggedIn" id="btn"><a id="signupLink" href="#">sign up</a></li>           
+                            <li v-show="!isLoggedIn" id="loginLink" @click="showLogin = true"><a>LOG In</a></li>  
+                            <li v-show="!isLoggedIn" id="btn"><a id="signupLink" @click="showSignUp = true">sign up</a></li>           
                             <li v-show="isLoggedIn"  class="logout" @click="logout"><a>Log Out</a></li>
                             
                         </ul>
@@ -120,8 +120,8 @@
         </div>
     </header>
         <!-- END | Header -->
-    <appLogin />
-    <appSignUp />
+    <appLogin v-if="showLogin" @closeLogin="showLogin = false"/>
+    <appSignUp v-if="showSignUp" @closeSignUp="showSignUp = false"/>
  </div>
      
     
@@ -135,7 +135,14 @@ export default {
     data() {
         return {
            //isLoggedIn : false
-            currentUser: false
+            currentUser: this.$store.getters.user ? this.$store.getters.user : {
+                displayName : "",
+                email: "",
+                uid: "",
+                photoUrl: ""
+            },
+            showLogin : false,
+            showSignUp: false
         }
     },
     created() {
@@ -146,7 +153,6 @@ export default {
     },
     computed: {
         isLoggedIn () {
-            console.log("computed login")
             let isLoggedIn;
             if(this.userIsAuthenticated) isLoggedIn = true;
             else isLoggedIn = false;
@@ -162,18 +168,12 @@ export default {
     },
     watch: {
             user (value) {
-                console.log("watch login")
                 if(value !== null && value !== undefined) {
                    this.currentUser = value;
                 }
             }
         },
-    // created() {
-    //     if(firebase.auth().currentUser) {
-    //         this.isLoggedIn = true;
-    //         this.currentUser = firebase.auth().currentUser.email;
-    //     }
-    // },
+
     methods: {
         // goBackHome() {
         //     this.$router.push('/');
@@ -184,7 +184,8 @@ export default {
                 .signOut()
                 .then(() => {
                 localStorage.removeItem('current-user');
-                this.$store.commit('setUser', JSON.parse(localStorage.getItem("current-user")));
+                this.$store.commit("setUser", null)
+                this.$router.push({path: "/"});
             })
         }
     },
