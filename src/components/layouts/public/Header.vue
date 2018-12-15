@@ -32,54 +32,28 @@
 
                             </router-link>
 
-                            <li class="dropdown first">
-                                <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                                movies<i class="fa fa-angle-down" aria-hidden="true"></i>
+                                <router-link
+                                tag="li"
+                                class="dropdown first" 
+                                to="/movie"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
+                                Movies
                                 </a>
-                                <ul class="dropdown-menu level1">
-                                    <li class="dropdown">
-                                        <a href="index.html#" class="dropdown-toggle" data-toggle="dropdown" >Movie grid<i class="ion-ios-arrow-forward"></i></a>
-                                        <ul class="dropdown-menu level2">
-                                            <li><a href="#">Movie grid</a></li>
-                                            <li><a href="#">movie grid full width</a></li>
-                                        </ul>
-                                    </li>			
-                                    <li><a href="#">Movie list</a></li>
-                                    <li><a href="#">Movie single</a></li>
-                                    <li class="it-last"><a href="#">Series single</a></li>
-                                </ul>
-                            </li>
+
+                            </router-link>
                             <li class="dropdown first">
                                 <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </a>
-                                <ul class="dropdown-menu level1">
-                                    <li><a href="#">celebrity grid 01</a></li>
-                                    <li><a href="#">celebrity grid 02 </a></li>
-                                    <li><a href="#">celebrity list</a></li>
-                                    <li class="it-last"><a href="#">celebrity single</a></li>
-                                </ul>
                             </li>
                             <li class="dropdown first">
                                 <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 news <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </a>
-                                <ul class="dropdown-menu level1">
-                                    <li><a href="#">blog List</a></li>
-                                    <li><a href="#">blog Grid</a></li>
-                                    <li class="it-last"><a href="#">blog Detail</a></li>
-                                </ul>
                             </li>
                             <li class="dropdown first">
                                 <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 community <i class="fa fa-angle-down" aria-hidden="true"></i>
                                 </a>
-                                <ul class="dropdown-menu level1">
-                                    <li><a href="#">user favorite grid</a></li>
-                                    <li><a href="#">user favorite list</a></li>
-                                    <li><a href="#">user profile</a></li>
-                                    <li class="it-last"><a href="#">user rate</a></li>
-                                </ul>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav flex-child-menu menu-right">   

@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
     state: {
       userLogin: null,
       users: [],
-      userDetail : null
+      userDetail : null,
+      movies: []
     },
     mutations: {
       setUser (state, payload) {
@@ -21,6 +22,9 @@ export const store = new Vuex.Store({
       },
       setUserDetail (state, payload) {
         state.userDetail = payload;
+      },
+      setMovies (state, payload) {
+        state.movies = payload;
       }
     },
     actions: {
@@ -90,6 +94,32 @@ export const store = new Vuex.Store({
           }
         });
     
+      },
+      getAllMovies({commit}) {
+        let result = [];
+        // )
+        db.collection('Movies').get().then
+        (querySnapshot => {
+          querySnapshot.forEach(doc => {  
+            //console.log(doc.data())
+            const data = {
+              movie_id : doc.data().movie_id,
+              name: doc.data().name,
+              photoUrl: doc.data().photoUrl,
+              rating: doc.data().rating,
+              tags: doc.data().tags
+            }
+            result.push(data)
+          })
+          console.log(result);
+          commit('setMovies', result);
+
+        })
+        .catch(
+          error => {
+            console.log(error);
+          }
+        )
       }
       // signUserUp ({commit}, payload) {
       //   firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
@@ -135,6 +165,9 @@ export const store = new Vuex.Store({
       },
       userDetails (state) {
         return state.userDetail 
+      },
+      movies (state) {
+        return state.movies
       }
     }
   })

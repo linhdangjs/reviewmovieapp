@@ -1,5 +1,7 @@
 <template>
+
     <div class="slider movie-items">
+		
 	<div class="container">
 		<div class="row">
 			<div class="social-link">
@@ -9,7 +11,8 @@
 				<a href="#"><i class="ion-social-googleplus"></i></a>
 				<a href="#"><i class="ion-social-youtube"></i></a>
 			</div>
-        <slick
+			 <slick
+		
         class="slick-multiItemSlider"
         ref="slick"
         :options="slickOptions"
@@ -24,115 +27,24 @@
         @swipe="handleSwipe"
         @lazyLoaded="handleLazyLoaded"
         @lazyLoadError="handleLazeLoadError">
-            <div class="movie-item">
+            	<div class="movie-item" v-for="(movie, index) in movies" :key="index">
 	    			<div class="mv-img">
-	    				<a href="#"><img src="/static/images/uploads/slider5.jpg" alt="" width="285" height="437"></a>
+						
+	    				<a href="#"><v-lazy-image
+    						:src="movie.photoUrl"
+    					
+							width="285" height="437"
+    					/></a>
 	    			</div>
 	    			<div class="title-in">
 	    				<div class="cate">
-	    					<span class="blue"><a href="#">Sci-fi</a></span>
+	    					<span  v-for="(tag, index) in movie.tags" :class="tag" :key="index++"><a href="#">{{tag}}</a></span>
 	    				</div>
-	    				<h6><a href="#">Aquaman</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
+	    				<h6><a href="#">{{movie.name}}</a></h6>
+	    				<p><i class="ion-android-star"></i><span>{{movie.rating}}</span> /10</p>
 	    			</div>
 	    		</div>
-				<div class="movie-item">
-	    			<div class="mv-img">
-	    				<a href="#"><img src="/static/images/uploads/slider6.jpg" alt="" width="285" height="437"></a>
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="yell"><a href="#">action</a></span>
-	    				</div>
-	    				<h6><a href="#">Gái Già Lắm Chiêu</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
-	    		<div class="movie-item">
-	    			<div class="mv-img">
-	    				<a href="#"><img src="/static/images/uploads/slider7.jpg" alt="" width="285" height="437"></a>
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="green"><a href="#">comedy</a></span>
-	    				</div>
-	    				<h6><a href="#">Avengers: ENDGAME</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
-	    		<div class="movie-item">
-	    			<div class="mv-img">
-	    				<a href="#"><img src="/static/images/uploads/slider8.jpg" alt="" width="285" height="437"></a>
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="blue"><a href="#">Sci-fi</a></span> <span class="orange"><a href="#">advanture</a></span>
-	    				</div>
-	    				<h6><a href="#">Avengers: ENDGAME</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
-	    		<div class="movie-item">
-	    			<div class="mv-img">
-	    				<a href="#"><img src="/static/images/uploads/slider9.jpg" alt="" width="285" height="437"></a>
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="blue"><a href="#">Sci-fi</a></span>
-	    				</div>
-	    				<h6><a href="#">Đại Úy Marvel</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
-				<div class="movie-item">
-	    			<div class="mv-img">
-	    				<a href="#"><img src="/static/images/uploads/slider6.jpg" alt="" width="285" height="437"></a>
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="yell"><a href="#">action</a></span>
-	    				</div>
-	    				<h6><a href="#">Gái Già Lắm Chiêu</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
-	    		<div class="movie-item">
-	    			<div class="mv-img">
-	    				<img src="/static/images/uploads/slider8.jpg" alt="" width="285" height="437">
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="green"><a href="#">comedy</a></span>
-	    				</div>
-	    				<h6><a href="#">Artemis Fowl</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
-	    		<div class="movie-item">
-	    			<div class="mv-img">
-	    				<img src="/static/images/uploads/slider7.jpg" alt="" width="285" height="437">
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="blue"><a href="#">Sci-fi</a></span> <span class="orange"><a href="#">advanture</a></span>
-	    				</div>
-	    				<h6><a href="#">Avengers: ENDGAME</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
-	    		<div class="movie-item">
-	    			<div class="mv-img">
-	    				<img src="/static/images/uploads/slider9.jpg" alt="" width="285" height="437">
-	    			</div>
-	    			<div class="title-in">
-	    				<div class="cate">
-	    					<span class="green"><a href="#">comedy</a></span>
-	    				</div>
-	    				<h6><a href="#">Đại Úy Marvels</a></h6>
-	    				<p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-	    			</div>
-	    		</div>
-    </slick>
+			</slick>
 	    </div>
 	</div>
 </div>
@@ -141,13 +53,15 @@
 
 <script>
 import Slick from 'vue-slick';
+import VLazyImage from "v-lazy-image";
+import { setTimeout } from 'timers';
 
     export default {
-        components: { Slick },
+        components: { Slick, VLazyImage },
             data() {
                 return { 
                     slickOptions: {
-                        infinite: true,
+						infinite: true,
                         slidesToShow: 4,
                         slidesToScroll: 4,
                         arrows: false,
@@ -181,9 +95,27 @@ import Slick from 'vue-slick';
                         }
                     ]
                     },
-                    
+                    // placeHolder: true,
                 };
-            },
+			},
+			computed : {
+				movies() {
+					return this.$store.getters.movies;
+				}
+		},
+		beforeUpdate() {
+        if (this.$refs.slick) {
+            this.$refs.slick.destroy();
+        }
+    },
+    	updated() {
+        this.$nextTick(function () {
+            if (this.$refs.slick) {
+				//console.log(this.$refs.slick)
+                this.$refs.slick.create(this.slickOptions);
+            }
+        });
+    },
 
     // All slick methods can be used too, example here
             methods: {
@@ -196,6 +128,7 @@ import Slick from 'vue-slick';
             },
 
             reInit() {
+
                 // Helpful if you have to deal with v-for to update dynamic lists
                 this.$nextTick(() => {
                     this.$refs.slick.reSlick();
@@ -219,10 +152,10 @@ import Slick from 'vue-slick';
                 //console.log('handleEdge', event, slick, direction);
             },
             handleInit(event, slick) {
-                ///console.log('handleInit', event, slick);
+                //console.log('handleInit', event, slick);
             },
             handleReInit(event, slick) {
-                //console.log('handleReInit', event, slick);
+                 ///console.log('handleInit', event, slick);
             },
             handleSetPosition(event, slick) {
                 //console.log('handleSetPosition', event, slick);
@@ -231,7 +164,8 @@ import Slick from 'vue-slick';
                 //console.log('handleSwipe', event, slick, direction);
             },
             handleLazyLoaded(event, slick, image, imageSource) {
-                //console.log('handleLazyLoaded', event, slick, image, imageSource);
+				//console.log('handleLazyLoaded', event, slick, image, imageSource);
+				console.log(imageSource);
             },
             handleLazeLoadError(event, slick, image, imageSource) {
                 //console.log('handleLazeLoadError', event, slick, image, imageSource);
@@ -240,6 +174,12 @@ import Slick from 'vue-slick';
     }
 </script>
 
-<style >
- 
+<style scoped>
+ .v-lazy-image {
+  filter: blur(10px);
+  transition: filter 2s;
+}
+.v-lazy-image-loaded {
+  filter: blur(0);
+}
 </style>

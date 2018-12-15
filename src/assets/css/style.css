@@ -4073,6 +4073,7 @@ ul {
 }
 .cate span {
   padding: 3px 5px;
+  margin-right: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -4084,18 +4085,28 @@ ul {
   font-weight: 700;
   text-transform: uppercase;
 }
-.cate .blue {
+.cate .Sci-fi {
   background-color: #1692bb;
 }
-.cate .yell {
+.cate .Action {
   background-color: #f5b50a;
 }
-.cate .green {
+.cate .Comedy {
   background-color: #a6bb16;
 }
-.cate .orange {
+.cate .Advanture {
   background-color: #ec5a1a;
 }
+.cate .sport {
+  background-color: #68c71a;
+}
+.cate .Drama {
+  background-color: #b61cb6;
+}
+.cate .Horror {
+  background-color: #830823;
+}
+
 .movie_list .movie-item-style-2 img,
 .movie_single .movie-item-style-2 img,
 .userfav_list .movie-item-style-2 img {

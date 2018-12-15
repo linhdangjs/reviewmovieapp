@@ -151,7 +151,16 @@ import Footer from '@/components/layouts/public/Footer.vue'
         },
         methods: {
             updateUser() {
-                this.$store.dispatch("updateUser", this.currentUser.displayName)
+                this.$store.dispatch("updateUser", this.currentUser.displayName).then(()=> {
+                    this.$swal({
+                          type: 'success',
+                          title: 'Updated successfully',
+                          toast: true,
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 2000
+                    })
+                })
             }
         }
     }

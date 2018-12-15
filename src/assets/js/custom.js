@@ -17,33 +17,7 @@
 
 $(function(){
 	'use strict';
-	// js for dropdown menu
 	var windowWidth = $(window).width();
-	if(windowWidth > 1024){
-		var dropdown = $( '.dropdown');
-		dropdown.hover(
-	        function(){
-	            $(this).children('.dropdown-menu').fadeIn(300);
-	        },
-	        function(){
-	            $(this).children('.dropdown-menu').fadeOut(300);
-	        }
-	    );	   
-	}else{
-		var dropdownClick = $('.navbar a.dropdown-toggle');
-		dropdownClick.on('click', function(e) {
-			var $el = $(this);
-			var $parent = $(this).offsetParent(".dropdown-menu");
-			var $open = $('.nav li.open');
-			$(this).parent("li").toggleClass('open');
-
-			if(!$parent.parent().hasClass('nav')) {
-				$el.next().css({"top": $el[0].offsetTop, "left": $parent.outerWidth() - 4});
-			}
-			$open.not($(this).parents("li")).removeClass("open");
-			return false;
-		});
-	}
 	//js for nav icon 
 	var clickMenubtn = $('#nav-icon1');
 	clickMenubtn.on('click', function(){

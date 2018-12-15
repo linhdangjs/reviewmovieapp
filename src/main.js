@@ -14,7 +14,9 @@ window.jQuery = jQuery
 window.$ =jQuery;
 require('bootstrap') 
 import './assets/js/index';
+import { VLazyImagePlugin } from "v-lazy-image";
 
+Vue.use(VLazyImagePlugin);
 
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);

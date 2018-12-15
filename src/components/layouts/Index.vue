@@ -21,26 +21,26 @@ import LastestNews from '@/components/layouts/HomePage/LastestNews.vue'
     export default {
         data() {
             return {
-               loading: false
+               //loading: false
             }
         },
-        // computed : {
-        //     users() {
-        //         return this.$store.getters.users;
-        //     }
-        // },
-        // created() {
-        //     console.log('created');
-        //    this.fetchAllUsers();
+        computed : {
+            movies() {
+                return this.$store.getters.movies;
+            }
+        },
+        created() {
+            console.log('created');
+           this.fetchAllMovies();
            
-        // },
-        // methods: {
-        //     fetchAllUsers() {
-        //         this.$store.dispatch("getAllUsers").then(() => {
-        //            this.loading = false;
-        //         })
-        //     }
-        // },
+        },
+        methods: {
+            fetchAllMovies() {
+                this.$store.dispatch("getAllMovies").then(() => {
+                //    console.log(this.$store.getters.movies)
+                })
+            }
+        },
         components: {
             appMainSlider: MainSlider,
             appLogin : Login,

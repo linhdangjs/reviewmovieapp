@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/components/layouts/Index'
 import UserProfile from '@/components/layouts/User/UserProfile'
+import MovieList from '@/components/layouts/Movies/MovieList'
 import Page404 from '@/components/layouts/Page404'
 import firebase from 'firebase'
 
@@ -23,6 +24,14 @@ let router =  new Router({
       component: UserProfile,
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: '/movie',
+      name: 'MovieList',
+      component: MovieList,
+      meta: {
+        requiresGuest: true
       }
     },
     {
@@ -57,7 +66,7 @@ router.beforeEach((to, from, next ) => {
     })
   } else if(to.matched.some(record => record.meta.requiresGuest)) {
         //check if logged in
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged(function(user) { 
           if (user) {
             next();
           } else {

@@ -56,6 +56,7 @@
     "slick-carousel": "^1.6.0",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
+    "v-lazy-image": "^1.2.2",
     "vue-loader": "^13.3.0",
     "vue-slick": "^1.1.15",
     "vue-style-loader": "^3.0.1",

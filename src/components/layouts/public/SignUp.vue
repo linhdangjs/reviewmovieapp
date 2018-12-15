@@ -84,11 +84,7 @@ import firebase from 'firebase';
                             this.password = "";
                             this.$swal("SignUp Success", "Now, You can login to HaiLuaReview","success")
                               // handle close form
-                            var sections = document.querySelectorAll('.overlay');
-                                for (let i = 0; i < sections.length; i++){
-                                    sections[i].classList.remove('openform');   
-                                }
-                            //this.$store.commit('setUser', newUser)
+                            this.$emit("closeSignUp");
                         }
                     )
                     .catch(
@@ -103,7 +99,7 @@ import firebase from 'firebase';
 }
 </script>
 
-<style>
+<style scoped>
 .modal-mask {
 
   position: fixed;

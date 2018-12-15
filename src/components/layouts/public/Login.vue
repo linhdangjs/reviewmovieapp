@@ -31,12 +31,18 @@
 
             </slot>
           </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-                <button type="submit" class="btnLogin" id="btnLogin">OK</button>
-            </slot>
-          </div>
+            <div class="modal-footer">
+                <slot name="footer">
+                       <div class="lds-ring" v-if="loading"><div></div><div></div><div></div><div></div></div>
+                     <button type="submit" class="btnLogin"  :disabled="loading" id="btnLogin">
+                   
+                         
+                    OK
+                </button>
+                </slot>
+ 
+            </div>
+              
         </form>
         </div>
       </div>
@@ -58,8 +64,9 @@ import VueSweetalert2 from 'vue-sweetalert2';
 
         data() {
             return {
+                username: "",
                 email: "",
-                password: ""
+                loading: false
             };
         },
         computed: {
@@ -77,9 +84,22 @@ import VueSweetalert2 from 'vue-sweetalert2';
         },
         methods: {
             onLogin: function(e) {
+                if(this.username || this.email)
+                {this.loading = true;}
+                else {
+                    this.loading = false
+                     this.$swal({
+                            title: 'Login Failed',
+                            text:  "Vui lòng điền đầy đủ thông tin",
+                            type: 'warning',
+                            timer: 1000
+                        })
+                    }
                  firebase.auth().signInWithEmailAndPassword(this.email, this.password)
                     .then(
+                        
                         user => {
+                        this.loading = false
                         const newUser = {
                             displayName: user.user.displayName,
                             photoUrl: '/static/images/uploads/user-img.png',
@@ -101,6 +121,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
                     )
                     .catch(
                         error => {
+                        this.loading = false
                         this.$swal("Login Failed", error.message, "error")
                         console.log(error)
                         }
@@ -110,7 +131,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 }
 </script>
 
-<style>
+<style scoped>
 .modal-mask {
 
   position: fixed;
@@ -146,7 +167,9 @@ z-index: 1050;
   margin-top: 0;
   color: #42b983;
 }
-
+.modal-footer {
+    text-align: center;
+}
 .modal-body {
   margin: 20px 0;
 }
@@ -187,9 +210,62 @@ label, input {
     border: none;
     text-align: center;
     box-sizing: border-box;
+    width: 35%;
+    padding: 5px 25px;
+
+
 }
+.btnLogin:disabled {
+    background: rgba(149, 209, 173, 0.788);
+    cursor: not-allowed;
+
+}
+
 button {
     cursor: pointer;
     color: white;
+}
+/* CSS Spinner */
+.lds-ring-container {
+    position: absolute;
+    right: 50%;
+}
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+    top: 50px;
+  left: 31%;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+
+  width: 20px;
+  height: 20px;
+  /* margin: 6px; */
+  border: 3px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
