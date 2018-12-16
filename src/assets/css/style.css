@@ -5551,7 +5551,7 @@ ul {
 }
 /*movie single hero*/
 .mv-single-hero {
-  background: url('../images/uploads/hero-bg.jpg') no-repeat;
+  /* background: url('../images/uploads/hero-bg.jpg') no-repeat; */
   height: 598px;
 }
 /*series single hero*/
@@ -7822,7 +7822,7 @@ header .top-search select,
 header .top-search input {
   height: 46px;
   border: none;
-  background-color: #233a50 !important;
+  background-color: #233a50cc !important;
   font-family: 'Nunito', sans-serif;
   font-size: #abb7c4;
   color: #abb7c4;
@@ -7927,7 +7927,7 @@ header#headerv3-light {
   background-color: #0f2133;
   position: fixed;
   width: 100%;
-  z-index: 9999;
+  z-index: 1040;
   -moz-opacity: 1;
   -khtml-opacity: 1;
   -webkit-opacity: 1;

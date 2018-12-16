@@ -100,16 +100,24 @@ export const store = new Vuex.Store({
       getAllMovies({commit}) {
         let result = [];
         // )
-        db.collection('Movies').get().then
+        db.collection('Movies').orderBy("movie_id").get().then
         (querySnapshot => {
           querySnapshot.forEach(doc => {  
             //console.log(doc.data())
             const data = {
               movie_id : doc.data().movie_id,
               name: doc.data().name,
+              backgroundUrl: doc.data().backgroundUrl,
+              overView : doc.data().overView,
+              media: doc.data().media,
+              cast: doc.data().cast,
+              director: doc.data().director,
+              producer: doc.data().producer,
               photoUrl: doc.data().photoUrl,
               rating: doc.data().rating,
-              tags: doc.data().tags
+              tags: doc.data().tags,
+              year: doc.data().year,
+              trailerID: doc.data().trailerID
             }
             result.push(data)
           })

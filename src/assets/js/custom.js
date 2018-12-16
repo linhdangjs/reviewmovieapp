@@ -1,19 +1,3 @@
-//preloading for page
-// $(window).on('load', function() { // makes sure the whole site is loaded 
-// 	var status = $('#status');
-// 	var preloader = $('#preloader');
-// 	var body = $('body');
-// 	status.fadeOut(); // will first fade out the loading animation 
-// 	preloader.delay(0).fadeOut('fast'); // will fade out the white DIV that covers the website. 
-// 	body.delay(0).css({'overflow':'visible'});
-// 	var vidDefer = document.getElementsByTagName('iframe');
-// 	for (var i=0; i<vidDefer.length; i++) {
-// 		if(vidDefer[i].getAttribute('data-src')) {
-// 			vidDefer[i].setAttribute('src',vidDefer[i].getAttribute('data-src'));
-// 		} 
-// 	}
-// })
-
 
 $(function(){
 	'use strict';
@@ -54,7 +38,6 @@ $(function(){
 	    'seconds': seconds
 	  };
 	}
-	console.log('reset');
 	function initializeClock(id, endtime) {
 	  var clock = document.getElementById(id);
 	  if( clock != null){
@@ -167,42 +150,42 @@ $(function(){
 	  ]
 	});
 	//main slider home 1
-	// var multiItemSlider = $('.slick-multiItemSlider');
-	// multiItemSlider.slick({
-	// 	infinite: true,
-	// 	slidesToShow: 4,
-	// 	slidesToScroll: 4,
-	// 	arrows: false,
-	// 	draggable:true,
-	// 	autoplay: true,
-	// 	autoplaySpeed: 2000,
-	// 	dots: true,
-	// 	responsive: [
-	//     {
-	//       breakpoint: 1024,
-	//       settings: {
-	//         slidesToShow: 3,
-	//         slidesToScroll: 3,
-	//         infinite: true,
-	//         dots: true
-	//       }
-	//     },
-	//     {
-	//       breakpoint: 768,
-	//       settings: {
-	//         slidesToShow: 2,
-	//         slidesToScroll: 2
-	//       }
-	//     },
-	//     {
-	//       breakpoint: 480,
-	//       settings: {
-	//         slidesToShow: 1,
-	//         slidesToScroll: 1
-	//       }
-	//     }
-	//   ]
-	// });
+	var multiItemSlider = $('.slick-multiItemSlider');
+	multiItemSlider.slick({
+		infinite: true,
+		slidesToShow: 4,
+		slidesToScroll: 4,
+		arrows: false,
+		draggable:true,
+		autoplay: true,
+		autoplaySpeed: 2000,
+		dots: true,
+		responsive: [
+	    {
+	      breakpoint: 1024,
+	      settings: {
+	        slidesToShow: 3,
+	        slidesToScroll: 3,
+	        infinite: true,
+	        dots: true
+	      }
+	    },
+	    {
+	      breakpoint: 768,
+	      settings: {
+	        slidesToShow: 2,
+	        slidesToScroll: 2
+	      }
+	    },
+	    {
+	      breakpoint: 480,
+	      settings: {
+	        slidesToShow: 1,
+	        slidesToScroll: 1
+	      }
+	    }
+	  ]
+	});
 	//slider for home v3 and home v2, twitter slider home 1, 2
 	var singleItem = $('.slider-single-item');
 	singleItem.slick({
@@ -349,92 +332,15 @@ $(function(){
 		// autoplay: true,
 		// autoplaySpeed: 2000
 	});
-	//== js for video lightbox
-	var fancyboxmedia = $('.fancybox-media');
-	fancyboxmedia.fancybox({
-		openEffect  : 'float',
-		closeEffect : 'none',
-		helpers : {
-			media : {},
-			overlay: {
-		        locked: false
-		    }
-		}
+	
+
+    // close popup for mobile
+    var closebt = $(".close");
+   	closebt.on('click', function(e){
+		e.preventDefault();
+		var overlay = $(".overlay");
+		overlay.removeClass("openform");
 	});	
-	//==js for show prev/next button in video lightbox
-	fancyboxmedia
-	    .attr('rel', 'playlist')
-	    .fancybox({
-	    openEffect: 'none',
-	    closeEffect: 'none',
-	    prevEffect: 'none',
-	    nextEffect: 'none',
-	    helpers: {
-	        media: {}
-	    },
-	    youtube: {
-	        autoplay: 1,
-	        hd: 1,
-	        wmode: 'opaque', // shows X to close
-	        vq: 'hd720' // default 720p hd quality
-	    }
-	});
-	//== js for image lightbox
-	var imglightbox = $(".img-lightbox");
-	imglightbox.fancybox({
-		helpers: {
-			title : {
-				type : 'float'
-			},
-			overlay: {
-				locked: false
-			}
-		}
-	});
-	//== js for visibile next/prev fancybox
-	imglightbox.fancybox({
-        // loop: false, // gallery may not be cyclic 
-        afterShow: function () {
-            // initialize some variables
-            var gallerySize = this.group.length,
-                next, prev;
-            if (this.index == gallerySize - 1) {
-                // this is the last element of the gallery so next is the first
-                next = imglightbox.eq(0).attr("title"),
-                prev = imglightbox.eq(this.index - 1).attr("title");
-            } else if (this.index == 0) {
-                // this is the first image of the gallery so prev is the last
-                next = imglightbox.eq(this.index + 1).attr("title"),
-                prev = imglightbox.eq(gallerySize - 1).attr("title");
-            } else {
-                // otherwise just add or substract to index
-                next = imglightbox.eq(this.index + 1).attr("title"),
-                prev = imglightbox.eq(this.index - 1).attr("title");
-            }
-            // set title attributes to img-lightbox next/prev selectors
-            var lightboxnext = $(".img-lightbox-next");
-            var lightboxprev = $(".img-lightbox-prev");
-            lightboxnext.attr("title", next);
-            lightboxprev.attr("title", prev);
-        }
-    });
-	//==js for login and sign up
-	var userArea = $("#user-area");
-	var loginLink = $("#loginLink");
-	var signupLink = $("#signupLink");
-	var loginct = $( "#login-content" );
-	var signupct= $("#signup-content");
-	var loginWrap = $(".login-wrapper");
-	var overlay = $(".overlay");
-	var btnSignup = $("#btnSignup");
-	var btnLogin = $("#btnLogin");
-	var frmSignup = $("#frmSignup");
-	var frmLogin = $("#frmLogin");
-	var swalConfirm = $(".swal2-confirm");
-
-
-
-
     //js for multi selected
     var multiselect = $(".ui.fluid.dropdown");
     multiselect.dropdown({
@@ -473,6 +379,7 @@ $(function(){
 
 	//sticky sidebar
 	if(windowWidth > 1200){
+		console.log('sds')
 		var stickySidebar = $('.sticky-sb');
 		var mainCt = $('.main-content');
 		if (stickySidebar.length > 0) {	

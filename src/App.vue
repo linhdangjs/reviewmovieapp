@@ -29,6 +29,21 @@ export default {
         
     })
   },
+  created() {
+        //console.log('created');
+        var tokenUser = localStorage.getItem("current-user");
+        console.log(tokenUser);
+        if(tokenUser) this.currentUser = JSON.parse(tokenUser);
+        this.$store.commit('setUser', JSON.parse(tokenUser))
+        this.fetchAllMovies();
+    },
+  methods: {
+        fetchAllMovies() {
+            this.$store.dispatch("getAllMovies").then(() => {
+                //console.log(this.$store.getters.movies)
+            })
+        }
+    },
   name: 'App',
   components: {
     appPreloader: Preloader,

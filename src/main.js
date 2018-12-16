@@ -21,6 +21,8 @@ Vue.use(VLazyImagePlugin);
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
 
+import VueYouTubeEmbed from 'vue-youtube-embed'
+Vue.use(VueYouTubeEmbed)
 
 
 Vue.config.productionTip = false

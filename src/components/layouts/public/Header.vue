@@ -35,7 +35,7 @@
                                 <router-link
                                 tag="li"
                                 class="dropdown first" 
-                                to="/movie"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
+                                to="/movies"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
                                 Movies
                                 </a>
 
@@ -155,7 +155,8 @@ export default {
                 .signOut()
                 .then(() => {
                 localStorage.removeItem('current-user');
-                this.$store.commit("setUser", null);
+                this.$store.commit("setUser", null)
+                if(this.$route.path === "/user/profile") this.$router.push('/')
             })
         }
     },

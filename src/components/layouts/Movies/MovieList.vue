@@ -37,10 +37,10 @@
                             <div v-for="(movie, index) in movies" :key="index" class="movie-item-style-2 movie-item-style-1">
                                 <v-lazy-image :src="movie.photoUrl" />
                                 <div class="hvr-inner">
-                                    <a  href="#"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                    <router-link tag="a" :to="'movie/'+movie.movie_id"> Read more <i class="ion-android-arrow-dropright"></i> </router-link>
                                 </div>
                                 <div class="mv-item-infor">
-                                    <h6><a href="moviegrid.html#">{{ movie.name }}</a></h6>
+                                    <h6><router-link tag="a" :to="'movie/'+ movie.movie_id">{{ movie.name }}</router-link></h6>
                                     <p class="rate"><i class="ion-android-star"></i><span>{{ movie.rating }}</span> /10</p>
                                 </div>
                             </div>					

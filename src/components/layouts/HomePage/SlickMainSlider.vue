@@ -40,7 +40,7 @@
 	    				<div class="cate">
 	    					<span  v-for="(tag, index) in movie.tags" :class="tag" :key="index++"><a href="#">{{tag}}</a></span>
 	    				</div>
-	    				<h6><a href="#">{{movie.name}}</a></h6>
+	    				<h6><router-link tag="a" :to="'movie/'+movie.movie_id">{{movie.name}}</router-link></h6>
 	    				<p><i class="ion-android-star"></i><span>{{movie.rating}}</span> /10</p>
 	    			</div>
 	    		</div>

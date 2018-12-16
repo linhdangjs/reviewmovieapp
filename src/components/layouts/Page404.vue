@@ -4,10 +4,10 @@
             <div class="container">
                 <div class="row">
                     <div class="middle-content">
-                        <a href="http://haintheme.com/demo/html/bustter/index.html"><img class="md-logo" src="static/images/logo1.png" alt=""></a>
-                        <img src="static/images/uploads/err-img.png" alt="">
+                        <a href="#"><img class="md-logo" src="static/images/logo1.png" alt=""></a>
+                        <img src="https://firebasestorage.googleapis.com/v0/b/reviewmoviewebapp.appspot.com/o/assets%2Ferr-img.png?alt=media&token=d73b240c-ff77-4754-b361-3a435c18acd6" alt="">
                         <h1>Page not found</h1>
-                        <a href="http://haintheme.com/demo/html/bustter/index.html" class="redbtn">go home</a>
+                        <a href="#" class="redbtn">go home</a>
                     </div>
                 </div>
             </div>
