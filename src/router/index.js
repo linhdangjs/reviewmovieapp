@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/components/layouts/Index'
+import User from '@/components/layouts/User/User'
 import UserProfile from '@/components/layouts/User/UserProfile'
 import MovieList from '@/components/layouts/Movies/MovieList'
 import Page404 from '@/components/layouts/Page404'
@@ -18,14 +19,16 @@ let router =  new Router({
         requiresGuest: true
       }
     },
-    {
-      path: '/user/profile',
-      name: 'UserProfile',
-      component: UserProfile,
+    { path: '/user',
+      name: 'user',
+      component: User,
       meta: {
-        requiresAuth: true
-      }
-    },
+      requiresAuth: true
+      } 
+      , children: [
+      { path: 'profile', name: 'UserProfile', component: UserProfile }
+
+  ] },
     {
       path: '/movie',
       name: 'MovieList',
@@ -52,7 +55,7 @@ router.beforeEach((to, from, next ) => {
   //check for requiredAuth guard
   if(to.matched.some(record => record.meta.requiresAuth)) {
     //check if NOT logged in
-    firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         next();
       } else {
@@ -64,9 +67,10 @@ router.beforeEach((to, from, next ) => {
         });
       }
     })
+  
   } else if(to.matched.some(record => record.meta.requiresGuest)) {
-        //check if logged in
-        firebase.auth().onAuthStateChanged(function(user) { 
+          console.log("movie")
+          firebase.auth().onAuthStateChanged(function(user) { 
           if (user) {
             next();
           } else {

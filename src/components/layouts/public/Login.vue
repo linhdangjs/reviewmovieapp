@@ -66,6 +66,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
             return {
                 username: "",
                 email: "",
+                password: "",
                 loading: false
             };
         },
@@ -97,15 +98,16 @@ import VueSweetalert2 from 'vue-sweetalert2';
                     }
                  firebase.auth().signInWithEmailAndPassword(this.email, this.password)
                     .then(
-                        
                         user => {
+                            // console.log(user.user)
                         this.loading = false
                         const newUser = {
                             displayName: user.user.displayName,
-                            photoUrl: '/static/images/uploads/user-img.png',
+                            photoUrl: user.user.photoURL,
                             uid: user.user.uid,
                             email: user.user.email  
                         }
+                        console.log(newUser);
                         localStorage.setItem("current-user", JSON.stringify(newUser)); //store currentuser in localstorage 
                         this.$store.commit('setUser', newUser)
                         this.$swal({
@@ -161,6 +163,7 @@ z-index: 1050;
   box-shadow: 0px 0px 5px 7px rgba(223, 211, 211, 0.33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 .modal-header h3 {
@@ -229,6 +232,7 @@ button {
 .lds-ring-container {
     position: absolute;
     right: 50%;
+     box-sizing: border-box;
 }
 .lds-ring {
   display: inline-block;

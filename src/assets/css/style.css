@@ -8177,3 +8177,12 @@ footer.full-width-ft .ft-copyright {
   font-family: 'Dosis', sans-serif;
   font-weight: 700;
 }
+
+/* Vue lazy load CSS */
+.v-lazy-image {
+  filter: blur(10px);
+  transition: filter 2s;
+}
+.v-lazy-image-loaded {
+  filter: blur(0);
+}

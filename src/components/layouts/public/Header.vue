@@ -149,17 +149,13 @@ export default {
         },
 
     methods: {
-        // goBackHome() {
-        //     this.$router.push('/');
-        // },
         logout: function() {
             firebase
                 .auth()
                 .signOut()
                 .then(() => {
                 localStorage.removeItem('current-user');
-                this.$store.commit("setUser", null)
-                this.$router.push({path: "/"});
+                this.$store.commit("setUser", null);
             })
         }
     },

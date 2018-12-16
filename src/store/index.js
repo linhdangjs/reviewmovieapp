@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import db from '../components/firebaseInit.js'
 import firebase from 'firebase'
 
-
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -70,11 +69,13 @@ export const store = new Vuex.Store({
         return data;
       },
       updateUser ({commit}, payload) {
-        
-        firebase.auth().onAuthStateChanged(function(user) {
+        var unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
+            // console.log(user)
+            console.log("update user cai wtf")
                 user.updateProfile({
-                  displayName: payload
+                  displayName: payload.displayName,
+                  photoURL: payload.photoUrl
         }).then(() => {
             let userUpdate = {
               displayName: user.displayName,
@@ -92,7 +93,8 @@ export const store = new Vuex.Store({
           } else {
             // No user is signed in.
           }
-        });
+      });
+      unsubscribe();
     
       },
       getAllMovies({commit}) {
@@ -121,40 +123,6 @@ export const store = new Vuex.Store({
           }
         )
       }
-      // signUserUp ({commit}, payload) {
-      //   firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-      //     .then(
-      //       user => {
-      //           console.log(user.user.uid);
-      //           const newUser = {
-      //               id: user.user.uid,
-      //           }
-      //           commit('setUser', newUser)
-      //       }
-      //     )
-      //     .catch(
-      //       error => {
-      //         console.log(error)
-      //       }
-      //     )
-      // },
-      // signUserIn ({commit}, payload) {
-      //   firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-      //     .then(
-      //       user => {
-      //         const newUser = {
-      //           id: user.user.uid,
-      //           email: user.user.email
-      //         }
-      //         commit('setUser', newUser)
-      //       }
-      //     )
-      //     .catch(
-      //       error => {
-      //         console.log(error)
-      //       }
-      //     )
-      // }
     },
     getters: {
       user (state) {
