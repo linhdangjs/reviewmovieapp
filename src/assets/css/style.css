@@ -3938,7 +3938,7 @@ ul {
 }
 .movie-items .movie-item {
   position: relative;
-  margin-right: 30px;
+  /* margin-right: 30px; */
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -3990,9 +3990,10 @@ ul {
 }
 .movie-items .movie-item .title-in h6 a {
   font-family: 'Dosis', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   color: #ffffff;
-  font-weight: bold;
+  font-weight: 600;
+  padding-right: 15px;
   text-transform: uppercase;
 }
 .movie-items .movie-item .title-in p {
@@ -6254,6 +6255,7 @@ ul {
   background-color: #233a50;
   color: #abb7c4;
   padding: 2px 5px;
+  margin: 3px 3px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
@@ -8185,4 +8187,75 @@ footer.full-width-ft .ft-copyright {
 }
 .v-lazy-image-loaded {
   filter: blur(0);
+}
+
+/* CSS FOR CLOSE BUTTOn */
+button.button2{
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.2em 1em;
+  border: 0.16em solid #e3e4e9;
+  margin: 0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-family:'Roboto',sans-serif;
+  font-weight:700;
+  color: #e3e4e9;
+  background: transparent;
+  text-align:center;
+  transition: all 0.15s;
+  }
+  button.button2:hover{
+  color:#d41111;
+  border-color: #d41111;
+  }
+  button.button2:active{
+  color:#d41111;
+  border-color:#BBBBBB;
+  }
+  @media all and (max-width:30em){
+   button.button2 {
+    display:block;
+    margin:0.4em auto;
+  }
+}
+button.buttonX{
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.2em 0.7em;
+  border: 0.16em solid #e3e4e9;
+  margin: 0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-family:'Roboto',sans-serif;
+  font-weight:700;
+  color: #e3e4e9;
+  background: transparent;
+  text-align:center;
+  transition: all 0.15s;
+  }
+  button.buttonX:hover{
+  color:#d41111;
+  border-color: #d41111;
+  }
+  button.buttonX:active{
+  color:#d41111;
+  border-color:#BBBBBB;
+  }
+  @media all and (max-width:30em){
+   button.buttonX {
+    display:block;
+    margin:0.4em auto;
+  } 
+  }
+
+  /*  custom for tab slick */
+  .tabs-component .movie-items .movie-item .mv-img{
+    position: relative;
+    margin-right: 0 !important;
+    border-radius: 5px;
 }

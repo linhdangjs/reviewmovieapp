@@ -9,7 +9,7 @@
             <slot name="header">
               <h3 style="display:inline;">Trailer Official</h3>
             </slot>
-             <button class="modal-default-button btn-x" @click="$emit('closeTrailer')">X</button>
+             <button class="modal-default-button buttonX" @click="$emit('closeTrailer')">X</button>
           </div>
           <div class="modal-body">
             <slot name="body">                    
@@ -19,7 +19,7 @@
             </slot>
           </div>
             <div class="modal-footer">
-                <button @click="$emit('closeTrailer')">
+                <button @click="$emit('closeTrailer')" class="button2">
                       Close
                 </button>
             </div>
@@ -105,5 +105,7 @@ z-index: 1050;
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+
+/* CSS FOR BUTTON CLOSE */
 
 </style>

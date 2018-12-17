@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
       userLogin: null,
       users: [],
       userDetail : null,
-      movies: []
+      movies: [],
+      tvshows: []
     },
     mutations: {
       setUser (state, payload) {
@@ -24,6 +25,9 @@ export const store = new Vuex.Store({
       },
       setMovies (state, payload) {
         state.movies = payload;
+      },
+      setTvShows (state, payload) {
+        state.tvshows = payload;
       }
     },
     actions: {
@@ -130,6 +134,45 @@ export const store = new Vuex.Store({
             console.log(error);
           }
         )
+      },
+      getAllTvShows({commit}) {
+        let result = [];
+        // )
+        db.collection('TvShows').orderBy("tvshow_id").get().then
+        (querySnapshot => {
+          querySnapshot.forEach(doc => {  
+            //console.log(doc.data())
+            const data = {
+              tvshow_id : doc.data().tvshow_id,
+              name: doc.data().name,
+              backgroundUrl: doc.data().backgroundUrl,
+              overView : doc.data().overView,
+              media: doc.data().media,
+              cast: doc.data().cast,
+              director: doc.data().director,
+              producer: doc.data().producer,
+              photoUrl: doc.data().photoUrl,
+              rating: doc.data().rating,
+              tags: doc.data().tags,
+              year: doc.data().year,
+              trailerID: doc.data().trailerID,
+              runtime: doc.data().runtime,
+              photoSeason: doc.data().photoseason,
+              keywords: doc.data().keywords,
+              currentseason: doc.data().currentseason,
+
+            }
+            result.push(data)
+          })
+          console.log(result);
+          commit('setTvShows', result);
+
+        })
+        .catch(
+          error => {
+            console.log(error);
+          }
+        )
       }
     },
     getters: {
@@ -144,6 +187,9 @@ export const store = new Vuex.Store({
       },
       movies (state) {
         return state.movies
+      },
+      tvshows (state) {
+        return state.tvshows
       }
     }
   })

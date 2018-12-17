@@ -23,7 +23,10 @@ Vue.use(VueSweetalert2);
 
 import VueYouTubeEmbed from 'vue-youtube-embed'
 Vue.use(VueYouTubeEmbed)
+import {Tabs, Tab} from 'vue-tabs-component';
 
+Vue.component('tabs', Tabs);
+Vue.component('tab', Tab);
 
 Vue.config.productionTip = false
 new Vue({

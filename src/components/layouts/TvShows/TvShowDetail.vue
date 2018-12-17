@@ -1,6 +1,6 @@
 <template>
-    <div class="wrap-movie-detail">
-        <div class="hero mv-single-hero" :style="{ 'background-image': 'url(' + currentMovie[0].backgroundUrl + ')' }">
+    <div class="wrap-tvshow-detail">
+        <div class="hero mv-single-hero" :style="{ 'background-image': 'url(' + currentTvShow[0].backgroundUrl + ')' }">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -18,7 +18,7 @@
 		<div class="row ipad-width2">
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="movie-img sticky-sb">
-					<img :src="currentMovie[0].photoUrl" alt="">
+					<img :src="currentTvShow[0].photoUrl" alt="">
 					<div class="movie-btn">	
 						<div class="btn-transform transform-vertical red">
 							<div><a class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
@@ -33,7 +33,7 @@
 			</div>
             	<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="movie-single-ct main-content">
-					<h1 class="bd-hd">Movie-{{ currentMovie[0].movie_id }} - {{ currentMovie[0].name }} <span>{{ currentMovie[0].year }}</span></h1>
+					<h1 class="bd-hd">TvShow-{{ currentTvShow[0].movie_id }} - {{ currentTvShow[0].name }} <span>{{ currentTvShow[0].currentseason }}</span></h1>
 					<div class="social-btn">
 						<a href="moviesingle.html#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
 						<div class="hover-bnt">
@@ -49,13 +49,13 @@
 					<div class="movie-rate">
 						<div class="rate">
 							<i class="ion-android-star"></i>
-							<p><span>{{ currentMovie[0].rating }}</span> /10<br>
+							<p><span>{{ currentTvShow[0].rating }}</span> /10<br>
 								<span class="rv">56 Reviews</span>
 							</p>
 						</div>
 						<div class="rate-star">
 							<p>Rate This Movie:  </p>
-						  <star-rating :max-rating="10" :rating="currentMovie[0].rating" :read-only="true" :star-size="28" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
+						  <star-rating :max-rating="10" :rating="currentTvShow[0].rating" :read-only="true" :star-size="28" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
 						</div>
 					</div>
 					<div class="movie-tabs">
@@ -71,17 +71,17 @@
 						        <div id="overview" class="tab active">
 						            <div class="row">
 						            	<div class="col-md-8 col-sm-12 col-xs-12">
-						            		<p>{{ currentMovie[0].overView }}</p>
+						            		<p>{{ currentTvShow[0].overView }}</p>
 						            		<div class="title-hd-sm">
 												<h4>Media</h4>
 												<a href="moviesingle.html#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
 											</div>
 											<div class="mvsingle-item ov-item">
 
-                                                    <gallery :images="currentMovie[0].media" :index="index" @close="index = null"></gallery>
+                                                    <gallery :images="currentTvShow[0].media.gallery" :index="index" @close="index = null"></gallery>
                                                     <div
                                                     class="img-lightbox"
-                                                    v-for="(image, imageIndex) in currentMovie[0].media"
+                                                    v-for="(image, imageIndex) in currentTvShow[0].media.lightbox"
                                                     :key="imageIndex"
                                                     @click="index = imageIndex"
                                                     :style="{ backgroundImage: 'url(' + image + ')', width: '100px', height: '100px'}"
@@ -93,9 +93,9 @@
 											</div>
 											<!-- movie cast -->
 											<div class="mvcast-item">											
-												<div v-for="(cast, index) in currentMovie[0].cast" :key="index" class="cast-it">
+												<div v-for="(cast, index) in currentTvShow[0].cast" :key="index" class="cast-it">
 													<div class="cast-left">
-														<img :src="cast.avatarUrl" alt="">
+														<img src="https://via.placeholder.com/40x40" alt="">
 														<a href="moviesingle.html#">{{ cast.name }}</a>
 													</div>
 													<p>...  {{ cast.character }}</p>
@@ -129,11 +129,11 @@
 						            	<div class="col-md-4 col-xs-12 col-sm-12">
 						            		<div class="sb-it">
 						            			<h6>Director: </h6>
-						            			<p><a href="moviesingle.html#">{{ currentMovie[0].director }}</a></p>
+						            			<p><a href="moviesingle.html#">{{ currentTvShow[0].director }}</a></p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Producer: </h6>
-						            			<p><a href="moviesingle.html#">{{ currentMovie[0].producer }}</a></p>
+						            			<p><a href="moviesingle.html#">{{ currentTvShow[0].producer }}</a></p>
 						            		</div>
 						            		<!-- <div class="sb-it">
 						            			<h6>Stars: </h6>
@@ -141,28 +141,16 @@
 						            		</div> -->
 						            		<div class="sb-it">
 						            			<h6>Genres:</h6>
-						            			<p><a v-for="(tag, index) in currentMovie[0].tags" :key="index" style="cursor:pointer">{{ tag }} </a> </p>
-						            		</div>
-						            		<div class="sb-it">
-						            			<h6>Release Date:</h6>
-						            			<p>May 1, 2015 (U.S.A)</p>
+						            			<p><a v-for="(tag, index) in currentTvShow[0].tags" :key="index" style="cursor:pointer">{{ tag }} </a> </p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Run Time:</h6>
-						            			<p>141 min</p>
-						            		</div>
-						            		<div class="sb-it">
-						            			<h6>MMPA Rating:</h6>
-						            			<p>PG-13</p>
+						            			<p>{{ currentTvShow[0].runtime }} min</p>
 						            		</div>
 						            		<div class="sb-it">
 						            			<h6>Plot Keywords:</h6>
 						            			<p class="tags">
-						            				<span class="time"><a href="moviesingle.html#">superhero</a></span>
-													<span class="time"><a href="moviesingle.html#">marvel universe</a></span>
-													<span class="time"><a href="moviesingle.html#">comic</a></span>
-													<span class="time"><a href="moviesingle.html#">blockbuster</a></span>
-													<span class="time"><a href="moviesingle.html#">final battle</a></span>
+						            				<span class="time" v-for="(key) in currentTvShow[0].keywords" :key="key" style="display: inline-block;"><a href="moviesingle.html#">{{ key }}</a></span>
 						            			</p>
 						            		</div>
 						            		<div class="ads">
@@ -180,7 +168,7 @@
 		</div>
 	</div>
 </div>
-	<appTrailerModal :videoID="currentMovie[0].trailerID" v-show="showTrailerModal" @closeTrailer="showTrailerModal = false"/>
+	<appTrailerModal :videoID="currentTvShow[0].trailerID" v-show="showTrailerModal" @closeTrailer="showTrailerModal = false"/>
     </div>
 </template>
 
@@ -196,21 +184,19 @@ export default {
       };
 	},
 	    computed: {
-        currentMovie() {
-				var movies = this.$store.getters.movies;
-				var currentMovie = movies.filter(movie => movie.movie_id === this.$route.params.id);
-				return currentMovie;
+        currentTvShow() {
+				var tvshows = this.$store.getters.tvshows;
+				var currentTvShow = tvshows.filter(tvshow => tvshow.tvshow_id === this.$route.params.id);
+				return currentTvShow;
             }
     },
 	created() {
         //console.log('created');
-        this.fetchAllMovies();
+        this.fetchAllTvShows();
     },
     methods: {
-        fetchAllMovies() {
-            this.$store.dispatch("getAllMovies").then(() => {
-                //console.log(this.$store.getters.movies)
-            })
+        fetchAllTvShows() {
+            this.$store.dispatch("getAllTvShows");
         }
 	},
 	

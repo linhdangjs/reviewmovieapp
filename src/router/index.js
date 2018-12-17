@@ -6,6 +6,9 @@ import UserProfile from '@/components/layouts/User/UserProfile'
 import MovieList from '@/components/layouts/Movies/MovieList'
 import MovieControl from '@/components/layouts/Movies/MovieControl'
 import MovieDetail from '@/components/layouts/Movies/MovieDetail'
+import TvShowList from '@/components/layouts/TvShows/TvShowList'
+import TvShowControl from '@/components/layouts/TvShows/TvShowControl'
+import TvShowDetail from '@/components/layouts/TvShows/TvShowDetail'
 import Page404 from '@/components/layouts/Page404'
 import firebase from 'firebase'
 import { store } from '../store/index'
@@ -49,6 +52,26 @@ let router =  new Router({
       ,children: [
       { path: '', name: 'MovieRedirext', component: MovieList },
       { path: ':id', name: 'MovieDetail', component: MovieDetail }
+      ] 
+    },
+    {
+      path: '/tvshows',
+      name: 'TvShowList',
+      component: TvShowList,
+      meta: {
+        requiresGuest: true
+      }
+    },
+    { path: '/tvshow',
+      meta: {
+        requiresGuest: true
+      },
+      components: {
+        default: TvShowControl,    
+      }
+      ,children: [
+      { path: '', name: 'TvShowRedirect', component: TvShowList },
+      { path: ':id', name: 'TvShowDetail', component: TvShowDetail }
       ] 
     },
     {

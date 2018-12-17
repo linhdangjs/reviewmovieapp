@@ -40,11 +40,14 @@
                                 </a>
 
                             </router-link>
-                            <li class="dropdown first">
-                                <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                                celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
+                               <router-link
+                                tag="li"
+                                class="dropdown first" 
+                                to="/tvshows"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
+                                TvShows
                                 </a>
-                            </li>
+
+                            </router-link>
                             <li class="dropdown first">
                                 <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 news <i class="fa fa-angle-down" aria-hidden="true"></i>

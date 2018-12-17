@@ -54,7 +54,7 @@
 <script>
 import Slick from 'vue-slick';
 import VLazyImage from "v-lazy-image";
-import { setTimeout } from 'timers';
+//import { setTimeout } from 'timers';
 
     export default {
         components: { Slick, VLazyImage },
@@ -98,24 +98,24 @@ import { setTimeout } from 'timers';
                     // placeHolder: true,
                 };
 			},
-			computed : {
-				movies() {
-					return this.$store.getters.movies;
-				}
+		computed : {
+			movies() {
+				return this.$store.getters.movies;
+			}
 		},
 		beforeUpdate() {
-        if (this.$refs.slick) {
-            this.$refs.slick.destroy();
-        }
-    },
-    	updated() {
-        this.$nextTick(function () {
             if (this.$refs.slick) {
-				//console.log(this.$refs.slick)
-                this.$refs.slick.create(this.slickOptions);
+                this.$refs.slick.destroy();
             }
-        });
-    },
+        },
+    	updated() {
+            this.$nextTick(function () {
+                if (this.$refs.slick) {
+                    //console.log(this.$refs.slick)
+                    this.$refs.slick.create(this.slickOptions);
+                    }
+            });
+        },
 
     // All slick methods can be used too, example here
             methods: {

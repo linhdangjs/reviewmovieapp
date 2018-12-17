@@ -36,12 +36,14 @@ export default {
         if(tokenUser) this.currentUser = JSON.parse(tokenUser);
         this.$store.commit('setUser', JSON.parse(tokenUser))
         this.fetchAllMovies();
+        this.fetchAllTvShows();
     },
   methods: {
         fetchAllMovies() {
-            this.$store.dispatch("getAllMovies").then(() => {
-                //console.log(this.$store.getters.movies)
-            })
+            this.$store.dispatch("getAllMovies");
+        },
+        fetchAllTvShows() {
+            this.$store.dispatch("getAllTvShows");
         }
     },
   name: 'App',
