@@ -51,7 +51,7 @@ let router =  new Router({
       }
       ,children: [
       { path: '', name: 'MovieRedirext', component: MovieList },
-      { path: ':id', name: 'MovieDetail', component: MovieDetail }
+      { path: ':id', name: 'MovieDetail', component: MovieDetail },
       ] 
     },
     {
@@ -71,7 +71,7 @@ let router =  new Router({
       }
       ,children: [
       { path: '', name: 'TvShowRedirect', component: TvShowList },
-      { path: ':id', name: 'TvShowDetail', component: TvShowDetail }
+      { path: ':id', name: 'TvShowDetail', component: TvShowDetail },
       ] 
     },
     {

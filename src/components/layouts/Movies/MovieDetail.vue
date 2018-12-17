@@ -33,7 +33,7 @@
 			</div>
             	<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="movie-single-ct main-content">
-					<h1 class="bd-hd">Movie-{{ currentMovie[0].movie_id }} - {{ currentMovie[0].name }} <span>{{ currentMovie[0].year }}</span></h1>
+					<h1 class="bd-hd">{{ currentMovie[0].name }} <span>{{ currentMovie[0].year }}</span></h1>
 					<div class="social-btn">
 						<a href="moviesingle.html#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
 						<div class="hover-bnt">
@@ -58,123 +58,209 @@
 						  <star-rating :max-rating="10" :rating="currentMovie[0].rating" :read-only="true" :star-size="28" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
 						</div>
 					</div>
-					<div class="movie-tabs">
-						<div class="tabs">
-							<ul class="tab-links tabs-mv">
-								<li class="active"><a href="moviesingle.html#overview">Overview</a></li>
-								<li><a href="moviesingle.html#reviews"> Reviews</a></li>
-								<li><a href="moviesingle.html#cast">  Cast & Crew </a></li>
-								<li><a href="moviesingle.html#media"> Media</a></li> 
-								<li><a href="moviesingle.html#moviesrelated"> Related Movies</a></li>                        
-							</ul>
-						    <div class="tab-content">
-						        <div id="overview" class="tab active">
-						            <div class="row">
-						            	<div class="col-md-8 col-sm-12 col-xs-12">
-						            		<p>{{ currentMovie[0].overView }}</p>
-						            		<div class="title-hd-sm">
-												<h4>Media</h4>
-												<a href="moviesingle.html#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
-											</div>
-											<div class="mvsingle-item ov-item">
-
-                                                    <gallery :images="currentMovie[0].media" :index="index" @close="index = null"></gallery>
-                                                    <div
-                                                    class="img-lightbox"
-                                                    v-for="(image, imageIndex) in currentMovie[0].media"
-                                                    :key="imageIndex"
-                                                    @click="index = imageIndex"
-                                                    :style="{ backgroundImage: 'url(' + image + ')', width: '100px', height: '100px'}"
-                                                    ></div>
-											</div>
-											<div class="title-hd-sm">
-												<h4>cast</h4>
-												<a href="moviesingle.html#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
-											</div>
-											<!-- movie cast -->
-											<div class="mvcast-item">											
-												<div v-for="(cast, index) in currentMovie[0].cast" :key="index" class="cast-it">
-													<div class="cast-left">
-														<img :src="cast.avatarUrl" alt="">
-														<a href="moviesingle.html#">{{ cast.name }}</a>
+					<div class="wrap-tab-detail">
+						<tabs :options="{ useUrlFragment: false }" @clicked="tabClicked" @changed="tabChanged">
+							<tab name="Over View">
+										 <div id="overview" class="tab active">
+											<div class="row">
+												<div class="col-md-8 col-sm-12 col-xs-12">
+													<p>{{ currentMovie[0].overView }}</p>
+													<div class="title-hd-sm">
+														<h4>Media</h4>
+														<a href="moviesingle.html#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
 													</div>
-													<p>...  {{ cast.character }}</p>
+													<div class="mvsingle-item ov-item">
+
+															<gallery :images="currentMovie[0].media" :index="index" @close="index = null"></gallery>
+															<div
+															class="img-lightbox"
+															v-for="(image, imageIndex) in currentMovie[0].media"
+															:key="imageIndex"
+															@click="index = imageIndex"
+															:style="{ backgroundImage: 'url(' + image + ')', width: '100px', height: '100px'}"
+															></div>
+													</div>
+													<div class="title-hd-sm">
+														<h4>cast</h4>
+														<a href="moviesingle.html#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
+													</div>
+													<!-- movie cast -->
+													<div class="mvcast-item">											
+														<div v-for="(cast, index) in currentMovie[0].cast" :key="index" class="cast-it">
+															<div class="cast-left">
+																<img :src="cast.avatarUrl" alt="">
+																<a href="moviesingle.html#">{{ cast.name }}</a>
+															</div>
+															<p>...  {{ cast.character }}</p>
+														</div>
+													</div>
+													<div class="title-hd-sm">
+														<h4>User reviews</h4>
+														<a href="moviesingle.html#" class="time">See All 56 Reviews <i class="ion-ios-arrow-right"></i></a>
+													</div>
+													<!-- movie user review -->
+													<div class="mv-user-review-item">
+														<h3>Chương trình giải trí vui nhộn</h3>
+														<div class="no-star">
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star"></i>
+															<i class="ion-android-star last"></i>
+														</div>
+														<p class="time">
+															17 December 2016 by <a href="moviesingle.html#"> hawaiipierson</a>
+														</p>
+														<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
+													</div>
+												</div>
+												<div class="col-md-4 col-xs-12 col-sm-12">
+													<div class="sb-it">
+														<h6>Director: </h6>
+														<p><a href="moviesingle.html#">{{ currentMovie[0].director }}</a></p>
+													</div>
+													<div class="sb-it">
+														<h6>Producer: </h6>
+														<p><a href="moviesingle.html#">{{ currentMovie[0].producer }}</a></p>
+													</div>
+													<!-- <div class="sb-it">
+														<h6>Stars: </h6>
+														<p><a href="moviesingle.html#">Robert Downey Jr,</a> <a href="moviesingle.html#">Chris Evans,</a> <a href="moviesingle.html#">Mark Ruffalo,</a><a href="moviesingle.html#"> Scarlett Johansson</a></p>
+													</div> -->
+													<div class="sb-it">
+														<h6>Genres:</h6>
+														<p><a v-for="(tag, index) in currentMovie[0].tags" :key="index" style="cursor:pointer">{{ tag }} </a> </p>
+													</div>
+													<div class="sb-it">
+														<h6>Release Date:</h6>
+														<p>May 1, 2015 (U.S.A)</p>
+													</div>
+													<div class="sb-it">
+														<h6>Run Time:</h6>
+														<p>141 min</p>
+													</div>
+													<div class="sb-it">
+														<h6>MMPA Rating:</h6>
+														<p>PG-13</p>
+													</div>
+													<div class="sb-it">
+														<h6>Plot Keywords:</h6>
+														<p class="tags">
+															<span class="time"><a href="moviesingle.html#">superhero</a></span>
+															<span class="time"><a href="moviesingle.html#">marvel universe</a></span>
+															<span class="time"><a href="moviesingle.html#">comic</a></span>
+															<span class="time"><a href="moviesingle.html#">blockbuster</a></span>
+															<span class="time"><a href="moviesingle.html#">final battle</a></span>
+														</p>
+													</div>
+													<div class="ads">
+														<img src="https://via.placeholder.com/200x178" alt="">
+													</div>
+												</div>
+											</div>	
+										 </div>
+									</tab>
+							<tab name="Review">
+										  <div id="reviews" class="tab review">
+						           <div class="row">
+						            	<div class="rv-hd">
+						            		<div class="div">
+							            		<h3>Review Movie</h3>
+						       	 				<h2>Skyfall: Quantum of Spectre</h2>
+							            	</div>
+							            	<a class="redbtn">Write Review</a>
+						            	</div>
+						            	<div class="topbar-filter">
+											<p>Found <span>56 reviews</span> in total</p>
+											<label>Filter by:</label>
+											<select>
+												<option value="popularity">Popularity Descending</option>
+												<option value="popularity">Popularity Ascending</option>
+												<option value="rating">Rating Descending</option>
+												<option value="rating">Rating Ascending</option>
+												<option value="date">Release date Descending</option>
+												<option value="date">Release date Ascending</option>
+											</select>
+										</div>
+										<div class="mv-user-review-item">
+											<div class="user-infor">
+												<img src="/static/images/uploads/userava1.jpg" alt="">
+												<div>
+													<h3>Best Marvel movie in my opinion</h3>
+													<div class="no-star">
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star last"></i>
+													</div>
+													<p class="time">
+														17 December 2016 by <a href="moviesingle.html#"> hawaiipierson</a>
+													</p>
 												</div>
 											</div>
-											<div class="title-hd-sm">
-												<h4>User reviews</h4>
-												<a href="moviesingle.html#" class="time">See All 56 Reviews <i class="ion-ios-arrow-right"></i></a>
-											</div>
-											<!-- movie user review -->
-											<div class="mv-user-review-item">
-												<h3>Best Marvel movie in my opinion</h3>
-												<div class="no-star">
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star last"></i>
+											<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
+										</div>
+										<div class="mv-user-review-item last">
+											<div class="user-infor">
+												<img src="/static/images/uploads/userava5.jpg" alt="">
+												<div>
+													<h3>Impressive Special Effects and Cast</h3>
+													<div class="no-star">
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+													</div>
+													<p class="time">
+														26 March 2017 by <a href="moviesingle.html#"> johnnylee</a>
+													</p>
 												</div>
-												<p class="time">
-													17 December 2016 by <a href="moviesingle.html#"> hawaiipierson</a>
-												</p>
-												<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
 											</div>
-						            	</div>
-						            	<div class="col-md-4 col-xs-12 col-sm-12">
-						            		<div class="sb-it">
-						            			<h6>Director: </h6>
-						            			<p><a href="moviesingle.html#">{{ currentMovie[0].director }}</a></p>
-						            		</div>
-						            		<div class="sb-it">
-						            			<h6>Producer: </h6>
-						            			<p><a href="moviesingle.html#">{{ currentMovie[0].producer }}</a></p>
-						            		</div>
-						            		<!-- <div class="sb-it">
-						            			<h6>Stars: </h6>
-						            			<p><a href="moviesingle.html#">Robert Downey Jr,</a> <a href="moviesingle.html#">Chris Evans,</a> <a href="moviesingle.html#">Mark Ruffalo,</a><a href="moviesingle.html#"> Scarlett Johansson</a></p>
-						            		</div> -->
-						            		<div class="sb-it">
-						            			<h6>Genres:</h6>
-						            			<p><a v-for="(tag, index) in currentMovie[0].tags" :key="index" style="cursor:pointer">{{ tag }} </a> </p>
-						            		</div>
-						            		<div class="sb-it">
-						            			<h6>Release Date:</h6>
-						            			<p>May 1, 2015 (U.S.A)</p>
-						            		</div>
-						            		<div class="sb-it">
-						            			<h6>Run Time:</h6>
-						            			<p>141 min</p>
-						            		</div>
-						            		<div class="sb-it">
-						            			<h6>MMPA Rating:</h6>
-						            			<p>PG-13</p>
-						            		</div>
-						            		<div class="sb-it">
-						            			<h6>Plot Keywords:</h6>
-						            			<p class="tags">
-						            				<span class="time"><a href="moviesingle.html#">superhero</a></span>
-													<span class="time"><a href="moviesingle.html#">marvel universe</a></span>
-													<span class="time"><a href="moviesingle.html#">comic</a></span>
-													<span class="time"><a href="moviesingle.html#">blockbuster</a></span>
-													<span class="time"><a href="moviesingle.html#">final battle</a></span>
-						            			</p>
-						            		</div>
-						            		<div class="ads">
-												<img src="https://via.placeholder.com/200x178" alt="">
+											<p>The Avengers raid a Hydra base in Sokovia commanded by Strucker and they retrieve Loki's scepter. They also discover that Strucker had been conducting experiments with the orphan twins Pietro Maximoff (Aaron Taylor-Johnson), who has super speed, and Wanda Maximoff (Elizabeth Olsen), who can control minds and project energy. Tony Stark (Robert Downey Jr.) discovers an Artificial Intelligence in the scepter and convinces Bruce Banner (Mark Ruffalo) to secretly help him to transfer the A.I. to his Ultron defense system. However, the Ultron understands that is necessary to annihilate mankind to save the planet, attacks the Avengers and flees to Sokovia with the scepter. He builds an armature for self-protection and robots for his army and teams up with the twins. The Avengers go to Clinton Barton's house to recover, but out of the blue, Nick Fury (Samuel L. Jackson) arrives and convinces them to fight against Ultron. Will they succeed? </p>
+
+											<p>"Avengers: Age of Ultron" is an entertaining adventure with impressive special effects and cast. The storyline might be better, since most of the characters do not show any chemistry. However, it is worthwhile watching this film since the amazing special effects are not possible to be described in words. Why Pietro has to die is also not possible to be explained. My vote is eight.</p>
+										</div>
+										<div class="topbar-filter">
+											<label>Reviews per page:</label>
+											<select>
+												<option value="range">5 Reviews</option>
+												<option value="saab">10 Reviews</option>
+											</select>
+											<div class="pagination2">
+												<span>Page 1 of 6:</span>
+												<a class="active" href="moviesingle.html#">1</a>
+												<a href="moviesingle.html#">2</a>
+												<a href="moviesingle.html#">3</a>
+												<a href="moviesingle.html#">4</a>
+												<a href="moviesingle.html#">5</a>
+												<a href="moviesingle.html#">6</a>
+												<a href="moviesingle.html#"><i class="ion-arrow-right-b"></i></a>
 											</div>
-						            	</div>
+										</div>
 						            </div>
 						        </div>
-						       
-						    </div>
-						</div>
+									</tab>
+
+    						</tabs>
 					</div>
+							  
 				</div>
 			</div>
 		</div>
@@ -211,7 +297,13 @@ export default {
             this.$store.dispatch("getAllMovies").then(() => {
                 //console.log(this.$store.getters.movies)
             })
-        }
+		},
+		tabClicked (selectedTab) {
+            console.log('Current tab re-clicked:' + selectedTab.tab.name);
+        },
+        tabChanged (selectedTab) {
+            console.log('Tab changed to:' + selectedTab.tab.name);
+        },
 	},
 	
     components: {
@@ -222,8 +314,102 @@ export default {
   }
 </script>
 
-<style scoped>
-.vue-star-rating-rating-text {
-	color: black !important;
-}
+<style>
+	.vue-star-rating-rating-text {
+		color: black !important;
+	}
+	.tabs-component-tabs {
+		/* border: solid 1px #ddd; */
+		border-radius: 6px;
+		margin-bottom: 5px;
+		}
+		
+		@media (min-width: 700px) {
+		.tabs-component-tabs {
+			border: 0;
+			align-items: stretch;
+			display: flex;
+			justify-content: flex-start;
+			margin-bottom: 5px;
+		}
+		}
+		
+		.tabs-component-tab {
+		color: #999;
+		font-size: 14px;
+		font-weight: 600;
+		margin-right: 0;
+		list-style: none;
+		}
+		
+		/* .tabs-component-tab:not(:last-child) {
+		border-bottom: dotted 1px #ddd;
+		} */
+		
+		.tabs-component-tab-a:hover {
+		color: #919963;
+		}
+		.tabs-component-tab.is-active a {
+		color: #dcf836 !important;
+		}
+		
+		.tabs-component-tab.is-disabled * {
+		color: #cdcdcd;
+		cursor: not-allowed !important;
+		}
+		
+		@media (min-width: 700px) {
+		.tabs-component-tab {
+			background-color: transparent;
+			border-radius: 3px 3px 0 0;
+			margin-right: .5em;
+			transform: translateY(2px);
+			transition: transform .3s ease;
+		}
+		
+		.tabs-component-tab.is-active {
+			z-index: 2;
+			transform: translateY(0);
+		}
+		}
+		
+		.tabs-component-tab-a {
+		align-items: center;
+		color: inherit;
+		display: flex;
+		padding: .75em 1em;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-size: 14px;
+		font-family:  "Noto Sans", sans-serif;
+		font-weight: bold;
+		}
+		
+		.tabs-component-panels {
+		padding: 4em 0;
+		}
+		
+		@media (min-width: 700px) {
+		.wrap-tab-detail .tabs-component-panels {
+			border-top-left-radius: 0;
+			background-color:transparent;
+			/* border: solid 1px #405266; */
+			border-radius: 0 6px 6px 6px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, .05);
+			padding: 0.5em 2em;
+			margin-top: 30px;
+		}
+		}
+		.tabs-component .movie-items .movie-item .mv-img{
+		position: relative;
+		margin-right: 0 !important;
+		border-radius: 5px;
+	}
+		.wrap-tab-detail .tabs-component-tab.is-active a {
+			color: #dcf836 !important;
+			border-bottom: 3px solid #dcf836;
+	}
+		.wrap-tab-detail .tabs-component-tab {
+			padding-top : 19px;
+		}
 </style>

@@ -2,7 +2,7 @@
      <div class="onTV" style="margin-top:60px">
         <div class="title-hd">
 			<h2>TV SHOW</h2>
-			<a href="index.html#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+			<router-link tag="a" to="/tvshows" class="viewall">View all <i class="ion-ios-arrow-right"></i></router-link>
 		</div>
         <tabs :options="{ useUrlFragment: false }" @clicked="tabClicked" @changed="tabChanged">
         <tab name="#Now Showing">
@@ -264,7 +264,6 @@ import VLazyImage from "v-lazy-image";
 @media (min-width: 700px) {
   .tabs-component-tab {
     background-color: transparent;
-    border: solid 1px #405266;
     border-radius: 3px 3px 0 0;
     margin-right: .5em;
     transform: translateY(2px);
@@ -272,7 +271,6 @@ import VLazyImage from "v-lazy-image";
   }
 
   .tabs-component-tab.is-active {
-    border-bottom: solid 1px #fff;
     z-index: 2;
     transform: translateY(0);
   }
@@ -298,7 +296,7 @@ import VLazyImage from "v-lazy-image";
   .tabs-component-panels {
     border-top-left-radius: 0;
     background-color:transparent;
-    border: solid 1px #405266;
+    /* border: solid 1px #405266; */
     border-radius: 0 6px 6px 6px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .05);
     padding: 0.5em 2em;

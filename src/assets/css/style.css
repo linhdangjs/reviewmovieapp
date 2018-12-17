@@ -3901,8 +3901,8 @@ ul {
 .bd-hd span {
   font-family: 'Dosis', sans-serif;
   font-size: 24px;
-  color: #4f5b68;
-  font-weight: 300;
+  color: #d02a4d;
+  font-weight: 500;
   text-transform: uppercase;
 }
 /* IV. SKELETON
@@ -8254,8 +8254,8 @@ button.buttonX{
   }
 
   /*  custom for tab slick */
-  .tabs-component .movie-items .movie-item .mv-img{
-    position: relative;
-    margin-right: 0 !important;
-    border-radius: 5px;
-}
+  .tabs-component {
+    margin: 2em 0;
+  }
+  
+  
