@@ -4,15 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import { store } from './store'
-import firebase from 'firebase'
-import firebaseConfig from './components/firebaseConfig';
+// import firebase from 'firebase'
+// import firebaseConfig from './components/firebaseConfig';
 
 import "slick-carousel/slick/slick.css";
+require('bootstrap')
 import '@/assets/css/index.css';
 import jQuery from 'jquery'
 window.jQuery = jQuery
 window.$ =jQuery;
-require('bootstrap') 
+
 import './assets/js/index';
 import { VLazyImagePlugin } from "v-lazy-image";
 
