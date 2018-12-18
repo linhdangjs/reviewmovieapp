@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HomePage from '@/components/layouts/Index'
-import User from '@/components/layouts/User/User'
-import UserProfile from '@/components/layouts/User/UserProfile'
-import MovieList from '@/components/layouts/Movies/MovieList'
-import MovieControl from '@/components/layouts/Movies/MovieControl'
-import MovieDetail from '@/components/layouts/Movies/MovieDetail'
-import TvShowList from '@/components/layouts/TvShows/TvShowList'
-import TvShowControl from '@/components/layouts/TvShows/TvShowControl'
-import TvShowDetail from '@/components/layouts/TvShows/TvShowDetail'
-import Page404 from '@/components/layouts/Page404'
-import firebase from 'firebase'
+const HomePage = () => import('@/components/layouts/Index')
+const User = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/User')
+const UserProfile = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/UserProfile')
+const MovieList = () => import('@/components/layouts/Movies/MovieList')
+const MovieControl = () => import(/* webpackChunkName: "group-movie" */ '@/components/layouts/Movies/MovieControl')
+const MovieDetail = () => import(/* webpackChunkName: "group-movie" */ '@/components/layouts/Movies/MovieDetail')
+const TvShowList = () => import('@/components/layouts/TvShows/TvShowList')
+const TvShowControl = () => import(/* webpackChunkName: "group-tvshow" */'@/components/layouts/TvShows/TvShowControl')
+const TvShowDetail = () => import(/* webpackChunkName: "group-tvshow" */ '@/components/layouts/TvShows/TvShowDetail')
+const Page404 = () => import('@/components/layouts/Page404')
+const Preloader = () => import('@/components/layouts/public/Preloader')
+//import firebase from 'firebase'
 import { store } from '../store/index'
+
+
 Vue.use(Router)
 
 let router =  new Router({

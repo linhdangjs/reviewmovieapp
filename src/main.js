@@ -6,7 +6,7 @@ import router from './router'
 import { store } from './store'
 // import firebase from 'firebase'
 // import firebaseConfig from './components/firebaseConfig';
-
+export const eventBus = new Vue();
 import "slick-carousel/slick/slick.css";
 require('bootstrap')
 import '@/assets/css/index.css';

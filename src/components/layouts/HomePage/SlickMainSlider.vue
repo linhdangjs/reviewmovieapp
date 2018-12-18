@@ -152,7 +152,8 @@ import VLazyImage from "v-lazy-image";
                 //console.log('handleEdge', event, slick, direction);
             },
             handleInit(event, slick) {
-                //console.log('handleInit', event, slick);
+                // console.log('handleInit', event, slick);
+                // this.$emit("initSlick", false)
             },
             handleReInit(event, slick) {
                  ///console.log('handleInit', event, slick);

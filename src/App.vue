@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <appPreloader v-if="loading"/>
+  <div id="app" >
+    <appPreloader v-if="loading" />
     <appHeader v-if="!loading"/>
     <transition name="slide">
       <router-view v-if="!loading"/>
@@ -23,9 +23,10 @@ export default {
   },
   mounted() {
         window.addEventListener('load', () => {
+          console.log('mounted');
           setTimeout(() => {
             this.loading = false;
-          }, 3000)
+          }, 2000)
         
     })
   },
@@ -35,16 +36,15 @@ export default {
         console.log(tokenUser);
         if(tokenUser) this.currentUser = JSON.parse(tokenUser);
         this.$store.commit('setUser', JSON.parse(tokenUser))
-        this.fetchAllMovies();
-        this.fetchAllTvShows();
+        this.fetchAllData();
     },
   methods: {
-        fetchAllMovies() {
-            this.$store.dispatch("getAllMovies");
+        async fetchAllData() {
+          console.log('fetchdata');
+          const nameDispatch = ["getAllMovies","getAllTvShows","getAllReviews"];
+          const result = await Promise.all(nameDispatch.map(this.$store.dispatch));
+          
         },
-        fetchAllTvShows() {
-            this.$store.dispatch("getAllTvShows");
-        }
     },
   name: 'App',
   components: {

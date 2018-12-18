@@ -94,30 +94,6 @@
 													<p>...  {{ cast.character }}</p>
 												</div>
 											</div>
-											<div class="title-hd-sm">
-												<h4>User reviews</h4>
-												<a href="moviesingle.html#" class="time">See All 56 Reviews <i class="ion-ios-arrow-right"></i></a>
-											</div>
-											<!-- movie user review -->
-											<div class="mv-user-review-item">
-												<h3>...</h3>
-												<div class="no-star">
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star"></i>
-													<i class="ion-android-star last"></i>
-												</div>
-												<p class="time">
-													17 December 2016 by <a href="moviesingle.html#"> hawaiipierson</a>
-												</p>
-												<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
-											</div>
 						            	</div>
 						            	<div class="col-md-4 col-xs-12 col-sm-12">
 						            		<div class="sb-it">
@@ -159,9 +135,9 @@
 						            	<div class="rv-hd">
 						            		<div class="div">
 							            		<h3>Review TV Show </h3>
-						       	 				<h2>Skyfall: Quantum of Spectre</h2>
+						       	 				<h2>{{ currentTvShow[0].name }}</h2>
 							            	</div>
-							            	<a class="redbtn">Write Review</a>
+							            	<a @click="handleWriteReview" class="redbtn" style="cursor: pointer">Write Review</a>
 						            	</div>
 						            	<div class="topbar-filter">
 											<p>Found <span>56 reviews</span> in total</p>
@@ -255,21 +231,28 @@
 	</div>
 </div>
 	<appTrailerModal :videoID="currentTvShow[0].trailerID" v-show="showTrailerModal" @closeTrailer="showTrailerModal = false"/>
+	<appReviewModalTV v-if="showReviewModalTV" @closeReviewTV="showReviewModalTV = false"/>
     </div>
 </template>
 
 <script>
+import { eventBus } from '@/main.js'
 import VueGallery from 'vue-gallery';
 import StarRating from 'vue-star-rating'
 import TrailerModal from '@/components/layouts/public/ModalTrailer.vue'
+import ReviewModalTV from '@/components/layouts/TvShows/ModalReviewTV.vue'
 export default {
     data: function () {
       return {
 		index: null,
-		showTrailerModal: false
+		showTrailerModal: false,
+		showReviewModalTV : false
       };
 	},
 	    computed: {
+		currentUser() {
+			return this.$store.getters.user;
+		},
         currentTvShow() {
 				var tvshows = this.$store.getters.tvshows;
 				var currentTvShow = tvshows.filter(tvshow => tvshow.tvshow_id === this.$route.params.id);
@@ -289,13 +272,18 @@ export default {
         },
         tabChanged (selectedTab) {
             console.log('Tab changed to:' + selectedTab.tab.name);
-        },
+		},
+		handleWriteReview() {
+			if(this.currentUser) this.showReviewModalTV = true;
+			else eventBus.$emit("openLogin", true)	
+		}
 	},
 	
     components: {
 	  'gallery': VueGallery,
 	  StarRating,
-	  appTrailerModal : TrailerModal
+	  appTrailerModal : TrailerModal,
+	  appReviewModalTV : ReviewModalTV
     },
   }
 </script>

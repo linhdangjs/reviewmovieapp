@@ -105,6 +105,7 @@
 </template>
 
 <script>
+import { eventBus } from '@/main.js'
 import Login from '@/components/layouts/public/Login'
 import SignUp from '@/components/layouts/public/SignUp'
 import firebase from 'firebase'
@@ -123,11 +124,21 @@ export default {
         }
     },
     created() {
+
+    // Listening the event hello
+        eventBus.$on('openLogin', (value) => {
+            this.showLogin = value;
+        });
         var tokenUser = localStorage.getItem("current-user");
         console.log(tokenUser);
         if(tokenUser) this.currentUser = JSON.parse(tokenUser);
         this.$store.commit('setUser', JSON.parse(tokenUser))
     },
+    // mounted() { 
+    //      this.$on("openLogin", value => {
+    //        console.log(value)
+    //     })
+    // },
     computed: {
         isLoggedIn () {
             let isLoggedIn;

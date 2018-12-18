@@ -11,7 +11,8 @@ export const store = new Vuex.Store({
       users: [],
       userDetail : null,
       movies: [],
-      tvshows: []
+      tvshows: [],
+      reviews: []
     },
     mutations: {
       setUser (state, payload) {
@@ -28,6 +29,9 @@ export const store = new Vuex.Store({
       },
       setTvShows (state, payload) {
         state.tvshows = payload;
+      },
+      setReviews (state, payload) {
+        state.reviews = payload
       }
     },
     actions: {
@@ -173,6 +177,47 @@ export const store = new Vuex.Store({
             console.log(error);
           }
         )
+      },
+      postReview({commit}, payload) {
+        // Add a new document with a generated id.
+        db.collection("Reviews").add({
+          user_uid: payload.user_uid,
+          user_email: payload.user_email, 
+          type: payload.type,
+          media_id: payload.media_id,
+          title: payload.title,
+          content: payload.content,
+          // rating: payload.rating,
+          // timestamp: payload.timestamp
+        })
+        .then(function(review) {
+          console.log("Document written with title: ", review.id);
+        })
+        .catch(function(error) {
+          console.error("Error adding document: ", error);
+        });
+      },
+      getAllReviews({commit}, payload) {
+        let result = [];
+        db.collection("Reviews")
+          .get()
+          .then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                 const data = {
+                  user_uid: doc.data().user_uid,
+                  user_email: doc.data().user_email,
+                  media_id: doc.data().media_id,
+                  title: doc.data().title,
+                  content: doc.data().content,
+                 }
+                 result.push(data);
+              });
+          })
+          .catch(function(error) {
+              console.log("Error getting documents: ", error);
+          });
+          console.log(result)
+          commit("setReviews", result)
       }
     },
     getters: {
@@ -190,6 +235,9 @@ export const store = new Vuex.Store({
       },
       tvshows (state) {
         return state.tvshows
+      },
+      reviews (state) {
+        return state.reviews
       }
     }
   })

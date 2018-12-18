@@ -94,30 +94,6 @@
 															<p>...  {{ cast.character }}</p>
 														</div>
 													</div>
-													<div class="title-hd-sm">
-														<h4>User reviews</h4>
-														<a href="moviesingle.html#" class="time">See All 56 Reviews <i class="ion-ios-arrow-right"></i></a>
-													</div>
-													<!-- movie user review -->
-													<div class="mv-user-review-item">
-														<h3>Chương trình giải trí vui nhộn</h3>
-														<div class="no-star">
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star"></i>
-															<i class="ion-android-star last"></i>
-														</div>
-														<p class="time">
-															17 December 2016 by <a href="moviesingle.html#"> hawaiipierson</a>
-														</p>
-														<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
-													</div>
 												</div>
 												<div class="col-md-4 col-xs-12 col-sm-12">
 													<div class="sb-it">
@@ -171,9 +147,10 @@
 						            	<div class="rv-hd">
 						            		<div class="div">
 							            		<h3>Review Movie</h3>
-						       	 				<h2>Skyfall: Quantum of Spectre</h2>
+						       	 				<h2>{{ currentMovie[0].name }}</h2>
 							            	</div>
-							            	<a class="redbtn">Write Review</a>
+											
+							            	<a @click="handleWriteReview" class="redbtn" style="cursor: pointer">Write Review</a>
 						            	</div>
 						            	<div class="topbar-filter">
 											<p>Found <span>56 reviews</span> in total</p>
@@ -187,11 +164,11 @@
 												<option value="date">Release date Ascending</option>
 											</select>
 										</div>
-										<div class="mv-user-review-item">
+										<div class="mv-user-review-item" v-for="(review, index) in currentMovieReviews" :key="index">
 											<div class="user-infor">
 												<img src="/static/images/uploads/userava1.jpg" alt="">
 												<div>
-													<h3>Best Marvel movie in my opinion</h3>
+													<h3>{{ review.title }}</h3>
 													<div class="no-star">
 														<i class="ion-android-star"></i>
 														<i class="ion-android-star"></i>
@@ -205,13 +182,13 @@
 														<i class="ion-android-star last"></i>
 													</div>
 													<p class="time">
-														17 December 2016 by <a href="moviesingle.html#"> hawaiipierson</a>
+														17 December 2016 by <a href="moviesingle.html#"> {{ review.user_email }}</a>
 													</p>
 												</div>
 											</div>
-											<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
+											<p>{{ review.content }}</p>
 										</div>
-										<div class="mv-user-review-item last">
+										<!-- <div class="mv-user-review-item last">
 											<div class="user-infor">
 												<img src="/static/images/uploads/userava5.jpg" alt="">
 												<div>
@@ -236,7 +213,7 @@
 											<p>The Avengers raid a Hydra base in Sokovia commanded by Strucker and they retrieve Loki's scepter. They also discover that Strucker had been conducting experiments with the orphan twins Pietro Maximoff (Aaron Taylor-Johnson), who has super speed, and Wanda Maximoff (Elizabeth Olsen), who can control minds and project energy. Tony Stark (Robert Downey Jr.) discovers an Artificial Intelligence in the scepter and convinces Bruce Banner (Mark Ruffalo) to secretly help him to transfer the A.I. to his Ultron defense system. However, the Ultron understands that is necessary to annihilate mankind to save the planet, attacks the Avengers and flees to Sokovia with the scepter. He builds an armature for self-protection and robots for his army and teams up with the twins. The Avengers go to Clinton Barton's house to recover, but out of the blue, Nick Fury (Samuel L. Jackson) arrives and convinces them to fight against Ultron. Will they succeed? </p>
 
 											<p>"Avengers: Age of Ultron" is an entertaining adventure with impressive special effects and cast. The storyline might be better, since most of the characters do not show any chemistry. However, it is worthwhile watching this film since the amazing special effects are not possible to be described in words. Why Pietro has to die is also not possible to be explained. My vote is eight.</p>
-										</div>
+										</div> -->
 										<div class="topbar-filter">
 											<label>Reviews per page:</label>
 											<select>
@@ -267,34 +244,51 @@
 	</div>
 </div>
 	<appTrailerModal :videoID="currentMovie[0].trailerID" v-show="showTrailerModal" @closeTrailer="showTrailerModal = false"/>
+	<appReviewModal v-if="showReviewModal" @closeReview="showReviewModal = false"/>
     </div>
 </template>
 
 <script>
+import { eventBus } from '@/main.js'
 import VueGallery from 'vue-gallery';
 import StarRating from 'vue-star-rating'
 import TrailerModal from '@/components/layouts/public/ModalTrailer.vue'
+import ReviewModal from '@/components/layouts/public/ModalReview.vue'
 export default {
     data: function () {
       return {
 		index: null,
-		showTrailerModal: false
+		showTrailerModal: false,
+		showReviewModal : false
       };
 	},
-	    computed: {
+	computed: {
+		currentUser() {
+			return this.$store.getters.user;
+		},
         currentMovie() {
 				var movies = this.$store.getters.movies;
 				var currentMovie = movies.filter(movie => movie.movie_id === this.$route.params.id);
 				return currentMovie;
-            }
+		},
+		currentMovieReviews() {
+				var reviews = this.$store.getters.reviews;
+				var currentMovieReviews = reviews.filter(review => review.media_id === this.$route.params.id);
+				return currentMovieReviews;
+        }
     },
 	created() {
-        //console.log('created');
-        this.fetchAllMovies();
+		this.fetchAllMovies();
+		this.fetchAllReview();
     },
     methods: {
         fetchAllMovies() {
             this.$store.dispatch("getAllMovies").then(() => {
+                console.log(this.$store.getters.reviews)
+            })
+		},
+		fetchAllReview() {
+            this.$store.dispatch("getAllReviews").then(() => {
                 //console.log(this.$store.getters.movies)
             })
 		},
@@ -303,13 +297,19 @@ export default {
         },
         tabChanged (selectedTab) {
             console.log('Tab changed to:' + selectedTab.tab.name);
-        },
+		},
+		handleWriteReview() {
+			if(this.currentUser) this.showReviewModal = true;
+			else eventBus.$emit("openLogin", true)
+			
+		}
 	},
 	
     components: {
 	  'gallery': VueGallery,
 	  StarRating,
-	  appTrailerModal : TrailerModal
+	  appTrailerModal : TrailerModal,
+	  appReviewModal: ReviewModal
     },
   }
 </script>
