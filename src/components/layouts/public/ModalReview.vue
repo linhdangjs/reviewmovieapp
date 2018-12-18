@@ -23,7 +23,7 @@
                 </div>
             
                 <div class="row">
-                       <textarea rows="10" cols="50" v-model="content" name="content" id="content" placeholder="Write something here" />
+                       <textarea rows="5" cols="50" v-model="content" name="content" id="content" placeholder="Write something here" />
                 </div>
                 <div class="row">
                     <p style="color: #fd153d; font-weight:bold;">Rate for movie:  </p>
@@ -90,61 +90,23 @@ import StarRating from 'vue-star-rating'
             }
         },
         methods: {
-            onLogin: function(e) {
-                if(this.username || this.email)
-                {this.loading = true;}
-                else {
-                    this.loading = false
-                     this.$swal({
-                            title: 'Login Failed',
-                            text:  "Vui lòng điền đầy đủ thông tin",
-                            type: 'warning',
-                            timer: 1000
-                        })
-                    }
-                 firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-                    .then(
-                        user => {
-                            // console.log(user.user)
-                        this.loading = false
-                        const newUser = {
-                            displayName: user.user.displayName,
-                            photoUrl: user.user.photoURL,
-                            uid: user.user.uid,
-                            email: user.user.email  
-                        }
-                        console.log(newUser);
-                        localStorage.setItem("current-user", JSON.stringify(newUser)); //store currentuser in localstorage 
-                        this.$store.commit('setUser', newUser)
-                        this.$swal({
-                            title: 'Login Success',
-                            text:  "Hello " + user.user.email,
-                            type: 'success',
-                            timer: 1000
-                        })
-                        // this.$swal("Login Success", "Hello " + user.user.email , "success")
-                        // handle close form
-                        this.$emit("closeLogin");
-                        }
-                    )
-                    .catch(
-                        error => {
-                        this.loading = false
-                        this.$swal("Login Failed", error.message, "error")
-                        console.log(error)
-                        }
-                    )
-            },
             onSubmitReview() {
+                var strTime = new Date().toLocaleDateString("en-US");
                 if(this.title && this.content) {
+                    console.log(this.user.photoUrl)
                     this.$store.dispatch("postReview", {
                         user_uid: this.user.uid,
                         user_email: this.user.email,
+                        user_avatar: this.user.photoUrl,
                         type: "movie",
                         media_id: this.currentMovie[0].movie_id,
                         title: this.title,
-                        content: this.content
+                        content: this.content,
+                        time:  strTime
+                    }).then(()=>{
+                        this.$store.dispatch("getAllReviews")
                     })
+                    .catch(err => console.log(err))
                     this.$swal({
                         title: 'Review Success',
                         text:  "Cảm ơn chia sẻ của bạn!",

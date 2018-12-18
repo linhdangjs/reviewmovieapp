@@ -105,7 +105,8 @@ import firebase from 'firebase'
                           showConfirmButton: false,
                           timer: 2000
                     })
-                })
+                    this.$store.dispatch("getAllReviews")
+                    })
             }
         }
     }

@@ -151,11 +151,11 @@
 												<option value="date">Release date Ascending</option>
 											</select>
 										</div>
-										<div class="mv-user-review-item">
+									<div class="mv-user-review-item" v-for="(review, index) in currentTvShowReviews" :key="index">
 											<div class="user-infor">
-												<img src="/static/images/uploads/userava1.jpg" alt="">
+												<img :src="review.user_avatar" alt="">
 												<div>
-													<h3>Best Marvel movie in my opinion</h3>
+													<h3>{{ review.title }}</h3>
 													<div class="no-star">
 														<i class="ion-android-star"></i>
 														<i class="ion-android-star"></i>
@@ -169,13 +169,13 @@
 														<i class="ion-android-star last"></i>
 													</div>
 													<p class="time">
-														17 December 2016 by <a href="moviesingle.html#"> hawaiipierson</a>
+														{{ review.time }} by <a href="moviesingle.html#"> {{ review.user_email }}</a>
 													</p>
 												</div>
 											</div>
-											<p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
+											<p>{{ review.content }}</p>
 										</div>
-										<div class="mv-user-review-item last">
+										<!-- <div class="mv-user-review-item last">
 											<div class="user-infor">
 												<img src="/static/images/uploads/userava5.jpg" alt="">
 												<div>
@@ -200,7 +200,7 @@
 											<p>The Avengers raid a Hydra base in Sokovia commanded by Strucker and they retrieve Loki's scepter. They also discover that Strucker had been conducting experiments with the orphan twins Pietro Maximoff (Aaron Taylor-Johnson), who has super speed, and Wanda Maximoff (Elizabeth Olsen), who can control minds and project energy. Tony Stark (Robert Downey Jr.) discovers an Artificial Intelligence in the scepter and convinces Bruce Banner (Mark Ruffalo) to secretly help him to transfer the A.I. to his Ultron defense system. However, the Ultron understands that is necessary to annihilate mankind to save the planet, attacks the Avengers and flees to Sokovia with the scepter. He builds an armature for self-protection and robots for his army and teams up with the twins. The Avengers go to Clinton Barton's house to recover, but out of the blue, Nick Fury (Samuel L. Jackson) arrives and convinces them to fight against Ultron. Will they succeed? </p>
 
 											<p>"Avengers: Age of Ultron" is an entertaining adventure with impressive special effects and cast. The storyline might be better, since most of the characters do not show any chemistry. However, it is worthwhile watching this film since the amazing special effects are not possible to be described in words. Why Pietro has to die is also not possible to be explained. My vote is eight.</p>
-										</div>
+										</div> -->
 										<div class="topbar-filter">
 											<label>Reviews per page:</label>
 											<select>
@@ -254,18 +254,32 @@ export default {
 			return this.$store.getters.user;
 		},
         currentTvShow() {
-				var tvshows = this.$store.getters.tvshows;
-				var currentTvShow = tvshows.filter(tvshow => tvshow.tvshow_id === this.$route.params.id);
-				return currentTvShow;
-            }
+			var tvshows = this.$store.getters.tvshows;
+			var currentTvShow = tvshows.filter(tvshow => tvshow.tvshow_id === this.$route.params.id);
+			return currentTvShow;
+		},
+		currentTvShowReviews() {
+			var reviews = this.$store.getters.reviews;
+			var currentTvShowReviews = reviews.filter(review => review.media_id === this.$route.params.id && review.type == "tvshow");
+			return currentTvShowReviews;
+        }
     },
 	created() {
         //console.log('created');
-        this.fetchAllTvShows();
-    },
+		this.fetchAllTvShows();
+	},
+	beforeRouteEnter (to, from, next) {
+		next(vm => {
+			vm.fetchAllTvShows();
+			vm.fetchAllReview();
+		});
+	},
     methods: {
         fetchAllTvShows() {
             this.$store.dispatch("getAllTvShows");
+		},
+		 fetchAllTvShows() {
+            this.$store.dispatch("getAllReviews");
 		},
 		tabClicked (selectedTab) {
             console.log('Current tab re-clicked:' + selectedTab.tab.name);
@@ -275,7 +289,15 @@ export default {
 		},
 		handleWriteReview() {
 			if(this.currentUser) this.showReviewModalTV = true;
-			else eventBus.$emit("openLogin", true)	
+			else {
+				this.$swal({
+					title: 'Warning !',
+					text:  "Vui lòng đăng nhập trước khi đưa ra bình luận!",
+					type: 'warning',
+					timer: 1000
+				})
+				eventBus.$emit("openLogin", true)
+			}
 		}
 	},
 	

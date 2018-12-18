@@ -23,7 +23,7 @@
                 </div>
             
                 <div class="row">
-                       <textarea rows="10" cols="50" v-model="content" name="content" id="content" placeholder="Write something here" />
+                       <textarea rows="5" cols="50" v-model="content" name="content" id="content" placeholder="Write something here" />
                 </div>
                 <div class="row">
                     <p style="color: #fd153d; font-weight:bold;">Rate for TvShow:  </p>
@@ -136,15 +136,21 @@ import StarRating from 'vue-star-rating'
                     )
             },
             onSubmitReview() {
+                var strTime = new Date().toLocaleDateString("en-US");
                 if(this.title && this.content) {
                     this.$store.dispatch("postReview", {
                         user_uid: this.user.uid,
+                        user_avatar: this.user.photoUrl,
                         user_email: this.user.email,
                         type: "tvshow",
                         media_id: this.currentTvShow[0].tvshow_id,
                         title: this.title,
-                        content: this.content
+                        content: this.content,
+                        time:  strTime
+                    }).then(()=>{
+                        this.$store.dispatch("getAllReviews")
                     })
+                    .catch(err => console.log(err))
                     this.$swal({
                         title: 'Review Success',
                         text:  "Cảm ơn chia sẻ của bạn!",

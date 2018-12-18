@@ -166,7 +166,7 @@
 										</div>
 										<div class="mv-user-review-item" v-for="(review, index) in currentMovieReviews" :key="index">
 											<div class="user-infor">
-												<img src="/static/images/uploads/userava1.jpg" alt="">
+												<img :src="review.user_avatar" alt="">
 												<div>
 													<h3>{{ review.title }}</h3>
 													<div class="no-star">
@@ -182,7 +182,7 @@
 														<i class="ion-android-star last"></i>
 													</div>
 													<p class="time">
-														17 December 2016 by <a href="moviesingle.html#"> {{ review.user_email }}</a>
+														{{ review.time }} by <a href="moviesingle.html#"> {{ review.user_email }}</a>
 													</p>
 												</div>
 											</div>
@@ -273,14 +273,20 @@ export default {
 		},
 		currentMovieReviews() {
 				var reviews = this.$store.getters.reviews;
-				var currentMovieReviews = reviews.filter(review => review.media_id === this.$route.params.id);
+				var currentMovieReviews = reviews.filter(review => review.media_id === this.$route.params.id && review.type == "movie");
 				return currentMovieReviews;
         }
-    },
+	},
 	created() {
 		this.fetchAllMovies();
 		this.fetchAllReview();
-    },
+	},
+	beforeRouteEnter (to, from, next) {
+		next(vm => {
+			vm.fetchAllMovies();
+			vm.fetchAllReview();
+		});
+	},
     methods: {
         fetchAllMovies() {
             this.$store.dispatch("getAllMovies").then(() => {
@@ -300,8 +306,15 @@ export default {
 		},
 		handleWriteReview() {
 			if(this.currentUser) this.showReviewModal = true;
-			else eventBus.$emit("openLogin", true)
-			
+			else {
+				this.$swal({
+					title: 'Warning !',
+					text:  "Vui lòng đăng nhập trước khi đưa ra bình luận!",
+					type: 'warning',
+					timer: 1000
+				})
+				eventBus.$emit("openLogin", true)
+			}
 		}
 	},
 	

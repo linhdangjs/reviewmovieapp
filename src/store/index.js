@@ -79,8 +79,6 @@ export const store = new Vuex.Store({
       updateUser ({commit}, payload) {
         var unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-            // console.log(user)
-            console.log("update user cai wtf")
                 user.updateProfile({
                   displayName: payload.displayName,
                   photoURL: payload.photoUrl
@@ -94,6 +92,14 @@ export const store = new Vuex.Store({
             commit("setUser", userUpdate);
             localStorage.removeItem('current-user');
             localStorage.setItem("current-user", JSON.stringify(userUpdate));
+        })
+        .then(() => {     // sau khi update avatar cho 'user' => update lai user_avatar trong 'review'
+          db.collection("Reviews").where('user_uid', '==', user.uid).get().then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              db.collection("Reviews").doc(doc.id).update({user_avatar: user.photoURL});
+            })
+            
+          })
         })
         .catch(err => {
           console.log(err);
@@ -129,7 +135,6 @@ export const store = new Vuex.Store({
             }
             result.push(data)
           })
-          console.log(result);
           commit('setMovies', result);
 
         })
@@ -168,7 +173,6 @@ export const store = new Vuex.Store({
             }
             result.push(data)
           })
-          console.log(result);
           commit('setTvShows', result);
 
         })
@@ -183,21 +187,23 @@ export const store = new Vuex.Store({
         db.collection("Reviews").add({
           user_uid: payload.user_uid,
           user_email: payload.user_email, 
+          user_avatar: payload.user_avatar,
           type: payload.type,
           media_id: payload.media_id,
           title: payload.title,
           content: payload.content,
+          time: payload.time
           // rating: payload.rating,
           // timestamp: payload.timestamp
         })
         .then(function(review) {
-          console.log("Document written with title: ", review.id);
+          // console.log("Document written with title: ", review.id);
         })
         .catch(function(error) {
           console.error("Error adding document: ", error);
         });
       },
-      getAllReviews({commit}, payload) {
+      getAllReviews({commit}) {
         let result = [];
         db.collection("Reviews")
           .get()
@@ -205,10 +211,13 @@ export const store = new Vuex.Store({
               querySnapshot.forEach(function(doc) {
                  const data = {
                   user_uid: doc.data().user_uid,
+                  user_avatar: doc.data().user_avatar,
                   user_email: doc.data().user_email,
+                  type: doc.data().type,
                   media_id: doc.data().media_id,
                   title: doc.data().title,
                   content: doc.data().content,
+                  time: doc.data().time
                  }
                  result.push(data);
               });
@@ -216,7 +225,6 @@ export const store = new Vuex.Store({
           .catch(function(error) {
               console.log("Error getting documents: ", error);
           });
-          console.log(result)
           commit("setReviews", result)
       }
     },
