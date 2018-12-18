@@ -5973,7 +5973,7 @@ ul {
   color: #f5b50a;
 }
 .movie-single .movie-single-ct .tab h3 {
-  font-family: 'Dosis', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   color: #abb7c4;
   font-weight: bold;
@@ -8257,5 +8257,5 @@ button.buttonX{
   .tabs-component {
     margin: 2em 0;
   }
-  
-  
+  /* @charset
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,700i'); */

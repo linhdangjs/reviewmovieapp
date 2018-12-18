@@ -170,19 +170,10 @@
 												<div>
 													<h3>{{ review.title }}</h3>
 													<div class="no-star">
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star last"></i>
+													<star-rating :max-rating="10" :rating="review.rating" :read-only="true" :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
 													</div>
 													<p class="time">
-														{{ review.time }} by <a href="moviesingle.html#"> {{ review.user_email }}</a>
+														{{ review.created_at }} by <a href="moviesingle.html#"> {{ review.user_email }}</a>
 													</p>
 												</div>
 											</div>
@@ -272,12 +263,23 @@ export default {
 				return currentMovie;
 		},
 		currentMovieReviews() {
-				var reviews = this.$store.getters.reviews;
-				var currentMovieReviews = reviews.filter(review => review.media_id === this.$route.params.id && review.type == "movie");
-				return currentMovieReviews;
-        }
+			return this.allReviews.filter(review => review.media_id === this.$route.params.id && review.type == "movie");	
+		},
+		allReviews() {
+			return this.$store.getters.reviews;
+		}
+	},
+	watch: {
+		allReviews(value) {
+			if(value !== null && value !== undefined) {
+					this.allReviews = value;
+			}
+		}
 	},
 	created() {
+		eventBus.$on("refetchData", () => {
+			this.fetchAllReview()
+		})
 		this.fetchAllMovies();
 		this.fetchAllReview();
 	},

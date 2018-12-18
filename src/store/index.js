@@ -183,6 +183,7 @@ export const store = new Vuex.Store({
         )
       },
       postReview({commit}, payload) {
+        //console.log(payload);
         // Add a new document with a generated id.
         db.collection("Reviews").add({
           user_uid: payload.user_uid,
@@ -192,23 +193,25 @@ export const store = new Vuex.Store({
           media_id: payload.media_id,
           title: payload.title,
           content: payload.content,
-          time: payload.time
-          // rating: payload.rating,
-          // timestamp: payload.timestamp
+          rating: payload.rating,
+          //created_at: firebase.firestore.FieldValue.serverTimestamp()
+
         })
-        .then(function(review) {
+        .then((review) => {
           // console.log("Document written with title: ", review.id);
-        })
+              db.collection("Reviews").doc(review.id).update({created_at: firebase.firestore.FieldValue.serverTimestamp()});
+            })
         .catch(function(error) {
           console.error("Error adding document: ", error);
         });
       },
       getAllReviews({commit}) {
         let result = [];
-        db.collection("Reviews")
+        db.collection("Reviews").orderBy("created_at","desc")
           .get()
           .then(function(querySnapshot) {
               querySnapshot.forEach(function(doc) {
+              //console.log(doc.data());
                  const data = {
                   user_uid: doc.data().user_uid,
                   user_avatar: doc.data().user_avatar,
@@ -217,10 +220,12 @@ export const store = new Vuex.Store({
                   media_id: doc.data().media_id,
                   title: doc.data().title,
                   content: doc.data().content,
-                  time: doc.data().time
+                  rating: doc.data().rating,
+                  created_at: doc.data().created_at.toDate().toLocaleDateString("en-US")
                  }
                  result.push(data);
               });
+              
           })
           .catch(function(error) {
               console.log("Error getting documents: ", error);

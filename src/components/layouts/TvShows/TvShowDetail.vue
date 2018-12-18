@@ -157,16 +157,7 @@
 												<div>
 													<h3>{{ review.title }}</h3>
 													<div class="no-star">
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star last"></i>
+														<star-rating :max-rating="10" :rating="review.rating" :read-only="true" :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
 													</div>
 													<p class="time">
 														{{ review.time }} by <a href="moviesingle.html#"> {{ review.user_email }}</a>
@@ -271,14 +262,14 @@ export default {
 	beforeRouteEnter (to, from, next) {
 		next(vm => {
 			vm.fetchAllTvShows();
-			vm.fetchAllReview();
+			vm.fetchAllReviews();
 		});
 	},
     methods: {
         fetchAllTvShows() {
             this.$store.dispatch("getAllTvShows");
 		},
-		 fetchAllTvShows() {
+		 fetchAllReviews() {
             this.$store.dispatch("getAllReviews");
 		},
 		tabClicked (selectedTab) {

@@ -27,7 +27,7 @@
                 </div>
                 <div class="row">
                     <p style="color: #fd153d; font-weight:bold;">Rate for movie:  </p>
-					<star-rating :max-rating="10" :rating="currentMovie[0].rating"  :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
+					<star-rating @rating-selected="setRating" :max-rating="10" :rating="currentMovie[0].rating"  :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
                 </div>
             </slot>
           </div>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { eventBus } from '@/main.js'
 import firebase from 'firebase';
 import VueSweetalert2 from 'vue-sweetalert2';
 import StarRating from 'vue-star-rating'
@@ -90,10 +91,12 @@ import StarRating from 'vue-star-rating'
             }
         },
         methods: {
+            setRating(rating) {
+                this.rating = rating;
+            },
             onSubmitReview() {
-                var strTime = new Date().toLocaleDateString("en-US");
+                //var time = firebase.firestore.FieldValue.serverTimestamp();
                 if(this.title && this.content) {
-                    console.log(this.user.photoUrl)
                     this.$store.dispatch("postReview", {
                         user_uid: this.user.uid,
                         user_email: this.user.email,
@@ -102,9 +105,11 @@ import StarRating from 'vue-star-rating'
                         media_id: this.currentMovie[0].movie_id,
                         title: this.title,
                         content: this.content,
-                        time:  strTime
+                        rating: this.rating==0? this.currentMovie[0].rating: this.rating,
+                        //created_at: time
                     }).then(()=>{
                         this.$store.dispatch("getAllReviews")
+                        eventBus.$emit("refetchData");
                     })
                     .catch(err => console.log(err))
                     this.$swal({

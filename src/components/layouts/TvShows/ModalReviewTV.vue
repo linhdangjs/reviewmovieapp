@@ -27,7 +27,7 @@
                 </div>
                 <div class="row">
                     <p style="color: #fd153d; font-weight:bold;">Rate for TvShow:  </p>
-					<star-rating :max-rating="10" :rating="currentTvShow[0].rating"  :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
+					<star-rating @rating-selected="setRating" :max-rating="10" :rating="currentTvShow[0].rating"  :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
                 </div>
             </slot>
           </div>
@@ -90,50 +90,8 @@ import StarRating from 'vue-star-rating'
             }
         },
         methods: {
-            onLogin: function(e) {
-                if(this.username || this.email)
-                {this.loading = true;}
-                else {
-                    this.loading = false
-                     this.$swal({
-                            title: 'Login Failed',
-                            text:  "Vui lòng điền đầy đủ thông tin",
-                            type: 'warning',
-                            timer: 1000
-                        })
-                    }
-                 firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-                    .then(
-                        user => {
-                            // console.log(user.user)
-                        this.loading = false
-                        const newUser = {
-                            displayName: user.user.displayName,
-                            photoUrl: user.user.photoURL,
-                            uid: user.user.uid,
-                            email: user.user.email  
-                        }
-                        console.log(newUser);
-                        localStorage.setItem("current-user", JSON.stringify(newUser)); //store currentuser in localstorage 
-                        this.$store.commit('setUser', newUser)
-                        this.$swal({
-                            title: 'Login Success',
-                            text:  "Hello " + user.user.email,
-                            type: 'success',
-                            timer: 1000
-                        })
-                        // this.$swal("Login Success", "Hello " + user.user.email , "success")
-                        // handle close form
-                        this.$emit("closeLogin");
-                        }
-                    )
-                    .catch(
-                        error => {
-                        this.loading = false
-                        this.$swal("Login Failed", error.message, "error")
-                        console.log(error)
-                        }
-                    )
+            setRating(rating) {
+                this.rating = rating;
             },
             onSubmitReview() {
                 var strTime = new Date().toLocaleDateString("en-US");
@@ -146,6 +104,7 @@ import StarRating from 'vue-star-rating'
                         media_id: this.currentTvShow[0].tvshow_id,
                         title: this.title,
                         content: this.content,
+                        rating: this.rating==0? this.currentTvShow[0].rating: this.rating,
                         time:  strTime
                     }).then(()=>{
                         this.$store.dispatch("getAllReviews")
