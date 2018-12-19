@@ -265,17 +265,7 @@ export default {
 		currentMovieReviews() {
 			return this.$store.getters.currentReviews;
 		}
-		// allReviews() {
-		// 	return this.$store.getters.reviews;
-		// }
 	},
-	// watch: {
-	// 	allReviews(value) {
-	// 		if(value !== null && value !== undefined) {
-	// 				this.allReviews = value;
-	// 		}
-	// 	}
-	// },
 	created() {
 		this.fetchAllMovies();
 		this.fetchAllReview();

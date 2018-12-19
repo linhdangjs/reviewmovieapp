@@ -7,10 +7,7 @@
                         <div class="col-md-12">
                             <div class="hero-ct">
                                 <h1>{{ currentUser.displayName ? currentUser.displayName :  currentUser.email }}'s profile</h1>
-                                <ul class="breadcumb">
-                                    <li class="active"><a href="#">Home</a></li>
-                                    <li> <span class="ion-ios-arrow-right"></span>Profile</li>
-                                </ul>
+                          
                             </div>
                         </div>
                     </div>
@@ -28,9 +25,8 @@
                                 <div class="user-fav">
                                     <p>Account Details</p>
                                     <ul>
-                                        <li><a href="#">Profile</a></li>
-                                        <li><a href="#">Favorite movies</a></li>
-                                        <li><a href="#">Rated movies</a></li>
+                                        <router-link active-class="active" tag="li" to="/user/profile"><a href="#">Profile</a></router-link>
+                                        <router-link active-class="active" tag="li" to="/user/myreviews"><a href="#">My Rated Movie</a></router-link>
                                     </ul>
                                 </div>
                                 <div class="user-fav">
@@ -44,7 +40,9 @@
                         </div>
                         <div class="col-md-9 col-sm-12 col-xs-12">
                             <!-- ROUTER VIEW USER -->
-                            <router-view></router-view>
+                             <transition name="slide">
+                                    <router-view />
+                            </transition>
                             <!-- END ROUTER VIEW USER -->
                         </div>
                     </div>
@@ -85,6 +83,41 @@ import VLazyImage from "v-lazy-image";
     }
 </script>
 
-<style>
-    
+<style scoped>
+    .slide-enter {
+    opacity: 0;
+    transform: translateX(0);
+
+  }
+  .slide-enter-active {
+    transition: opacity .4s ease;
+    opacity: 1;
+    animation: slide-in .4s ease-out forwards;
+  }
+   .slide-leave {
+    opacity: 1;
+    transform: translateX(0);
+
+  }
+  .slide-leave-active {
+    transition: opacity .4s ease;
+    opacity: 0;
+    animation: slide-out .4s ease-out forwards;
+  }
+  @keyframes slide-out {
+    0% {
+      transform: translateX(0)
+    }
+    100% {
+      transform: translateX(-30px)
+    }
+  }
+    @keyframes slide-in {
+    0% {
+      transform: translateX(0)
+    }
+    100% {
+      transform: translateX(-30px)
+    }
+  }
 </style>

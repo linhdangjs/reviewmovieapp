@@ -1,5 +1,10 @@
 <template>
     <div class="wrap-user-profile">    
+            <ul class="breadcumb">
+                <li class="active"><a href="#">Home</a></li>
+                <li> <span class="ion-ios-arrow-right"></span>User</li>
+                <li> <span class="ion-ios-arrow-right"></span>Profile</li>
+            </ul>
          <div class="form-style-1 user-pro" action="">
             <form @submit.prevent="updateUser" class="user">
                     <h4>01. Profile details</h4>
@@ -121,5 +126,13 @@ import firebase from 'firebase'
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+li, span {
+    display: inline-block;
+    margin-right: 5px;
+    color: #abb7c4
+}
+li.active a {
+    color: #4280bf;
 }
 </style>

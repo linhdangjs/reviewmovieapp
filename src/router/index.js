@@ -3,6 +3,7 @@ import Router from 'vue-router'
 const HomePage = () => import('@/components/layouts/Index')
 const User = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/User')
 const UserProfile = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/UserProfile')
+const UserReviews = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/UserReviews')
 const MovieList = () => import('@/components/layouts/Movies/MovieList')
 const MovieControl = () => import(/* webpackChunkName: "group-movie" */ '@/components/layouts/Movies/MovieControl')
 const MovieDetail = () => import(/* webpackChunkName: "group-movie" */ '@/components/layouts/Movies/MovieDetail')
@@ -34,7 +35,8 @@ let router =  new Router({
       requiresAuth: true
       } 
       , children: [
-      { path: 'profile', name: 'UserProfile', component: UserProfile }
+      { path: 'profile', name: 'UserProfile', component: UserProfile },
+      { path: 'myreviews', name: 'UserReviews', component: UserReviews }
 
   ] },
     {
@@ -87,6 +89,7 @@ let router =  new Router({
     }
   ],
   mode: 'history',
+  linkActiveClass: "active",
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
   }

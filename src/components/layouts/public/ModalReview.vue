@@ -78,7 +78,8 @@ import StarRating from 'vue-star-rating'
             },
             currentMovie() {
 				var movies = this.$store.getters.movies;
-				var currentMovie = movies.filter(movie => movie.movie_id === this.$route.params.id);
+                var currentMovie = movies.filter(movie => movie.movie_id === this.$route.params.id);
+                console.log(currentMovie);
 				return currentMovie;
             }
         },
@@ -103,6 +104,9 @@ import StarRating from 'vue-star-rating'
                         user_avatar: this.user.photoUrl,
                         type: "movie",
                         media_id: this.currentMovie[0].movie_id,
+                        media_photo: this.currentMovie[0].photoUrl,
+                        media_name: this.currentMovie[0].name,
+                        media_year: this.currentMovie[0].year,
                         title: this.title,
                         content: this.content,
                         rating: this.rating==0? this.currentMovie[0].rating: this.rating,

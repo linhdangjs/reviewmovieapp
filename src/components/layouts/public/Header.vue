@@ -25,25 +25,23 @@
             
                             <router-link
                                 tag="li"
-                                class="dropdown first" 
-                                to="/"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
+                                to="/"
+                                exact><a class="btn btn-default dropdown-toggle lv1">
                                 Home
                                 </a>
 
                             </router-link>
 
                                 <router-link
-                                tag="li"
-                                class="dropdown first" 
-                                to="/movies"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
+                                tag="li" 
+                                to="/movies"><a class="btn btn-default dropdown-toggle lv1">
                                 Movies
                                 </a>
 
                             </router-link>
                                <router-link
                                 tag="li"
-                                class="dropdown first" 
-                                to="/tvshows"><a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
+                                to="/tvshows"><a class="btn btn-default dropdown-toggle lv1">
                                 TvShows
                                 </a>
 
@@ -170,7 +168,7 @@ export default {
                 .then(() => {
                 localStorage.removeItem('current-user');
                 this.$store.commit("setUser", null)
-                if(this.$route.path === "/user/profile") this.$router.push('/')
+                if(this.$route.path === "/user/profile" || this.$route.path === "/user/myreviews" ) this.$router.push('/')
             })
         }
     },
