@@ -99,7 +99,7 @@ router.beforeEach((to, from, next ) => {
  
   if(to.matched.some(record => record.meta.requiresAuth)) {
         var tokenUser = localStorage.getItem("current-user");
-        console.log(tokenUser);
+        //console.log(tokenUser);
         if(tokenUser) var user = JSON.parse(tokenUser);
         store.commit('setUser', JSON.parse(tokenUser));
       if(user) {

@@ -12,7 +12,8 @@ export const store = new Vuex.Store({
       userDetail : null,
       movies: [],
       tvshows: [],
-      reviews: []
+      reviews: null,
+      currentReviews: []
     },
     mutations: {
       setUser (state, payload) {
@@ -32,6 +33,9 @@ export const store = new Vuex.Store({
       },
       setReviews (state, payload) {
         state.reviews = payload
+      },
+      setCurrentReviews (state, payload) {
+        state.currentReviews = payload
       }
     },
     actions: {
@@ -199,8 +203,26 @@ export const store = new Vuex.Store({
         })
         .then((review) => {
           // console.log("Document written with title: ", review.id);
-              db.collection("Reviews").doc(review.id).update({created_at: firebase.firestore.FieldValue.serverTimestamp()});
-            })
+              db.collection("Reviews").doc(review.id).update({created_at: firebase.firestore.FieldValue.serverTimestamp()})
+              .then(() => {
+                db.collection("Reviews").doc(review.id).get().then(doc => {
+                  const data = {
+                    user_uid: doc.data().user_uid,
+                    user_avatar: doc.data().user_avatar,
+                    user_email: doc.data().user_email,
+                    type: doc.data().type,
+                    media_id: doc.data().media_id,
+                    title: doc.data().title,
+                    content: doc.data().content,
+                    rating: doc.data().rating,
+                    created_at: doc.data().created_at.toDate().toLocaleDateString("en-US")
+                  }
+                  this.state.currentReviews.unshift(data)
+                })
+               
+              });
+        })
+       
         .catch(function(error) {
           console.error("Error adding document: ", error);
         });
@@ -231,7 +253,36 @@ export const store = new Vuex.Store({
               console.log("Error getting documents: ", error);
           });
           commit("setReviews", result)
+      },
+      getCurrentReviews({commit}, payload) {
+        let result = [];
+        db.collection("Reviews").orderBy("created_at","desc")
+          .where("media_id", "==", payload.id).where("type", "==", payload.type)
+          .get()
+          .then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+              //console.log(doc.data());
+                 const data = {
+                  user_uid: doc.data().user_uid,
+                  user_avatar: doc.data().user_avatar,
+                  user_email: doc.data().user_email,
+                  type: doc.data().type,
+                  media_id: doc.data().media_id,
+                  title: doc.data().title,
+                  content: doc.data().content,
+                  rating: doc.data().rating,
+                  created_at: doc.data().created_at.toDate().toLocaleDateString("en-US")
+                 }
+                 result.push(data);
+              });
+              // console.log(result);
+          })
+          .catch(function(error) {
+              console.log("Error getting documents: ", error);
+          });
+          commit("setCurrentReviews", result)
       }
+      
     },
     getters: {
       user (state) {
@@ -251,6 +302,9 @@ export const store = new Vuex.Store({
       },
       reviews (state) {
         return state.reviews
+      },
+      currentReviews (state) {
+        return state.currentReviews;
       }
     }
   })

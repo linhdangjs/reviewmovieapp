@@ -50,7 +50,7 @@
 						<div class="rate">
 							<i class="ion-android-star"></i>
 							<p><span>{{ currentTvShow[0].rating }}</span> /10<br>
-								<span class="rv">56 Reviews</span>
+								<span class="rv">{{  currentTvShowReviews.length }} Reviews</span>
 							</p>
 						</div>
 						<div class="rate-star">
@@ -140,7 +140,7 @@
 							            	<a @click="handleWriteReview" class="redbtn" style="cursor: pointer">Write Review</a>
 						            	</div>
 						            	<div class="topbar-filter">
-											<p>Found <span>56 reviews</span> in total</p>
+											<p>Found <span>{{  currentTvShowReviews.length }} reviews</span> in total</p>
 											<label>Filter by:</label>
 											<select>
 												<option value="popularity">Popularity Descending</option>
@@ -250,19 +250,20 @@ export default {
 			return currentTvShow;
 		},
 		currentTvShowReviews() {
-			var reviews = this.$store.getters.reviews;
-			var currentTvShowReviews = reviews.filter(review => review.media_id === this.$route.params.id && review.type == "tvshow");
-			return currentTvShowReviews;
+			return this.$store.getters.currentReviews;
         }
     },
 	created() {
         //console.log('created');
 		this.fetchAllTvShows();
+		this.fetchAllReviews();
+		this.fetchCurrentReviews();
 	},
 	beforeRouteEnter (to, from, next) {
 		next(vm => {
 			vm.fetchAllTvShows();
 			vm.fetchAllReviews();
+			vm.fetchCurrentReviews();
 		});
 	},
     methods: {
@@ -272,11 +273,19 @@ export default {
 		 fetchAllReviews() {
             this.$store.dispatch("getAllReviews");
 		},
+		fetchCurrentReviews() {
+			this.$store.dispatch("getCurrentReviews", {
+				id: this.$route.params.id,
+				type: "tvshow"
+			}).then(() => {
+				console.log(this.$store.getters.currentReviews)
+			})
+		},
 		tabClicked (selectedTab) {
-            console.log('Current tab re-clicked:' + selectedTab.tab.name);
+            //console.log('Current tab re-clicked:' + selectedTab.tab.name);
         },
         tabChanged (selectedTab) {
-            console.log('Tab changed to:' + selectedTab.tab.name);
+            //console.log('Tab changed to:' + selectedTab.tab.name);
 		},
 		handleWriteReview() {
 			if(this.currentUser) this.showReviewModalTV = true;

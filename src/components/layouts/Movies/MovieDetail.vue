@@ -25,8 +25,8 @@
 							<div><a @click="showTrailerModal = true" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
 						</div>
 						<div class="btn-transform transform-vertical">
-							<div><a href="moviesingle.html#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
-							<div><a href="moviesingle.html#" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+							<div><a class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
+							<div><a class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
 						</div>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 						<div class="rate">
 							<i class="ion-android-star"></i>
 							<p><span>{{ currentMovie[0].rating }}</span> /10<br>
-								<span class="rv">56 Reviews</span>
+								<span class="rv">{{  currentMovieReviews.length }} Reviews</span>
 							</p>
 						</div>
 						<div class="rate-star">
@@ -153,7 +153,7 @@
 							            	<a @click="handleWriteReview" class="redbtn" style="cursor: pointer">Write Review</a>
 						            	</div>
 						            	<div class="topbar-filter">
-											<p>Found <span>56 reviews</span> in total</p>
+											<p>Found <span>{{  currentMovieReviews.length }} reviews</span> in total</p>
 											<label>Filter by:</label>
 											<select>
 												<option value="popularity">Popularity Descending</option>
@@ -263,30 +263,29 @@ export default {
 				return currentMovie;
 		},
 		currentMovieReviews() {
-			return this.allReviews.filter(review => review.media_id === this.$route.params.id && review.type == "movie");	
-		},
-		allReviews() {
-			return this.$store.getters.reviews;
+			return this.$store.getters.currentReviews;
 		}
+		// allReviews() {
+		// 	return this.$store.getters.reviews;
+		// }
 	},
-	watch: {
-		allReviews(value) {
-			if(value !== null && value !== undefined) {
-					this.allReviews = value;
-			}
-		}
-	},
+	// watch: {
+	// 	allReviews(value) {
+	// 		if(value !== null && value !== undefined) {
+	// 				this.allReviews = value;
+	// 		}
+	// 	}
+	// },
 	created() {
-		eventBus.$on("refetchData", () => {
-			this.fetchAllReview()
-		})
 		this.fetchAllMovies();
 		this.fetchAllReview();
+		this.fetchCurrentReviews();
 	},
 	beforeRouteEnter (to, from, next) {
 		next(vm => {
 			vm.fetchAllMovies();
 			vm.fetchAllReview();
+			vm.fetchCurrentReviews();
 		});
 	},
     methods: {
@@ -300,11 +299,19 @@ export default {
                 //console.log(this.$store.getters.movies)
             })
 		},
+		fetchCurrentReviews() {
+			this.$store.dispatch("getCurrentReviews", {
+				id: this.$route.params.id,
+				type: "movie"
+			}).then(() => {
+				console.log(this.$store.getters.currentReviews)
+			})
+		},
 		tabClicked (selectedTab) {
-            console.log('Current tab re-clicked:' + selectedTab.tab.name);
+            //console.log('Current tab re-clicked:' + selectedTab.tab.name);
         },
         tabChanged (selectedTab) {
-            console.log('Tab changed to:' + selectedTab.tab.name);
+            //console.log('Tab changed to:' + selectedTab.tab.name);
 		},
 		handleWriteReview() {
 			if(this.currentUser) this.showReviewModal = true;

@@ -94,7 +94,6 @@ import StarRating from 'vue-star-rating'
                 this.rating = rating;
             },
             onSubmitReview() {
-                var strTime = new Date().toLocaleDateString("en-US");
                 if(this.title && this.content) {
                     this.$store.dispatch("postReview", {
                         user_uid: this.user.uid,
@@ -105,9 +104,7 @@ import StarRating from 'vue-star-rating'
                         title: this.title,
                         content: this.content,
                         rating: this.rating==0? this.currentTvShow[0].rating: this.rating,
-                        time:  strTime
                     }).then(()=>{
-                        this.$store.dispatch("getAllReviews")
                     })
                     .catch(err => console.log(err))
                     this.$swal({
