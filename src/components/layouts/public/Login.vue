@@ -125,7 +125,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
                         error => {
                         this.loading = false
                         this.$swal("Login Failed", error.message, "error")
-                        console.log(error)
+                        //console.log(error)
                         }
                     )
             }
@@ -137,7 +137,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 .modal-mask {
 
   position: fixed;
-z-index: 1050;
+  z-index: 1050;
   top: 0;
   left: 0;
   width: 100%;
@@ -159,7 +159,7 @@ z-index: 1050;
   position: fixed-top;
   margin: 0px auto;
   padding: 20px 30px;
-   background: url(/static/img/slider-bg.ae23a17.jpg) center no-repeat;
+  background: url(/static/img/slider-bg.ae23a17.jpg) center no-repeat;
   border-radius: 4px;
   box-shadow: 0px 0px 5px 7px rgba(223, 211, 211, 0.33);
   transition: all .3s ease;
@@ -172,6 +172,7 @@ z-index: 1050;
   color: #42b983;
 }
 .modal-footer {
+    box-sizing: border-box;
     text-align: center;
 }
 .modal-body {
@@ -196,7 +197,7 @@ z-index: 1050;
 }
 /* custom */
 label, input {
-    width: 94%;
+    width: 96%;
     padding: 5px;
     margin: 5px;
     border-radius: 5px;
@@ -230,24 +231,21 @@ button {
     color: white;
 }
 /* CSS Spinner */
-.lds-ring-container {
-    position: absolute;
-    right: 50%;
-     box-sizing: border-box;
-}
+
 .lds-ring {
   display: inline-block;
   position: relative;
-  width: 64px;
-  height: 64px;
-    top: 50px;
-  left: 31%;
+  width: 30px;
+  height: 30px;
+  top: 14px;
+  left: 38%;
+  padding: 0;
+  margin: 0;
 }
 .lds-ring div {
   box-sizing: border-box;
   display: block;
   position: absolute;
-
   width: 20px;
   height: 20px;
   /* margin: 6px; */

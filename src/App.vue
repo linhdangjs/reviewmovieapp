@@ -41,7 +41,7 @@ export default {
   methods: {
         async fetchAllData() {
           console.log('fetchdata');
-          const nameDispatch = ["getAllMovies","getAllTvShows","getAllReviews"];
+          const nameDispatch = ["getAllMovies","getAllTvShows","getAllReviews", "getAllMovieSchedules"];
           const result = await Promise.all(nameDispatch.map(this.$store.dispatch));
           
         },

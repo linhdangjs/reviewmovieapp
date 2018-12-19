@@ -216,7 +216,7 @@ import VLazyImage from "v-lazy-image";
     }
 </script>
 
-<style>
+<style scoped>
  .tabs-component {
   margin: 2em 0;
 }

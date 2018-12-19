@@ -153,14 +153,15 @@
 										</div>
 									<div class="mv-user-review-item" v-for="(review, index) in currentTvShowReviews" :key="index">
 											<div class="user-infor">
-												<img :src="review.user_avatar" alt="">
+												<img :src="review.user_avatar" alt="" v-if="review.user_avatar">
+												<img src="/static/images/uploads/user-avatar-default-2.jpg" v-else>
 												<div>
 													<h3>{{ review.title }}</h3>
 													<div class="no-star">
 														<star-rating :max-rating="10" :rating="review.rating" :read-only="true" :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
 													</div>
 													<p class="time">
-														{{ review.time }} by <a href="moviesingle.html#"> {{ review.user_email }}</a>
+														{{ review.time }} by <a> {{ review.user_email }}</a>
 													</p>
 												</div>
 											</div>

@@ -50,7 +50,7 @@
                         </div>
                     </div>	
                 </form  >
-                <form action="userprofile.html" class="password">
+                <form class="password">
                     <h4>02. Change password</h4>
                     <div class="row">
                         <div class="col-md-6 form-it">

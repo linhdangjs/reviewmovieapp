@@ -26,7 +26,7 @@
 						</div>
 						<div class="btn-transform transform-vertical">
 							<div><a class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
-							<div><a class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+							<div><a @click="showMovieSchedule = true" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
 						</div>
 					</div>
 				</div>
@@ -60,173 +60,174 @@
 					</div>
 					<div class="wrap-tab-detail">
 						<tabs :options="{ useUrlFragment: false }" @clicked="tabClicked" @changed="tabChanged">
-							<tab name="Over View">
-										 <div id="overview" class="tab active">
-											<div class="row">
-												<div class="col-md-8 col-sm-12 col-xs-12">
-													<p>{{ currentMovie[0].overView }}</p>
-													<div class="title-hd-sm">
-														<h4>Media</h4>
-														<a href="moviesingle.html#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
-													</div>
-													<div class="mvsingle-item ov-item">
+										<tab name="Over View">
+													<div id="overview" class="tab active">
+														<div class="row">
+															<div class="col-md-8 col-sm-12 col-xs-12">
+																<p>{{ currentMovie[0].overView }}</p>
+																<div class="title-hd-sm">
+																	<h4>Media</h4>
+																	<a href="moviesingle.html#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
+																</div>
+																<div class="mvsingle-item ov-item">
 
-															<gallery :images="currentMovie[0].media" :index="index" @close="index = null"></gallery>
-															<div
-															class="img-lightbox"
-															v-for="(image, imageIndex) in currentMovie[0].media"
-															:key="imageIndex"
-															@click="index = imageIndex"
-															:style="{ backgroundImage: 'url(' + image + ')', width: '100px', height: '100px'}"
-															></div>
-													</div>
-													<div class="title-hd-sm">
-														<h4>cast</h4>
-														<a href="moviesingle.html#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
-													</div>
-													<!-- movie cast -->
-													<div class="mvcast-item">											
-														<div v-for="(cast, index) in currentMovie[0].cast" :key="index" class="cast-it">
-															<div class="cast-left">
-																<img :src="cast.avatarUrl" alt="">
-																<a href="moviesingle.html#">{{ cast.name }}</a>
+																		<gallery :images="currentMovie[0].media" :index="index" @close="index = null"></gallery>
+																		<div
+																		class="img-lightbox"
+																		v-for="(image, imageIndex) in currentMovie[0].media"
+																		:key="imageIndex"
+																		@click="index = imageIndex"
+																		:style="{ backgroundImage: 'url(' + image + ')', width: '100px', height: '100px'}"
+																		></div>
+																</div>
+																<div class="title-hd-sm">
+																	<h4>cast</h4>
+																	<a href="moviesingle.html#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
+																</div>
+																<!-- movie cast -->
+																<div class="mvcast-item">											
+																	<div v-for="(cast, index) in currentMovie[0].cast" :key="index" class="cast-it">
+																		<div class="cast-left">
+																			<img :src="cast.avatarUrl" alt="">
+																			<a href="moviesingle.html#">{{ cast.name }}</a>
+																		</div>
+																		<p>...  {{ cast.character }}</p>
+																	</div>
+																</div>
 															</div>
-															<p>...  {{ cast.character }}</p>
+															<div class="col-md-4 col-xs-12 col-sm-12">
+																<div class="sb-it">
+																	<h6>Director: </h6>
+																	<p><a href="moviesingle.html#">{{ currentMovie[0].director }}</a></p>
+																</div>
+																<div class="sb-it">
+																	<h6>Producer: </h6>
+																	<p><a href="moviesingle.html#">{{ currentMovie[0].producer }}</a></p>
+																</div>
+																<!-- <div class="sb-it">
+																	<h6>Stars: </h6>
+																	<p><a href="moviesingle.html#">Robert Downey Jr,</a> <a href="moviesingle.html#">Chris Evans,</a> <a href="moviesingle.html#">Mark Ruffalo,</a><a href="moviesingle.html#"> Scarlett Johansson</a></p>
+																</div> -->
+																<div class="sb-it">
+																	<h6>Genres:</h6>
+																	<p><a v-for="(tag, index) in currentMovie[0].tags" :key="index" style="cursor:pointer">{{ tag }} </a> </p>
+																</div>
+																<div class="sb-it">
+																	<h6>Release Date:</h6>
+																	<p>May 1, 2015 (U.S.A)</p>
+																</div>
+																<div class="sb-it">
+																	<h6>Run Time:</h6>
+																	<p>141 min</p>
+																</div>
+																<div class="sb-it">
+																	<h6>MMPA Rating:</h6>
+																	<p>PG-13</p>
+																</div>
+																<div class="sb-it">
+																	<h6>Plot Keywords:</h6>
+																	<p class="tags">
+																		<span class="time"><a href="moviesingle.html#">superhero</a></span>
+																		<span class="time"><a href="moviesingle.html#">marvel universe</a></span>
+																		<span class="time"><a href="moviesingle.html#">comic</a></span>
+																		<span class="time"><a href="moviesingle.html#">blockbuster</a></span>
+																		<span class="time"><a href="moviesingle.html#">final battle</a></span>
+																	</p>
+																</div>
+																<div class="ads">
+																	<img src="https://via.placeholder.com/200x178" alt="">
+																</div>
+															</div>
+														</div>	
+													</div>
+											</tab>
+										<tab name="Review">
+													<div id="reviews" class="tab review">
+											<div class="row">
+													<div class="rv-hd">
+														<div class="div">
+															<h3>Review Movie</h3>
+															<h2>{{ currentMovie[0].name }}</h2>
+														</div>
+														
+														<a @click="handleWriteReview" class="redbtn" style="cursor: pointer">Write Review</a>
+													</div>
+													<div class="topbar-filter">
+														<p>Found <span>{{  currentMovieReviews.length }} reviews</span> in total</p>
+														<label>Filter by:</label>
+														<select>
+															<option value="popularity">Popularity Descending</option>
+															<option value="popularity">Popularity Ascending</option>
+															<option value="rating">Rating Descending</option>
+															<option value="rating">Rating Ascending</option>
+															<option value="date">Release date Descending</option>
+															<option value="date">Release date Ascending</option>
+														</select>
+													</div>
+													<div class="mv-user-review-item" v-for="(review, index) in currentMovieReviews" :key="index">
+														<div class="user-infor">
+															<img :src="review.user_avatar" alt="" v-if="review.user_avatar">
+															<img src="/static/images/uploads/user-avatar-default-2.jpg" v-else>
+															<div>
+																<h3>{{ review.title }}</h3>
+																<div class="no-star">
+																<star-rating :max-rating="10" :rating="review.rating" :read-only="true" :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
+																</div>
+																<p class="time">
+																	{{ review.created_at }} by <a > {{ review.user_email }}</a>
+																</p>
+															</div>
+														</div>
+														<p>{{ review.content }}</p>
+													</div>
+													<!-- <div class="mv-user-review-item last">
+														<div class="user-infor">
+															<img src="/static/images/uploads/userava5.jpg" alt="">
+															<div>
+																<h3>Impressive Special Effects and Cast</h3>
+																<div class="no-star">
+																	<i class="ion-android-star"></i>
+																	<i class="ion-android-star"></i>
+																	<i class="ion-android-star"></i>
+																	<i class="ion-android-star"></i>
+																	<i class="ion-android-star"></i>
+																	<i class="ion-android-star"></i>
+																	<i class="ion-android-star"></i>
+																	<i class="ion-android-star"></i>
+																	<i class="ion-android-star last"></i>
+																	<i class="ion-android-star last"></i>
+																</div>
+																<p class="time">
+																	26 March 2017 by <a href="moviesingle.html#"> johnnylee</a>
+																</p>
+															</div>
+														</div>
+														<p>The Avengers raid a Hydra base in Sokovia commanded by Strucker and they retrieve Loki's scepter. They also discover that Strucker had been conducting experiments with the orphan twins Pietro Maximoff (Aaron Taylor-Johnson), who has super speed, and Wanda Maximoff (Elizabeth Olsen), who can control minds and project energy. Tony Stark (Robert Downey Jr.) discovers an Artificial Intelligence in the scepter and convinces Bruce Banner (Mark Ruffalo) to secretly help him to transfer the A.I. to his Ultron defense system. However, the Ultron understands that is necessary to annihilate mankind to save the planet, attacks the Avengers and flees to Sokovia with the scepter. He builds an armature for self-protection and robots for his army and teams up with the twins. The Avengers go to Clinton Barton's house to recover, but out of the blue, Nick Fury (Samuel L. Jackson) arrives and convinces them to fight against Ultron. Will they succeed? </p>
+
+														<p>"Avengers: Age of Ultron" is an entertaining adventure with impressive special effects and cast. The storyline might be better, since most of the characters do not show any chemistry. However, it is worthwhile watching this film since the amazing special effects are not possible to be described in words. Why Pietro has to die is also not possible to be explained. My vote is eight.</p>
+													</div> -->
+													<div class="topbar-filter">
+														<label>Reviews per page:</label>
+														<select>
+															<option value="range">5 Reviews</option>
+															<option value="saab">10 Reviews</option>
+														</select>
+														<div class="pagination2">
+															<span>Page 1 of 6:</span>
+															<a class="active" href="moviesingle.html#">1</a>
+															<a href="moviesingle.html#">2</a>
+															<a href="moviesingle.html#">3</a>
+															<a href="moviesingle.html#">4</a>
+															<a href="moviesingle.html#">5</a>
+															<a href="moviesingle.html#">6</a>
+															<a href="moviesingle.html#"><i class="ion-arrow-right-b"></i></a>
 														</div>
 													</div>
 												</div>
-												<div class="col-md-4 col-xs-12 col-sm-12">
-													<div class="sb-it">
-														<h6>Director: </h6>
-														<p><a href="moviesingle.html#">{{ currentMovie[0].director }}</a></p>
-													</div>
-													<div class="sb-it">
-														<h6>Producer: </h6>
-														<p><a href="moviesingle.html#">{{ currentMovie[0].producer }}</a></p>
-													</div>
-													<!-- <div class="sb-it">
-														<h6>Stars: </h6>
-														<p><a href="moviesingle.html#">Robert Downey Jr,</a> <a href="moviesingle.html#">Chris Evans,</a> <a href="moviesingle.html#">Mark Ruffalo,</a><a href="moviesingle.html#"> Scarlett Johansson</a></p>
-													</div> -->
-													<div class="sb-it">
-														<h6>Genres:</h6>
-														<p><a v-for="(tag, index) in currentMovie[0].tags" :key="index" style="cursor:pointer">{{ tag }} </a> </p>
-													</div>
-													<div class="sb-it">
-														<h6>Release Date:</h6>
-														<p>May 1, 2015 (U.S.A)</p>
-													</div>
-													<div class="sb-it">
-														<h6>Run Time:</h6>
-														<p>141 min</p>
-													</div>
-													<div class="sb-it">
-														<h6>MMPA Rating:</h6>
-														<p>PG-13</p>
-													</div>
-													<div class="sb-it">
-														<h6>Plot Keywords:</h6>
-														<p class="tags">
-															<span class="time"><a href="moviesingle.html#">superhero</a></span>
-															<span class="time"><a href="moviesingle.html#">marvel universe</a></span>
-															<span class="time"><a href="moviesingle.html#">comic</a></span>
-															<span class="time"><a href="moviesingle.html#">blockbuster</a></span>
-															<span class="time"><a href="moviesingle.html#">final battle</a></span>
-														</p>
-													</div>
-													<div class="ads">
-														<img src="https://via.placeholder.com/200x178" alt="">
-													</div>
-												</div>
-											</div>	
-										 </div>
-									</tab>
-							<tab name="Review">
-										  <div id="reviews" class="tab review">
-						           <div class="row">
-						            	<div class="rv-hd">
-						            		<div class="div">
-							            		<h3>Review Movie</h3>
-						       	 				<h2>{{ currentMovie[0].name }}</h2>
-							            	</div>
-											
-							            	<a @click="handleWriteReview" class="redbtn" style="cursor: pointer">Write Review</a>
-						            	</div>
-						            	<div class="topbar-filter">
-											<p>Found <span>{{  currentMovieReviews.length }} reviews</span> in total</p>
-											<label>Filter by:</label>
-											<select>
-												<option value="popularity">Popularity Descending</option>
-												<option value="popularity">Popularity Ascending</option>
-												<option value="rating">Rating Descending</option>
-												<option value="rating">Rating Ascending</option>
-												<option value="date">Release date Descending</option>
-												<option value="date">Release date Ascending</option>
-											</select>
-										</div>
-										<div class="mv-user-review-item" v-for="(review, index) in currentMovieReviews" :key="index">
-											<div class="user-infor">
-												<img :src="review.user_avatar" alt="">
-												<div>
-													<h3>{{ review.title }}</h3>
-													<div class="no-star">
-													<star-rating :max-rating="10" :rating="review.rating" :read-only="true" :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
-													</div>
-													<p class="time">
-														{{ review.created_at }} by <a href="moviesingle.html#"> {{ review.user_email }}</a>
-													</p>
-												</div>
 											</div>
-											<p>{{ review.content }}</p>
-										</div>
-										<!-- <div class="mv-user-review-item last">
-											<div class="user-infor">
-												<img src="/static/images/uploads/userava5.jpg" alt="">
-												<div>
-													<h3>Impressive Special Effects and Cast</h3>
-													<div class="no-star">
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star"></i>
-														<i class="ion-android-star last"></i>
-														<i class="ion-android-star last"></i>
-													</div>
-													<p class="time">
-														26 March 2017 by <a href="moviesingle.html#"> johnnylee</a>
-													</p>
-												</div>
-											</div>
-											<p>The Avengers raid a Hydra base in Sokovia commanded by Strucker and they retrieve Loki's scepter. They also discover that Strucker had been conducting experiments with the orphan twins Pietro Maximoff (Aaron Taylor-Johnson), who has super speed, and Wanda Maximoff (Elizabeth Olsen), who can control minds and project energy. Tony Stark (Robert Downey Jr.) discovers an Artificial Intelligence in the scepter and convinces Bruce Banner (Mark Ruffalo) to secretly help him to transfer the A.I. to his Ultron defense system. However, the Ultron understands that is necessary to annihilate mankind to save the planet, attacks the Avengers and flees to Sokovia with the scepter. He builds an armature for self-protection and robots for his army and teams up with the twins. The Avengers go to Clinton Barton's house to recover, but out of the blue, Nick Fury (Samuel L. Jackson) arrives and convinces them to fight against Ultron. Will they succeed? </p>
+												</tab>
 
-											<p>"Avengers: Age of Ultron" is an entertaining adventure with impressive special effects and cast. The storyline might be better, since most of the characters do not show any chemistry. However, it is worthwhile watching this film since the amazing special effects are not possible to be described in words. Why Pietro has to die is also not possible to be explained. My vote is eight.</p>
-										</div> -->
-										<div class="topbar-filter">
-											<label>Reviews per page:</label>
-											<select>
-												<option value="range">5 Reviews</option>
-												<option value="saab">10 Reviews</option>
-											</select>
-											<div class="pagination2">
-												<span>Page 1 of 6:</span>
-												<a class="active" href="moviesingle.html#">1</a>
-												<a href="moviesingle.html#">2</a>
-												<a href="moviesingle.html#">3</a>
-												<a href="moviesingle.html#">4</a>
-												<a href="moviesingle.html#">5</a>
-												<a href="moviesingle.html#">6</a>
-												<a href="moviesingle.html#"><i class="ion-arrow-right-b"></i></a>
-											</div>
-										</div>
-						            </div>
-						        </div>
-									</tab>
-
-    						</tabs>
+    					</tabs>
 					</div>
 							  
 				</div>
@@ -236,6 +237,7 @@
 </div>
 	<appTrailerModal :videoID="currentMovie[0].trailerID" v-show="showTrailerModal" @closeTrailer="showTrailerModal = false"/>
 	<appReviewModal v-if="showReviewModal" @closeReview="showReviewModal = false"/>
+	<appMovieSchedule v-if="showMovieSchedule" @closeMovieSchedule="showMovieSchedule = false"/>
     </div>
 </template>
 
@@ -245,12 +247,15 @@ import VueGallery from 'vue-gallery';
 import StarRating from 'vue-star-rating'
 import TrailerModal from '@/components/layouts/public/ModalTrailer.vue'
 import ReviewModal from '@/components/layouts/public/ModalReview.vue'
+import MovieSchedule from '@/components/layouts/Movies/MovieSchedule.vue'
+
 export default {
     data: function () {
       return {
 		index: null,
 		showTrailerModal: false,
-		showReviewModal : false
+		showReviewModal : false,
+		showMovieSchedule : false
       };
 	},
 	computed: {
@@ -321,7 +326,8 @@ export default {
 	  'gallery': VueGallery,
 	  StarRating,
 	  appTrailerModal : TrailerModal,
-	  appReviewModal: ReviewModal
+	  appReviewModal: ReviewModal,
+	  appMovieSchedule: MovieSchedule
     },
   }
 </script>
@@ -397,7 +403,7 @@ export default {
 		font-weight: bold;
 		}
 		
-		.tabs-component-panels {
+		.wrap-tab-detail .tabs-component-panels {
 		padding: 4em 0;
 		}
 		

@@ -33,9 +33,14 @@
           </div>
 
           <div class="modal-footer">
-            <slot name="footer">
-                <button type="submit" class="btnSignUp" id="btnSignUp">OK</button>
-            </slot>
+              <slot name="footer">
+                       <div class="lds-ring" v-if="loading"><div></div><div></div><div></div><div></div></div>
+                     <button type="submit" class="btnSignUp"  :disabled="loading" id="btnSignUp">
+                   
+                         
+                    OK
+                </button>
+                </slot>
           </div>
         </form>
         </div>
@@ -59,7 +64,8 @@ import firebase from 'firebase';
             return {
                 username: "",
                 email: "",
-                password: ""
+                password: "",
+                loading: false,
             };
         },
         computed: {
@@ -76,19 +82,36 @@ import firebase from 'firebase';
         },
         methods: {
             onSignUp: function() {
+                if(this.username || this.email)
+                {this.loading = true;}
+                else {
+                    this.loading = false
+                     this.$swal({
+                            title: 'Sign Up Failed',
+                            text:  "Vui lòng điền đầy đủ thông tin",
+                            type: 'warning',
+                            timer: 1000
+                        })
+                    }
                 firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                     .then(
                         user => {
                             this.username = "";
                             this.email = "";
                             this.password = "";
-                            this.$swal("SignUp Success", "Now, You can login to HaiLuaReview","success")
+                            this.$swal({
+                            title: "SignUp Success",
+                            text:  "Now, You can login to HaiLuaReview",
+                            type: 'success',
+                            timer: 1000
+                            })
                               // handle close form
                             this.$emit("closeSignUp");
                         }
                     )
                     .catch(
                         error => {
+                        this.loading = false
                         this.$swal("SignUp Failed", error.message , "error")
                         console.log(error)
                         }
@@ -140,7 +163,9 @@ import firebase from 'firebase';
 .modal-body {
   margin: 20px 0;
 }
-
+.modal-footer {
+    text-align: center;
+}
 .modal-default-button {
   float: right;
 }
@@ -159,7 +184,7 @@ import firebase from 'firebase';
 }
 /* custom */
 label, input {
-    width: 94%;
+    width: 96%;
     padding: 5px;
     margin: 5px;
     border-radius: 5px;
@@ -177,9 +202,62 @@ label, input {
     border: none;
     text-align: center;
     box-sizing: border-box;
+    width: 35%;
+    padding: 5px 25px;
+}
+.btnSignUp:disabled {
+    background: rgba(149, 209, 173, 0.788);
+    cursor: not-allowed;
+
 }
 button {
     cursor: pointer;
     color: white;
+}
+/* CSS Spinner */
+.lds-ring-container {
+    position: absolute;
+    right: 50%;
+     box-sizing: border-box;
+}
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  top: 14px;
+  left: 38%;
+  padding: 0;
+  margin: 0;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+
+  width: 20px;
+  height: 20px;
+  /* margin: 6px; */
+  border: 3px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

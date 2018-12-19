@@ -13,7 +13,8 @@ export const store = new Vuex.Store({
       movies: [],
       tvshows: [],
       reviews: null,
-      currentReviews: []
+      currentReviews: [],
+      movieSchedules: null
     },
     mutations: {
       setUser (state, payload) {
@@ -36,6 +37,9 @@ export const store = new Vuex.Store({
       },
       setCurrentReviews (state, payload) {
         state.currentReviews = payload
+      },
+      setMovieSchedules (state, payload) {
+        state.movieSchedules = payload;
       }
     },
     actions: {
@@ -290,7 +294,32 @@ export const store = new Vuex.Store({
               console.log("Error getting documents: ", error);
           });
           commit("setCurrentReviews", result)
-      }
+      },
+      getAllMovieSchedules({commit}) {
+        let result = [];
+        db.collection('MovieSchedule').get().then
+        (querySnapshot => {
+          querySnapshot.forEach(doc => {  
+            const data = {
+              cine_id : doc.data().cine_id,  
+              cine_name :  doc.data().cine_name,
+              date_show :  doc.data().date_show,
+              movie_id :  doc.data().movie_id,
+              schedule_id :  doc.data().schedule_id,
+              show_time :  doc.data().show_time,
+            }
+            result.push(data);
+          })
+          console.log(result);
+          commit('setMovieSchedules', result);
+
+        })
+        .catch(
+          error => {
+            console.log(error);
+          }
+        )
+      },
       
     },
     getters: {
@@ -314,6 +343,30 @@ export const store = new Vuex.Store({
       },
       currentReviews (state) {
         return state.currentReviews;
+      },
+      movieSchedules (state) {
+        return state.movieSchedules;
+      },
+      getMovieMondayBHD: (state, getters) => (id) => {
+        return getters.movieSchedules
+        .filter(movieSchedule => movieSchedule.movie_id === id 
+                  && movieSchedule.date_show ==="monday"
+                  && movieSchedule.cine_name === "bhd"
+                  );
+      },
+      getMovieMondayCGV: (state, getters) => (id) => {
+        return getters.movieSchedules
+        .filter(movieSchedule => movieSchedule.movie_id === id 
+                  && movieSchedule.date_show ==="monday"
+                  && movieSchedule.cine_name === "cgv"
+                  );
+      },
+      getMovieMondayLOTTE: (state, getters) => (id) => {
+        return getters.movieSchedules
+        .filter(movieSchedule => movieSchedule.movie_id === id 
+                  && movieSchedule.date_show ==="monday"
+                  && movieSchedule.cine_name === "lotte"
+                  );
       }
     }
   })
