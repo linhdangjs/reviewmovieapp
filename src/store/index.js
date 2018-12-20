@@ -14,7 +14,16 @@ export const store = new Vuex.Store({
       tvshows: [],
       reviews: null,
       currentReviews: [],
-      movieSchedules: null
+      movieSchedules: null,
+      currentTicketRoom : {
+        schedule_id : "",
+        listseat : {
+          RowA: []
+        },
+        user_uid: "",
+        cine_name: "",
+        show_time: ""
+      }
     },
     mutations: {
       setUser (state, payload) {
@@ -40,6 +49,9 @@ export const store = new Vuex.Store({
       },
       setMovieSchedules (state, payload) {
         state.movieSchedules = payload;
+      },
+      setCurrentTicketRoom (state, payload) {
+        state.currentTicketRoom = payload;
       }
     },
     actions: {
@@ -320,6 +332,23 @@ export const store = new Vuex.Store({
           }
         )
       },
+      getTicketRoomByScheduleID ({commit}, payload) {
+        let data;
+        db.collection('TicketRoom').where('schedule_id', '==', payload).get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            data = {
+              'schedule_id': doc.data().schedule_id,
+              'listseat': doc.data().ListSeat,
+              'user_uid': doc.data().user_uid,
+              'cine_name': doc.data().cine_name,
+              'show_time': doc.data().show_time
+            }
+          })
+          commit('setCurrentTicketRoom', data);
+          
+        })
+      },
       
     },
     getters: {
@@ -347,26 +376,15 @@ export const store = new Vuex.Store({
       movieSchedules (state) {
         return state.movieSchedules;
       },
-      getMovieMondayBHD: (state, getters) => (id) => {
+      getMovieSchedule: (state, getters) => (id, date, cine) => {
         return getters.movieSchedules
         .filter(movieSchedule => movieSchedule.movie_id === id 
-                  && movieSchedule.date_show ==="monday"
-                  && movieSchedule.cine_name === "bhd"
+                  && movieSchedule.date_show === date
+                  && movieSchedule.cine_name === cine
                   );
       },
-      getMovieMondayCGV: (state, getters) => (id) => {
-        return getters.movieSchedules
-        .filter(movieSchedule => movieSchedule.movie_id === id 
-                  && movieSchedule.date_show ==="monday"
-                  && movieSchedule.cine_name === "cgv"
-                  );
-      },
-      getMovieMondayLOTTE: (state, getters) => (id) => {
-        return getters.movieSchedules
-        .filter(movieSchedule => movieSchedule.movie_id === id 
-                  && movieSchedule.date_show ==="monday"
-                  && movieSchedule.cine_name === "lotte"
-                  );
+      getCurrentTicketRoom(state) {
+        return state.currentTicketRoom;
       }
     }
   })

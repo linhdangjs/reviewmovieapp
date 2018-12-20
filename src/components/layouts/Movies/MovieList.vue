@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap-movie-grid">
+<div class="wrap-movie-grid">
             <div class="hero common-hero">
         <div class="container">
             <div class="row">
@@ -140,7 +140,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 </template>
 
 <script>

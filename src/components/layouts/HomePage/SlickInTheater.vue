@@ -216,19 +216,24 @@ import VLazyImage from "v-lazy-image";
     }
 </script>
 
-<style scoped>
- .tabs-component {
+<style>
+.theater .tabs-component {
   margin: 2em 0;
 }
 
-.tabs-component-tabs {
+.theater .tabs-component-tabs {
   /* border: solid 1px #ddd; */
   border-radius: 6px;
   margin-bottom: 5px;
 }
-
+.theater ul.tabs-component-tab {
+    display: inline-flex;
+}
+.theater ul.tabs-component-tab li{
+    margin-right: 10px;
+}
 @media (min-width: 700px) {
-  .tabs-component-tabs {
+.theater .tabs-component-tabs {
     border: 0;
     align-items: stretch;
     display: flex;
@@ -237,7 +242,7 @@ import VLazyImage from "v-lazy-image";
   }
 }
 
-.tabs-component-tab {
+.theater .tabs-component-tab {
   color: #999;
   font-size: 14px;
   font-weight: 600;
@@ -249,20 +254,20 @@ import VLazyImage from "v-lazy-image";
   border-bottom: dotted 1px #ddd;
 } */
 
-.tabs-component-tab-a:hover {
+.theater .tabs-component-tab-a:hover {
   color: #919963;
 }
-.tabs-component-tab.is-active a {
+.theater .tabs-component-tab.is-active a {
   color: #dcf836 !important;
 }
 
-.tabs-component-tab.is-disabled * {
+.theater .tabs-component-tab.is-disabled * {
   color: #cdcdcd;
   cursor: not-allowed !important;
 }
 
 @media (min-width: 700px) {
-  .tabs-component-tab {
+ .theater .tabs-component-tab {
     background-color: transparent;
     border-radius: 3px 3px 0 0;
     margin-right: .5em;
@@ -270,13 +275,13 @@ import VLazyImage from "v-lazy-image";
     transition: transform .3s ease;
   }
 
-  .tabs-component-tab.is-active {
+ .theater .tabs-component-tab.is-active {
     z-index: 2;
     transform: translateY(0);
   }
 }
 
-.tabs-component-tab-a {
+.theater .tabs-component-tab-a {
   align-items: center;
   color: inherit;
   display: flex;
@@ -288,12 +293,12 @@ import VLazyImage from "v-lazy-image";
   font-weight: bold;
 }
 
-.tabs-component-panels {
+.theater .tabs-component-panels {
   padding: 4em 0;
 }
 
 @media (min-width: 700px) {
-  .tabs-component-panels {
+ .theater .tabs-component-panels {
     border-top-left-radius: 0;
     background-color:transparent;
     /* border: solid 1px #405266; */

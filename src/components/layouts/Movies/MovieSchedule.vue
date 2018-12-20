@@ -27,7 +27,7 @@
                                             </li>
                                             <li>
                                                 <ul class="ul-time">
-                                                     <li v-for="(show_time, index) in getMovieMondayBHD[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></li>
+                                                     <router-link tag="li" :to="{name: 'BookTicket', query:{movie_id: getMovieMondayBHD[0].movie_id, schedule_id:show_time.schedule_id}}" v-for="(show_time, index) in getMovieMondayBHD[0].show_time" :key="index"><button class="btn-time">{{ show_time.time }}</button></router-link>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -42,7 +42,7 @@
                                             </li>
                                             <li>
                                                 <ul class="ul-time">
-                                                    <li v-for="(show_time, index) in getMovieMondayCGV[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></li>
+                                                   <router-link tag="li" :to="{name: 'BookTicket', query:{movie_id: getMovieMondayCGV[0].movie_id, schedule_id:show_time.schedule_id}}" v-for="(show_time, index) in getMovieMondayCGV[0].show_time" :key="index"><button class="btn-time">{{ show_time.time }}</button></router-link>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -55,7 +55,7 @@
                                             </li>
                                             <li>
                                                 <ul class="ul-time">
-                                                    <li v-for="(show_time, index) in getMovieMondayLOTTE[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></li>
+                                                     <router-link tag="li" :to="{name: 'BookTicket', query:{movie_id: getMovieMondayLOTTE[0].movie_id, schedule_id:show_time.schedule_id}}" v-for="(show_time, index) in getMovieMondayLOTTE[0].show_time" :key="index"><button class="btn-time">{{ show_time.time }}</button></router-link>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -72,8 +72,7 @@
                                             </li>
                                             <li>
                                                 <ul class="ul-time">
-                                                    <li><button class="btn-time">17:30</button></li>
-                                                    <li><button class="btn-time">20:50</button></li>
+                                                     <!-- <router-link tag="li" :to="{name: 'BookTicket', query:{movie_id: getMovieTuesdayBHD[0].movie_id, schedule_id:getMovieTuesdayBHD[0].schedule_id}}" v-for="(show_time, index) in getMovieTuesdayBHD[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></router-link> -->
                                                 </ul>
                                             </li>
                                         </ul>
@@ -88,8 +87,7 @@
                                             </li>
                                             <li>
                                                 <ul class="ul-time">
-                                                    <li><button class="btn-time">17:30</button></li>
-                                                    <li><button class="btn-time">20:50</button></li>
+                                                   <!-- <li v-for="(show_time, index) in getMovieTuesdayCGV[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></li> -->
                                                 </ul>
                                             </li>
                                         </ul>
@@ -102,28 +100,28 @@
                                             </li>
                                             <li>
                                                 <ul class="ul-time">
-                                                    <li><button class="btn-time">17:30</button></li>
-                                                    <li><button class="btn-time">20:50</button></li>
+                                                    <!-- <li v-for="(show_time, index) in getMovieTuesdayLOTTE[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></li> -->
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
                                 </ul>
 							</tab>
-                                        <tab name="Thứ 4" suffix="<br class='badge'>02/01</br>">
-												 <ul class="logo" style="text-align: left">
-                        <li>
-                            <ul class="cine-time">
-                                <li class="list-logo">
-                                     <img src="/static/images/uploads/bhd.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
-                                     <span>BHD Star 3.2</span>
-                                </li>
+                        <tab name="Thứ 4" suffix="<br class='badge'>02/01</br>">
+							<ul class="logo" style="text-align: left">
                                 <li>
-                                    <ul class="ul-time">
-                                          
+                                    <ul class="cine-time">
+                                        <li class="list-logo">
+                                            <img src="/static/images/uploads/bhd.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
+                                            <span>BHD Star 3.2</span>
+                                        </li>
+                                        <li>
+                                            <ul class="ul-time">
+                                                <li><button class="btn-time">17:30</button></li>
+                                                <li><button class="btn-time">20:50</button></li>
+                                            </ul>
+                                        </li>
                                     </ul>
-                                </li>
-                            </ul>
                            
                         </li>
                       
@@ -378,15 +376,12 @@
 
     export default {
         computed: {
-            getMovieMondayBHD() {
-                return this.$store.getters.getMovieMondayBHD(this.$route.params.id);
-            },
-            getMovieMondayCGV() {
-                return this.$store.getters.getMovieMondayCGV(this.$route.params.id);
-            },
-            getMovieMondayLOTTE() {
-                return this.$store.getters.getMovieMondayLOTTE(this.$route.params.id);
-            }
+            getMovieMondayBHD() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'monday', 'bhd');},
+            getMovieMondayCGV() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'monday', 'cgv');},
+            getMovieMondayLOTTE() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'monday', 'lotte');},
+            getMovieTuesdayBHD() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'tuesday', 'bhd');},
+            getMovieTuesdayCGV() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'tuesday', 'cgv');},
+            getMovieTuesdayLOTTE() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'tuesday', 'lotte');},
         },
         methods: {
             tabClicked (selectedTab) {
@@ -394,7 +389,8 @@
             },
             tabChanged (selectedTab) {
             //console.log('Tab changed to:' + selectedTab.tab.name);
-		    }
+            },
+            
         }
     }
 </script>

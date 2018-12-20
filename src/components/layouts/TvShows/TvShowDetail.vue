@@ -315,9 +315,6 @@ export default {
 	.vue-star-rating-rating-text {
 		color: black !important;
 	}
-		.vue-star-rating-rating-text {
-		color: black !important;
-	}
 	.tabs-component-tabs {
 		/* border: solid 1px #ddd; */
 		border-radius: 6px;
@@ -385,12 +382,12 @@ export default {
 		font-weight: bold;
 		}
 		
-		.tabs-component-panels {
+		.wrap-tvshow-detail .tabs-component-panels {
 		padding: 4em 0;
 		}
 		
 		@media (min-width: 700px) {
-		.wrap-tab-detail .tabs-component-panels {
+		.wrap-tvshow-detail .tabs-component-panels {
 			border-top-left-radius: 0;
 			background-color:transparent;
 			/* border: solid 1px #405266; */
@@ -405,11 +402,11 @@ export default {
 		margin-right: 0 !important;
 		border-radius: 5px;
 	}
-		.wrap-tab-detail .tabs-component-tab.is-active a {
+		.wrap-tvshow-detail .tabs-component-tab.is-active a {
 			color: #dcf836 ;
 			border-bottom: 3px solid #dcf836;
 	}
-		.wrap-tab-detail .tabs-component-tab {
+		.wrap-tvshow-detail .tabs-component-tab {
 			padding-top : 19px;
 		}
 </style>

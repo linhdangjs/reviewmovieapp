@@ -10,6 +10,7 @@ const MovieDetail = () => import(/* webpackChunkName: "group-movie" */ '@/compon
 const TvShowList = () => import('@/components/layouts/TvShows/TvShowList')
 const TvShowControl = () => import(/* webpackChunkName: "group-tvshow" */'@/components/layouts/TvShows/TvShowControl')
 const TvShowDetail = () => import(/* webpackChunkName: "group-tvshow" */ '@/components/layouts/TvShows/TvShowDetail')
+const BookTicket = () => import('@/components/layouts/Ticket/BookTicket')
 const Page404 = () => import('@/components/layouts/Page404')
 const Preloader = () => import('@/components/layouts/public/Preloader')
 //import firebase from 'firebase'
@@ -78,6 +79,13 @@ let router =  new Router({
       { path: '', name: 'TvShowRedirect', component: TvShowList },
       { path: ':id', name: 'TvShowDetail', component: TvShowDetail },
       ] 
+    },
+    { path: '/ticket',
+      name: 'BookTicket',
+      component: BookTicket,
+      meta: {
+      requiresAuth: true
+      } 
     },
     {
       path: '*',

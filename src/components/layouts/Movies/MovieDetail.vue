@@ -26,7 +26,7 @@
 						</div>
 						<div class="btn-transform transform-vertical">
 							<div><a class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
-							<div><a @click="showMovieSchedule = true" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+							<div><a  @click="handleMovieSchedule" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
 						</div>
 					</div>
 				</div>
@@ -314,6 +314,18 @@ export default {
 				this.$swal({
 					title: 'Warning !',
 					text:  "Vui lòng đăng nhập trước khi đưa ra bình luận!",
+					type: 'warning',
+					timer: 1000
+				})
+				eventBus.$emit("openLogin", true)
+			}
+		},
+		handleMovieSchedule() {
+			if(this.currentUser) this.showMovieSchedule = true;
+			else {
+				this.$swal({
+					title: 'Warning !',
+					text:  "Vui lòng đăng nhập trước khi đặt vé!",
 					type: 'warning',
 					timer: 1000
 				})
