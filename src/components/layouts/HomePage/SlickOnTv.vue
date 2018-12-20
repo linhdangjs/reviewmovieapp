@@ -141,19 +141,19 @@ import VLazyImage from "v-lazy-image";
                     return this.$store.getters.tvshows;
                 }
             },
-            beforeUpdate() {
-                if (this.$refs.slick) {
-                    this.$refs.slick.destroy();
-                }
-            },
-            updated() {
-                this.$nextTick(function () {
-                    if (this.$refs.slick) {
-                        //console.log(this.$refs.slick)
-                        this.$refs.slick.create(this.slickOptions);
-                        }
-                });
-            },
+            // beforeUpdate() {
+            //     if (this.$refs.slick) {
+            //         this.$refs.slick.destroy();
+            //     }
+            // },
+            // updated() {
+            //     this.$nextTick(function () {
+            //         if (this.$refs.slick) {
+            //             //console.log(this.$refs.slick)
+            //             this.$refs.slick.create(this.slickOptions);
+            //             }
+            //     });
+            // },
     // All slick methods can be used too, example here
             methods: {
             next() {

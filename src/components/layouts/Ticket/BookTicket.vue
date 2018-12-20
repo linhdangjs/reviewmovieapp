@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="hero-ct">
-                        <h1 style="text-align:center; margin-left: 0"> BOOK TICKET</h1>
+                        <h1 style="text-align:center; margin-left: 0"> ĐẶT VÉ</h1>
                         <ul class="breadcumb">
                             <li class="active"><a href="moviegrid.html#">Home</a></li>
                             <li> <span class="ion-ios-arrow-right"></span> BOOK TICKET</li>
@@ -22,61 +22,25 @@
 
                     <div class="flex-wrap-movielist">
                            <img src="/static/images/uploads/screen.png" alt="">				
-                          
                     </div>		
-                      <div class="row-a seat-area">
-                          <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id)" v-for="seat in currentTicketRoom.listseat.RowA"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
-                        <!-- <button type="button" @click="targetSeat" :disabled="isDisabled(seat.status)" v-for="seat in currentTicketRoom.listseat.RowA"  :key="seat.seat_id" :class="{ reserved: !seat.status, 'selected' : isSelected}">{{ seat.seat_name }}</button> -->
-                                <!-- <button>A2</button>
-                                <button>A3</button>
-                                <button>A4</button>
-                                <button class="disable">A5</button>
-                                <button>A6</button>
-                                <button>A7</button>
-                                <button class="selected">A8</button>
-                                <button class="selected">A9</button>
-                                <button class="selected">A10</button> -->
-
+                    <div class="exit-door">
+                         <img src="/static/images/uploads/exit-door.png" alt="">
+                    </div>
+                    <div class="wrap-row" style="margin-top: 100px">
+                        <div class="row-a seat-area">
+                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name)" v-for="seat in currentTicketRoom.listseat.RowA"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
                         </div>
-                        <!-- <div class="seat-area" style="margin-top: 30px; text-align:center">
-                                <button>B1</button>
-                                <button>B2</button>
-                                <button>B3</button>
-                                <button>B4</button>
-                                <button>B5</button>
-                                <button class="disable">B6</button>
-                                <button>B7</button>
-                                <button>B8</button>
-                                <button>B9</button>
-                                <button>B10</button>
-
+                        <div class="row-b seat-area">
+                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name)" v-for="seat in currentTicketRoom.listseat.RowB"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
                         </div>
-                        <div class="seat-area" style="margin-top: 30px; text-align:center">
-                                <button>C1</button>
-                                <button>C2</button>
-                                <button>C3</button>
-                                <button>C4</button>
-                                <button>C5</button>
-                                <button>C6</button>
-                                <button class="disable">C7</button>
-                                <button>C8</button>
-                                <button>C9</button>
-                                <button>C10</button>
-
+                        <div class="row-c seat-area">
+                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name)" v-for="seat in currentTicketRoom.listseat.RowC"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
                         </div>
-                        <div class="seat-area" style="margin-top: 30px; text-align:center">
-                                <button>D1</button>
-                                <button>D2</button>
-                                <button>D3</button>
-                                <button>D4</button>
-                                <button>D5</button>
-                                <button>D6</button>
-                                <button class="disable">D7</button>
-                                <button>D8</button>
-                                <button>D9</button>
-                                <button>D10</button>
-
-                        </div> -->
+                        <div class="row-d seat-area">
+                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name)" v-for="seat in currentTicketRoom.listseat.RowD"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
+                        </div>
+                    </div>
+                   
                         <div class="note">
                             <ul>
                                 <li>
@@ -115,8 +79,8 @@
                 <div class="col-md-5 col-sm-12 col-xs-12">
                     <div class="sidebar">
                         <div class="searh-form">
-                            <h4 class="sb-title">Bill Details</h4>
-                            <form class="form-style-1" action="moviegrid.html#">
+                            <h4 class="sb-title">Thông Tin Thanh Toán</h4>
+                            <form class="form-style-1" @submit.prevent="submitBookTicket">
                                 <div class="row">
                                     <div class="col-md-12 form-it">
                                         <div class="col-md-4">
@@ -129,7 +93,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-it">
-                                        <label class="title">Combos</label>
+                                        <label class="title">Combo & Khuyến Mãi</label>
                                        <table>
                                            <tr>
                                                 <th>Combo</th>
@@ -143,7 +107,7 @@
                                                   <p>iCombo 1</p>
                                                  
                                               </td>
-                                              <td><input type="number" min="0"  value="0" name="combo-1" id="combo-1"></td>   
+                                              <td><input type="number" min="0" max="20" v-model="combo_1" name="combo-1" id="combo-1"></td>   
                                               <td><span>60.000 VNĐ</span></td>
                                               <td><span>0 VNĐ</span></td>
                                           </tr>
@@ -152,28 +116,29 @@
                                                   <img src="/static/images/uploads/combo-2.jpg" alt="">
                                                    <p>iCombo 2</p>
                                             </td>
-                                              <td><input type="number" min="0" value="0" name="combo-2" id="combo-2"></td>   
+                                              <td><input type="number" min="0" max="20" v-model="combo_2" name="combo-2" id="combo-2"></td>   
                                               <td><span>80.000 VNĐ</span></td>
                                               <td><span>0 VNĐ</span></td>
                                           </tr>
                                        </table>
                                     </div>
                                     <div class="col-md-12 form-it">
-                                        <label class="title">Seat Selected</label>
+                                        <label class="title">Vị Trí Đã Chọn: {{ seatSeleceted.length }}</label>
                                         <div class="seat-selected">
-                                            <button class="seat">A1</button>
-                                            <button class="seat">C5</button>
-                                            <button class="seat">D1</button>
+                                            <p v-if="seatSeleceted.length==0">Chưa chọn ghế!</p>
+                                            <button class="seat" v-for="seat in seatNameSelected" :key="seat">{{ seat }}</button>
+                                            <!-- <button class="seat">C5</button>
+                                            <button class="seat">D1</button> -->
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-it">
-                                        <label class="title">Total :</label>
+                                        <label class="title">Tổng Cộng :</label>
                                         <div class="total-pay" style="text-align:center">
                                             <p>{{ totalPay | formatCommas }} VNĐ</p>
                                         </div>
                                     </div>
                                     <div class="col-md-12 ">
-                                        <input class="submit" type="submit" value="Pay" style="cursor:pointer">
+                                        <input class="submit" type="submit" value="Thanh Toán" style="cursor:pointer">
                                     </div>
                                 </div>
                             </form>
@@ -209,6 +174,7 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
             data() {
                 return {
                     seatSeleceted : [],
+                    seatNameSelected : [],
                     combo_1: 0,
                     combo_2: 0
                 }
@@ -223,7 +189,12 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
                     return this.$store.getters.getCurrentTicketRoom;
                 },
                 totalPay() {
-                    return this.seatSeleceted.length * 80000;
+                    if(this.combo_1 >= 0 && this.combo_2 >= 0) {
+                        return this.seatSeleceted.length * 75000 + this.combo_1 * 60000 + this.combo_2 * 80000;
+                    } else {
+                        return 0;
+                    }
+                     
                 }
             },
         	beforeRouteEnter (to, from, next) {
@@ -245,7 +216,7 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
                     if(option) return false
                     else return true
                 },
-                targetSeat(seat_id) {
+                targetSeat(seat_id, seat_name) {
                     var index = this.seatSeleceted.indexOf(seat_id);
                     if(index > -1) {
                         this.seatSeleceted.splice(index, 1);
@@ -253,7 +224,16 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
                     else {
                         this.seatSeleceted.push(seat_id);
                     }
-                    
+                    var indexName = this.seatNameSelected.indexOf(seat_name);
+                    if(indexName > -1) {
+                        this.seatNameSelected.splice(indexName, 1);
+                    }
+                    else {
+                        this.seatNameSelected.push(seat_name);
+                    }
+                },
+                submitBookTicket() {
+                    console.log('submit success');
                 }
             },
             filters: {
@@ -271,10 +251,25 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
     .ticket-box {
        display: block;
     }
+    .exit-door {
+        text-align: right;
+    }
+    .exit-door img {
+        width: 30px;
+        height: 50px;
+        position: absolute;
+        top: 100px;
+        right: 5px;
+    }
     .seat-area {
         margin-left: 40px;
         margin-top: 40px;
         text-align: center;
+    }
+    .seat-area button:nth-child(3),
+    .seat-area button:nth-child(7)
+     {
+        margin-right: 20px;
     }
     .seat-area button {
         background: rgba(72, 72, 78, 0.5);
@@ -331,12 +326,26 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
         font-weight: bold;
         text-transform: uppercase;
     }
+    .seat-selected {
+        min-height: 105px;
+        border: 2px solid whitesmoke;
+        border-radius: 5px;
+        padding: 5px;
+    }
+     .seat-selected p{
+        font-size: 14px;
+        font-weight: bold;
+        text-align:center;
+        color: orange;
+        vertical-align: middle;
+    }
     .seat-selected button{
         width: 40px;
         height: 40px;
         border: none;
         border-radius: 5px;
         margin-right: 5px;
+        margin-bottom: 5px;
         background-color: #85c325e6;
         color: #eae1e1;
     }
