@@ -1,13 +1,19 @@
 <template>
-     <button type="button" :class="{selected : isSelected}" @click="isSelected = !isSelected"><slot></slot></button>
+     <button type="button" :class="{selected : isSelected}" @click="isSelected = !isSelected" @resetSelected="isSelected = false"><slot></slot></button>
 </template>
 
 <script>
+import { eventBus } from '@/main.js'
 export default {
     data() {
         return {
             isSelected: false
         }
+    },
+    created() {
+        eventBus.$on('resetSelected', (value) => {
+            this.isSelected = value;
+        });
     }
 }
 </script>

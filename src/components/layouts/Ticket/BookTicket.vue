@@ -28,16 +28,16 @@
                     </div>
                     <div class="wrap-row" style="margin-top: 100px">
                         <div class="row-a seat-area">
-                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name)" v-for="seat in currentTicketRoom.listseat.RowA"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
+                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name, seat.serial)" v-for="seat in currentTicketRoom.listseat.RowA"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
                         </div>
                         <div class="row-b seat-area">
-                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name)" v-for="seat in currentTicketRoom.listseat.RowB"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
+                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name, seat.serial)" v-for="seat in currentTicketRoom.listseat.RowB"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
                         </div>
                         <div class="row-c seat-area">
-                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name)" v-for="seat in currentTicketRoom.listseat.RowC"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
+                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name, seat.serial)" v-for="seat in currentTicketRoom.listseat.RowC"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
                         </div>
                         <div class="row-d seat-area">
-                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name)" v-for="seat in currentTicketRoom.listseat.RowD"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
+                            <app-seat :disabled="isDisabled(seat.status)" @click.native="targetSeat(seat.seat_id, seat.seat_name, seat.serial)" v-for="seat in currentTicketRoom.listseat.RowD"  :key="seat.seat_id" :class="{ reserved: !seat.status }">{{ seat.seat_name }}</app-seat>
                         </div>
                     </div>
                    
@@ -45,17 +45,20 @@
                             <ul>
                                 <li>
                                     <button class="btn-free" style="background-color:rgba(72, 72, 78, 0.5)"></button>
-                                    <span>Free</span>
+                                    <span>Chưa Đặt</span>
                                 </li>
                                 <li>
                                     <button class="btn-reserved" style="background-color:#b01010e6"></button>
-                                    <span>Reserved</span>
+                                    <span>Đã Đặt</span>
                                 </li>
                                 <li>
                                     <button class="btn-selected" style="background-color: #85c325e6"></button>
-                                    <span>Selected</span>
+                                    <span>Đang Chọn</span>
                                 </li>
                             </ul>
+                        </div>
+                        <div class="reset">
+                            <button class="btn-reset" @click="resetSelected">CHỌN LẠI</button>
                         </div>
                     <!-- <div class="topbar-filter">
                         <label>Movies per page:</label>
@@ -123,9 +126,9 @@
                                        </table>
                                     </div>
                                     <div class="col-md-12 form-it">
-                                        <label class="title">Vị Trí Đã Chọn: {{ seatSeleceted.length }}</label>
+                                        <label class="title">Vị Trí Đã Chọn: {{ seatSelected.length }}</label>
                                         <div class="seat-selected">
-                                            <p v-if="seatSeleceted.length==0">Chưa chọn ghế!</p>
+                                            <p v-if="seatSelected.length==0">Chưa chọn ghế!</p>
                                             <button class="seat" v-for="seat in seatNameSelected" :key="seat">{{ seat }}</button>
                                             <!-- <button class="seat">C5</button>
                                             <button class="seat">D1</button> -->
@@ -170,11 +173,16 @@
 
 <script>
 import Seat from '@/components/layouts/Ticket/Seat.vue'
+import { eventBus } from '@/main.js'
     export default {
             data() {
                 return {
-                    seatSeleceted : [],
+                    seatSelected : [],
                     seatNameSelected : [],
+                    seatSelectedRowA: [],
+                    seatSelectedRowB: [],
+                    seatSelectedRowC: [],
+                    seatSelectedRowD: [],
                     combo_1: 0,
                     combo_2: 0
                 }
@@ -186,11 +194,12 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
 				return currentMovie;
                 },
                 currentTicketRoom() {
+                
                     return this.$store.getters.getCurrentTicketRoom;
                 },
                 totalPay() {
                     if(this.combo_1 >= 0 && this.combo_2 >= 0) {
-                        return this.seatSeleceted.length * 75000 + this.combo_1 * 60000 + this.combo_2 * 80000;
+                        return this.seatSelected.length * 75000 + this.combo_1 * 60000 + this.combo_2 * 80000;
                     } else {
                         return 0;
                     }
@@ -216,13 +225,45 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
                     if(option) return false
                     else return true
                 },
-                targetSeat(seat_id, seat_name) {
-                    var index = this.seatSeleceted.indexOf(seat_id);
+                targetSeat(seat_id, seat_name, serial) {
+                    if(seat_name.indexOf('A') !== -1) {
+                        var indexA = this.seatSelectedRowA.indexOf(serial);
+                        if(indexA > -1) {
+                            this.seatSelectedRowA.splice(indexA, 1);
+                        } else {
+                            this.seatSelectedRowA.push(serial);
+                        }
+                    }
+                    if(seat_name.indexOf('B') !== -1) {
+                        var indexB = this.seatSelectedRowB.indexOf(serial);
+                        if(indexB > -1) {
+                            this.seatSelectedRowB.splice(indexB, 1);
+                        } else {
+                            this.seatSelectedRowB.push(serial);
+                        }
+                    }
+                    if(seat_name.indexOf('C') !== -1) {
+                        var indexC = this.seatSelectedRowC.indexOf(serial);
+                        if(indexC > -1) {
+                            this.seatSelectedRowC.splice(indexC, 1);
+                        } else {
+                            this.seatSelectedRowC.push(serial);
+                        }
+                    }
+                     if(seat_name.indexOf('D') !== -1) {
+                        var indexD = this.seatSelectedRowD.indexOf(serial);
+                        if(indexD > -1) {
+                            this.seatSelectedRowD.splice(indexD, 1);
+                        } else {
+                            this.seatSelectedRowD.push(serial);
+                        }
+                    }
+                    var index = this.seatSelected.indexOf(seat_id);
                     if(index > -1) {
-                        this.seatSeleceted.splice(index, 1);
+                        this.seatSelected.splice(index, 1);
                     } 
                     else {
-                        this.seatSeleceted.push(seat_id);
+                        this.seatSelected.push(seat_id);
                     }
                     var indexName = this.seatNameSelected.indexOf(seat_name);
                     if(indexName > -1) {
@@ -231,9 +272,25 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
                     else {
                         this.seatNameSelected.push(seat_name);
                     }
+                    
+                },
+                resetSelected() {
+                    console.log(this.currentTicketRoom.listseat.RowA)
+                    this.seatSelected = [];
+                    this.seatNameSelected = [];
+                    eventBus.$emit("resetSelected", false);
                 },
                 submitBookTicket() {
-                    console.log('submit success');
+                    //console.log('submit success');
+                    var data = {
+                        rowA: this.seatSelectedRowA,
+                        rowB: this.seatSelectedRowB,
+                        rowC: this.seatSelectedRowC,
+                        rowD: this.seatSelectedRowD,                    
+                        schedule_id: this.$route.query.schedule_id
+                    }
+                    console.log(data);
+                    this.$store.dispatch("submitBookTicket", data)
                 }
             },
             filters: {
@@ -310,6 +367,17 @@ import Seat from '@/components/layouts/Ticket/Seat.vue'
         border: none;
         border-radius: 5px;
         margin-right: 5px;
+    }
+    .reset {
+        text-align: center;
+    }
+    .reset button {
+        background: #ff8300d6;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: #eae1e1;
+        cursor: pointer;
     }
     /* table combo */
     table, tr, th, td {

@@ -349,6 +349,41 @@ export const store = new Vuex.Store({
           
         })
       },
+      submitBookTicket({commit}, payload) {
+          db.collection("TicketRoom").where("schedule_id", "==", payload.schedule_id).get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              payload.rowA.forEach(seat_name => {
+                var path = `ListSeat.RowA.${seat_name}.status`
+                var objectUpdate = {};
+                objectUpdate[path] = false;
+  
+                  db.collection("TicketRoom").doc(doc.id).update(objectUpdate)
+              })
+              payload.rowB.forEach(seat_name => {
+                var path = `ListSeat.RowB.${seat_name}.status`
+                var objectUpdate = {};
+                objectUpdate[path] = false;
+  
+                  db.collection("TicketRoom").doc(doc.id).update(objectUpdate)
+              })
+              payload.rowC.forEach(seat_name => {
+                var path = `ListSeat.RowC.${seat_name}.status`
+                var objectUpdate = {};
+                objectUpdate[path] = false;
+  
+                  db.collection("TicketRoom").doc(doc.id).update(objectUpdate)
+              })
+              payload.rowD.forEach(seat_name => {
+                var path = `ListSeat.RowD.${seat_name}.status`
+                var objectUpdate = {};
+                objectUpdate[path] = false;
+  
+                  db.collection("TicketRoom").doc(doc.id).update(objectUpdate)
+              })
+            })
+          })
+      } 
       
     },
     getters: {
