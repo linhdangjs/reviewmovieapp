@@ -90,9 +90,10 @@
                                             <img :src="currentMovie[0].photoUrl" alt="" style="width:100%">
                                         </div>
                                         <div class="col-md-8">
-                                            <p style="width:100%;font-weight:bold">Movie: {{ currentMovie[0].name }}</p>
+                                            <router-link tag="a" class="title-movie" :to="{name: 'MovieDetail', params: {id: this.$route.query.movie_id}}" style="width:100%;font-weight:bold; cursor:pointer">Movie: {{ currentMovie[0].name }}</router-link>
                                             <p>Rạp {{ currentTicketRoom.cine_name }}</p>
                                             <p>Suất : {{ currentTicketRoom.show_time }}</p>
+                                            <p>Giá Vé: 75.000 VNĐ/vé</p>
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-it">
@@ -100,28 +101,33 @@
                                        <table>
                                            <tr>
                                                 <th>Combo</th>
+                                                <th>Đơn Giá</th>
                                                 <th>Số lượng</th>
-                                                <th>Giá</th>
                                                 <th>Tổng</th>
                                            </tr>
                                           <tr>
                                               <td>
                                                   <img src="/static/images/uploads/combo-1.jpg" alt="">
-                                                  <p>iCombo 1</p>
-                                                 
-                                              </td>
-                                              <td><input type="number" min="0" max="20" v-model="combo_1" name="combo-1" id="combo-1"></td>   
+                                                  <p>iCombo 1</p>            
+                                              </td>                      
                                               <td><span>60.000 VNĐ</span></td>
-                                              <td><span>0 VNĐ</span></td>
+                                              <td><input type="number" min="0" max="20" v-model="combo_1" name="combo-1" id="combo-1"></td>   
+                                              <td><span>{{ combo_1 * 60000 | formatCommas }} VNĐ</span></td>
                                           </tr>
                                          <tr>
                                               <td>
                                                   <img src="/static/images/uploads/combo-2.jpg" alt="">
                                                    <p>iCombo 2</p>
                                             </td>
+                                                <td><span>80.000 VNĐ</span></td>
                                               <td><input type="number" min="0" max="20" v-model="combo_2" name="combo-2" id="combo-2"></td>   
-                                              <td><span>80.000 VNĐ</span></td>
-                                              <td><span>0 VNĐ</span></td>
+                                              <td><span>{{ combo_2 * 80000 | formatCommas }} VNĐ</span></td>
+                                          </tr>
+                                          <tr>
+                                              <td>* Ticket 2D</td>
+                                              <td>75.000 VND</td>
+                                              <td><input type="text" readonly v-model="seatSelected.length" name="count-ticket" id="count-ticket"></td>
+                                              <td>{{  this.seatSelected.length * 75000 | formatCommas }} VNĐ</td>
                                           </tr>
                                        </table>
                                     </div>
@@ -221,6 +227,9 @@ import { eventBus } from '@/main.js'
                 fetchCurrentTicketRoom() {
                     this.$store.dispatch("getTicketRoomByScheduleID", this.$route.query.schedule_id)
                 },
+                formatPay(value) {
+                     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                },
                 isDisabled(option) {
                     if(option) return false
                     else return true
@@ -281,16 +290,54 @@ import { eventBus } from '@/main.js'
                     eventBus.$emit("resetSelected", false);
                 },
                 submitBookTicket() {
-                    //console.log('submit success');
-                    var data = {
-                        rowA: this.seatSelectedRowA,
-                        rowB: this.seatSelectedRowB,
-                        rowC: this.seatSelectedRowC,
-                        rowD: this.seatSelectedRowD,                    
-                        schedule_id: this.$route.query.schedule_id
+                    if(this.seatSelected.length <= 0) {
+                        this.$swal({
+                                title: 'Bạn Chưa Chọn Ghế!',
+                                text: 'Vui lòng kiểm tra lại!',
+                                type: 'warning',
+                                timer: 5000
+                            })
+                    } else {
+                        var data = {
+                            rowA: this.seatSelectedRowA,
+                            rowB: this.seatSelectedRowB,
+                            rowC: this.seatSelectedRowC,
+                            rowD: this.seatSelectedRowD,                    
+                            schedule_id: this.$route.query.schedule_id
+                        }
+                        var dataBill = {
+                            user_uid: this.$store.getters.user.uid,
+                            show_time: this.currentTicketRoom.show_time,
+                            movie_name: this.currentMovie[0].name,
+                            quantum: this.seatSelected.length,
+                            totalPay: this.totalPay
+                        }
+                    this.$swal({
+                        title: 'Bạn Muốn Thanh Toán?',
+                        text: "Tổng Chi Phí Thanh Toán: " + this.formatPay(this.totalPay) + ' VNĐ',
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Để Sau',
+                        confirmButtonText: 'Vâng, Tôi Muốn Thanh Toán!'
+                        }).then((result) => {
+                        if (result.value) {
+                            this.$store.dispatch("submitBookTicket", data)
+                            this.$store.dispatch("addBillByUserID", dataBill)
+                            this.$swal({
+                                title: 'Đặt Vé Thành Công!',
+                                text: 'Chúc Mừng Bạn Đã Hoàn Tất Quá Trình Đặt Vé',
+                                type: 'success',
+                                timer: 1000
+                            })
+                            setTimeout(() => {
+                                this.$router.go('/movie/'+ this.$route.query.movie_id);
+                            }, 1000)
+                        }
+                        })
                     }
-                    console.log(data);
-                    this.$store.dispatch("submitBookTicket", data)
+                   
                 }
             },
             filters: {
@@ -305,6 +352,7 @@ import { eventBus } from '@/main.js'
 </script>
 
 <style>
+
     .ticket-box {
        display: block;
     }
@@ -386,7 +434,7 @@ import { eventBus } from '@/main.js'
     td {
         text-align: right;
         vertical-align: middle;
-        font-size: 12px;
+        font-size: 11px;
     }
     .form-style-1 label.title {
         color: #bf104fd6;
@@ -426,4 +474,11 @@ import { eventBus } from '@/main.js'
         border-radius: 5px;
         cursor: context-menu;
     }
+    a.title-movie {
+        color: #6565d2;
+    }
+    a.title-movie:hover {
+        color: #2b0d8c;
+    }
+    /* custom CSS SweetAlert */
 </style>

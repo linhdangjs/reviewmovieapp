@@ -4,6 +4,7 @@ const HomePage = () => import('@/components/layouts/Index')
 const User = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/User')
 const UserProfile = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/UserProfile')
 const UserReviews = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/UserReviews')
+const UserBills = () => import(/* webpackChunkName: "group-user" */ '@/components/layouts/User/UserBills')
 const MovieList = () => import('@/components/layouts/Movies/MovieList')
 const MovieControl = () => import(/* webpackChunkName: "group-movie" */ '@/components/layouts/Movies/MovieControl')
 const MovieDetail = () => import(/* webpackChunkName: "group-movie" */ '@/components/layouts/Movies/MovieDetail')
@@ -37,7 +38,8 @@ let router =  new Router({
       } 
       , children: [
       { path: 'profile', name: 'UserProfile', component: UserProfile },
-      { path: 'myreviews', name: 'UserReviews', component: UserReviews }
+      { path: 'myreviews', name: 'UserReviews', component: UserReviews },
+      { path: 'bills', name: 'UserBills', component: UserBills }
 
   ] },
     {

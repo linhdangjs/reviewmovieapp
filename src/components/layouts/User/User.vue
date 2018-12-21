@@ -25,8 +25,9 @@
                                 <div class="user-fav">
                                     <p>Account Details</p>
                                     <ul>
-                                        <router-link active-class="active" tag="li" to="/user/profile"><a href="#">Profile</a></router-link>
-                                        <router-link active-class="active" tag="li" to="/user/myreviews"><a href="#">My Rated Movie</a></router-link>
+                                        <router-link active-class="active" tag="li" to="/user/profile"><a>Profile</a></router-link>
+                                        <router-link active-class="active" tag="li" to="/user/myreviews"><a>My Rated Movie</a></router-link>
+                                        <router-link active-class="active" tag="li" to="/user/bills"><a>My Bills</a></router-link>
                                     </ul>
                                 </div>
                                 <div class="user-fav">

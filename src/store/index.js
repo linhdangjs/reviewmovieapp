@@ -5,6 +5,8 @@ import firebase from 'firebase'
 
 Vue.use(Vuex)
 
+var optionsFormatDate = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+
 export const store = new Vuex.Store({
     state: {
       userLogin: null,
@@ -23,7 +25,8 @@ export const store = new Vuex.Store({
         user_uid: "",
         cine_name: "",
         show_time: ""
-      }
+      },
+      currentUserBill : []
     },
     mutations: {
       setUser (state, payload) {
@@ -52,6 +55,9 @@ export const store = new Vuex.Store({
       },
       setCurrentTicketRoom (state, payload) {
         state.currentTicketRoom = payload;
+      },
+      setCurrentUserBill (state, payload) {
+        state.currentUserBill = payload;
       }
     },
     actions: {
@@ -221,6 +227,8 @@ export const store = new Vuex.Store({
 
         })
         .then((review) => {
+          
+
           // console.log("Document written with title: ", review.id);
               db.collection("Reviews").doc(review.id).update({created_at: firebase.firestore.FieldValue.serverTimestamp()})
               .then(() => {
@@ -237,7 +245,7 @@ export const store = new Vuex.Store({
                     title: doc.data().title,
                     content: doc.data().content,
                     rating: doc.data().rating,
-                    created_at: doc.data().created_at.toDate().toLocaleDateString("en-US")
+                    created_at: doc.data().created_at.toDate().toLocaleDateString("en-US", optionsFormatDate)
                   }
                   this.state.currentReviews.unshift(data)
                 })
@@ -268,7 +276,7 @@ export const store = new Vuex.Store({
                   title: doc.data().title,
                   content: doc.data().content,
                   rating: doc.data().rating,
-                  created_at: doc.data().created_at.toDate().toLocaleDateString("en-US")
+                  created_at: doc.data().created_at.toDate().toLocaleDateString("en-US", optionsFormatDate)
                  }
                  result.push(data);
               });
@@ -296,7 +304,7 @@ export const store = new Vuex.Store({
                   title: doc.data().title,
                   content: doc.data().content,
                   rating: doc.data().rating,
-                  created_at: doc.data().created_at.toDate().toLocaleDateString("en-US")
+                  created_at: doc.data().created_at.toDate().toLocaleDateString("en-US", optionsFormatDate)
                  }
                  result.push(data);
               });
@@ -383,9 +391,42 @@ export const store = new Vuex.Store({
               })
             })
           })
-      } 
-      
+      },
+      addBillByUserID({commit}, payload) {
+        db.collection("Bills").add({
+          user_uid: payload.user_uid,
+          movie_name: payload.movie_name,
+          show_time: payload.show_time,
+          quantum: payload.quantum,
+          totalPay: payload.totalPay,
+          //created_at: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then((bill) => {
+          // console.log("Document written with title: ", review.id);
+              db.collection("Bills").doc(bill.id).update({booked_at: firebase.firestore.FieldValue.serverTimestamp()})
+      })
     },
+    getBillByUserID({commit}, payload) {
+      let result = [];
+      db.collection("Bills").where('user_uid', '==', payload).get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const data = {
+            'user_uid': doc.data().user_uid,
+            'movie_name': doc.data().movie_name,
+            'show_time': doc.data().show_time,
+            'quantum': doc.data().quantum,
+            'totalPay': doc.data().totalPay,
+            'booked_at': doc.data().booked_at.toDate().toLocaleDateString("en-US", optionsFormatDate)
+          }
+          result.push(data)
+        })
+        console.log(result);
+        commit('setCurrentUserBill', result);
+        
+      })
+    },
+  },
     getters: {
       user (state) {
         return state.userLogin
@@ -420,6 +461,9 @@ export const store = new Vuex.Store({
       },
       getCurrentTicketRoom(state) {
         return state.currentTicketRoom;
+      },
+      getCurrentUserBill(state) {
+        return state.currentUserBill;
       }
     }
   })

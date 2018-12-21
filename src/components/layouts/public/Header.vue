@@ -168,7 +168,8 @@ export default {
                 .then(() => {
                 localStorage.removeItem('current-user');
                 this.$store.commit("setUser", null)
-                if(this.$route.path === "/user/profile" || this.$route.path === "/user/myreviews" || this.$route.path === "/ticket") this.$router.push('/')
+                if(this.$route.path === "/user/profile" || this.$route.path === "/user/myreviews" || this.$route.path === "/ticket"
+                || this.$route.path === "/user/bills") this.$router.push('/')
             })
         }
     },

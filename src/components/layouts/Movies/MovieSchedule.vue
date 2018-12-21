@@ -25,10 +25,13 @@
                                                 <img src="/static/images/uploads/bhd.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
                                                 <span>BHD Star 3.2</span>
                                             </li>
-                                            <li>
+                                            <li v-if="getMovieMondayBHD[0]">
                                                 <ul class="ul-time">
                                                      <router-link tag="li" :to="{name: 'BookTicket', query:{movie_id: getMovieMondayBHD[0].movie_id, schedule_id:show_time.schedule_id}}" v-for="(show_time, index) in getMovieMondayBHD[0].show_time" :key="index"><button class="btn-time">{{ show_time.time }}</button></router-link>
                                                 </ul>
+                                            </li>
+                                            <li v-else>
+                                                <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                             </li>
                                         </ul>
                            
@@ -40,10 +43,13 @@
                                                 <img src="/static/images/uploads/cgv.jpg" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
                                                 <span>CGV Gò Vấp</span>
                                             </li>
-                                            <li>
+                                            <li v-if="getMovieMondayCGV[0]">
                                                 <ul class="ul-time">
                                                    <router-link tag="li" :to="{name: 'BookTicket', query:{movie_id: getMovieMondayCGV[0].movie_id, schedule_id:show_time.schedule_id}}" v-for="(show_time, index) in getMovieMondayCGV[0].show_time" :key="index"><button class="btn-time">{{ show_time.time }}</button></router-link>
                                                 </ul>
+                                            </li>
+                                             <li v-else>
+                                                <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                             </li>
                                         </ul>
                                     </li>
@@ -53,10 +59,13 @@
                                                 <img src="/static/images/uploads/lotte.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
                                                 <span>Lotte Cộng Hòa</span>
                                             </li>
-                                            <li>
+                                            <li v-if="getMovieMondayLOTTE[0]">
                                                 <ul class="ul-time">
                                                      <router-link tag="li" :to="{name: 'BookTicket', query:{movie_id: getMovieMondayLOTTE[0].movie_id, schedule_id:show_time.schedule_id}}" v-for="(show_time, index) in getMovieMondayLOTTE[0].show_time" :key="index"><button class="btn-time">{{ show_time.time }}</button></router-link>
                                                 </ul>
+                                            </li>
+                                             <li v-else>
+                                                <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                             </li>
                                         </ul>
                                     </li>
@@ -71,9 +80,7 @@
                                                 <span>BHD Star 3.2</span>
                                             </li>
                                             <li>
-                                                <ul class="ul-time">
-                                                     <!-- <router-link tag="li" :to="{name: 'BookTicket', query:{movie_id: getMovieTuesdayBHD[0].movie_id, schedule_id:getMovieTuesdayBHD[0].schedule_id}}" v-for="(show_time, index) in getMovieTuesdayBHD[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></router-link> -->
-                                                </ul>
+                                                <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                             </li>
                                         </ul>
                            
@@ -86,9 +93,7 @@
                                                 <span>CGV Gò Vấp</span>
                                             </li>
                                             <li>
-                                                <ul class="ul-time">
-                                                   <!-- <li v-for="(show_time, index) in getMovieTuesdayCGV[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></li> -->
-                                                </ul>
+                                                <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                             </li>
                                         </ul>
                                     </li>
@@ -99,9 +104,7 @@
                                                 <span>Lotte Cộng Hòa</span>
                                             </li>
                                             <li>
-                                                <ul class="ul-time">
-                                                    <!-- <li v-for="(show_time, index) in getMovieTuesdayLOTTE[0].show_time" :key="index"><button class="btn-time">{{ show_time }}</button></li> -->
-                                                </ul>
+                                                <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                             </li>
                                         </ul>
                                     </li>
@@ -116,10 +119,7 @@
                                             <span>BHD Star 3.2</span>
                                         </li>
                                         <li>
-                                            <ul class="ul-time">
-                                                <li><button class="btn-time">17:30</button></li>
-                                                <li><button class="btn-time">20:50</button></li>
-                                            </ul>
+                                            <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                         </li>
                                     </ul>
                            
@@ -132,10 +132,7 @@
                                      <span>CGV Gò Vấp</span>
                                 </li>
                                 <li>
-                                    <ul class="ul-time">
-                                        <li><button class="btn-time">17:30</button></li>
-                                        <li><button class="btn-time">20:50</button></li>
-                                    </ul>
+                                    <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                 </li>
                             </ul>
                         </li>
@@ -146,17 +143,14 @@
                                      <span>Lotte Cộng Hòa</span>
                                 </li>
                                 <li>
-                                    <ul class="ul-time">
-                                        <li><button class="btn-time">17:30</button></li>
-                                        <li><button class="btn-time">20:50</button></li>
-                                    </ul>
+                                    <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                 </li>
                             </ul>
                         </li>
                     </ul>
-										</tab>
-                                        <tab name="Thứ 5" suffix="<br class='badge'>03/01</br>">
-											 <ul class="logo" style="text-align: left">
+				</tab>
+                <tab name="Thứ 5" suffix="<br class='badge'>03/01</br>">
+					<ul class="logo" style="text-align: left">
                         <li>
                             <ul class="cine-time">
                                 <li class="list-logo">
@@ -164,10 +158,7 @@
                                      <span>BHD Star 3.2</span>
                                 </li>
                                 <li>
-                                    <ul class="ul-time">
-                                        <li><button class="btn-time">17:30</button></li>
-                                        <li><button class="btn-time">20:50</button></li>
-                                    </ul>
+                                    <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                 </li>
                             </ul>
                            
@@ -180,10 +171,7 @@
                                      <span>CGV Gò Vấp</span>
                                 </li>
                                 <li>
-                                    <ul class="ul-time">
-                                        <li><button class="btn-time">17:30</button></li>
-                                        <li><button class="btn-time">20:50</button></li>
-                                    </ul>
+                                    <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                 </li>
                             </ul>
                         </li>
@@ -194,62 +182,50 @@
                                      <span>Lotte Cộng Hòa</span>
                                 </li>
                                 <li>
-                                    <ul class="ul-time">
-                                        <li><button class="btn-time">17:30</button></li>
-                                        <li><button class="btn-time">20:50</button></li>
-                                    </ul>
+                                    <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                 </li>
                             </ul>
                         </li>
                     </ul>	
-										</tab>
-                                        <tab name="Thứ 6" suffix="<br class='badge'>04/01</br>">
-                                            <ul class="logo" style="text-align: left">
-                                            <li>
-                                                <ul class="cine-time">
-                                                    <li class="list-logo">
-                                                        <img src="/static/images/uploads/bhd.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
-                                                        <span>BHD Star 3.2</span>
-                                                    </li>
-                                                    <li>
-                                                        <ul class="ul-time">
-                                                            <li><button class="btn-time">17:30</button></li>
-                                                            <li><button class="btn-time">20:50</button></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
+			</tab>
+            <tab name="Thứ 6" suffix="<br class='badge'>04/01</br>">
+                <ul class="logo" style="text-align: left">
+                     <li>
+                        <ul class="cine-time">
+                            <li class="list-logo">
+                                <img src="/static/images/uploads/bhd.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
+                                <span>BHD Star 3.2</span>
+                            </li>
+                            <li>
+                                <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
+                            </li>
+                        </ul>
                                             
-                                            </li>
+                    </li>
                                         
-                                            <li>
-                                                <ul class="cine-time">
-                                                    <li class="list-logo">
-                                                        <img src="/static/images/uploads/cgv.jpg" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
-                                                        <span>CGV Gò Vấp</span>
-                                                    </li>
-                                                    <li>
-                                                        <ul class="ul-time">
-                                                            <li><button class="btn-time">17:30</button></li>
-                                                            <li><button class="btn-time">20:50</button></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <ul class="cine-time">
-                                                    <li class="list-logo">
-                                                        <img src="/static/images/uploads/lotte.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
-                                                        <span>Lotte Cộng Hòa</span>
-                                                    </li>
-                                                    <li>
-                                                        <ul class="ul-time">
-                                                            <li><button class="btn-time">17:30</button></li>
-                                                            <li><button class="btn-time">20:50</button></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>	
+                        <li>
+                            <ul class="cine-time">
+                                <li class="list-logo">
+                                    <img src="/static/images/uploads/cgv.jpg" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
+                                    <span>CGV Gò Vấp</span>
+                                </li>
+                                <li>
+                                    <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="cine-time">
+                                <li class="list-logo">
+                                    <img src="/static/images/uploads/lotte.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
+                                    <span>Lotte Cộng Hòa</span>
+                                </li>
+                                <li>
+                                    <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
+                                </li>
+                            </ul>
+                        </li>
+                            </ul>	
 										</tab>
                                         <tab name="Thứ 7" suffix="<br class='badge'>05/01</br>">
                                                                 <ul class="logo" style="text-align: left">
@@ -259,11 +235,8 @@
                                                         <img src="/static/images/uploads/bhd.png" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
                                                         <span>BHD Star 3.2</span>
                                                     </li>
-                                                    <li>
-                                                        <ul class="ul-time">
-                                                            <li><button class="btn-time">17:30</button></li>
-                                                            <li><button class="btn-time">20:50</button></li>
-                                                        </ul>
+                                                      <li>
+                                                        <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                                     </li>
                                                 </ul>
                                             
@@ -276,10 +249,7 @@
                                                         <span>CGV Gò Vấp</span>
                                                     </li>
                                                     <li>
-                                                        <ul class="ul-time">
-                                                            <li><button class="btn-time">17:30</button></li>
-                                                            <li><button class="btn-time">20:50</button></li>
-                                                        </ul>
+                                                        <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -290,10 +260,7 @@
                                                         <span>Lotte Cộng Hòa</span>
                                                     </li>
                                                     <li>
-                                                        <ul class="ul-time">
-                                                            <li><button class="btn-time">17:30</button></li>
-                                                            <li><button class="btn-time">20:50</button></li>
-                                                        </ul>
+                                                        <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -308,10 +275,7 @@
                                                             <span>BHD Star 3.2</span>
                                                         </li>
                                                         <li>
-                                                            <ul class="ul-time">
-                                                                <li><button class="btn-time">17:30</button></li>
-                                                                <li><button class="btn-time">20:50</button></li>
-                                                            </ul>
+                                                            <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                                         </li>
                                                     </ul>
                                                 
@@ -323,11 +287,8 @@
                                                             <img src="/static/images/uploads/cgv.jpg" style="width:60px;height:60px;border-radius:50%;cursor:pointer;" alt="">
                                                             <span>CGV Gò Vấp</span>
                                                         </li>
-                                                        <li>
-                                                            <ul class="ul-time">
-                                                                <li><button class="btn-time">17:30</button></li>
-                                                                <li><button class="btn-time">20:50</button></li>
-                                                            </ul>
+                                                         <li>
+                                                            <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -338,10 +299,7 @@
                                                             <span>Lotte Cộng Hòa</span>
                                                         </li>
                                                         <li>
-                                                            <ul class="ul-time">
-                                                                <li><button class="btn-time">17:30</button></li>
-                                                                <li><button class="btn-time">20:50</button></li>
-                                                            </ul>
+                                                            <p style="text-align: center">Chưa Có Lịch Chiếu !</p>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -440,6 +398,13 @@ ul.cine-time {
 }
 ul.cine-time li{
     display: inline-block;
+}
+ul.cine-time li p{
+    margin-left: 90px;
+   color: #d12121;
+   font-weight: bold;
+   text-transform: uppercase;
+   font-size: 16px;
 }
 ul.cine-time li.list-logo{
     min-width: 180px;
