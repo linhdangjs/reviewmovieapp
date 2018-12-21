@@ -23,6 +23,7 @@
     import SlickOnTvShow from '@/components/layouts/HomePage/SlickOnTv.vue'
     import Advertisements from '@/components/layouts/HomePage/AdvertisementsY.vue'
     import Celebrities from '@/components/layouts/HomePage/Celebrities.vue'
+    
     export default {
         components: {
             appTheater : SlickInTheater,

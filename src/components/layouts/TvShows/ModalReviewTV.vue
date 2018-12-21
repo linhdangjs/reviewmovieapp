@@ -108,6 +108,7 @@ import StarRating from 'vue-star-rating'
                         content: this.content,
                         rating: this.rating==0? this.currentTvShow[0].rating: this.rating,
                     }).then(()=>{
+                        this.$emit("page:update", 0)
                     })
                     .catch(err => console.log(err))
                     this.$swal({

@@ -449,6 +449,10 @@ export const store = new Vuex.Store({
       currentReviews (state) {
         return state.currentReviews;
       },
+      updateVisibleReviews: (state, getters) => (payload) => {
+        return getters.currentReviews
+          .slice(payload.currentPage * payload.pageSize, (payload.currentPage * payload.pageSize) + payload.pageSize)
+      },
       movieSchedules (state) {
         return state.movieSchedules;
       },

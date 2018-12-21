@@ -142,7 +142,7 @@
 													</div>
 											</tab>
 										<tab name="Review">
-													<div id="reviews" class="tab review">
+										<div id="reviews" class="tab review">
 											<div class="row">
 													<div class="rv-hd">
 														<div class="div">
@@ -164,65 +164,34 @@
 															<option value="date">Release date Ascending</option>
 														</select>
 													</div>
-													<div class="mv-user-review-item" v-for="(review, index) in currentMovieReviews" :key="index">
-														<div class="user-infor">
-															<img :src="review.user_avatar" alt="" v-if="review.user_avatar">
-															<img src="/static/images/uploads/user-avatar-default-2.jpg" v-else>
-															<div>
-																<h3>{{ review.title }}</h3>
-																<div class="no-star">
-																<star-rating :max-rating="10" :rating="review.rating" :read-only="true" :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
+													<div class="wrap-mv-user-review">
+														<div class="mv-user-review-item" v-for="(review, index) in visibleReviews" :key="index">
+															<div class="user-infor">
+																<img :src="review.user_avatar" alt="" v-if="review.user_avatar">
+																<img src="/static/images/uploads/user-avatar-default-2.jpg" v-else>
+																<div>
+																	<h3>{{ review.title }}</h3>
+																	<div class="no-star">
+																	<star-rating :max-rating="10" :rating="review.rating" :read-only="true" :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
+																	</div>
+																	<p class="time">
+																		{{ review.created_at }} by <a > {{ review.user_email }}</a>
+																	</p>
 																</div>
-																<p class="time">
-																	{{ review.created_at }} by <a > {{ review.user_email }}</a>
-																</p>
 															</div>
-														</div>
 														<p>{{ review.content }}</p>
 													</div>
-													<!-- <div class="mv-user-review-item last">
-														<div class="user-infor">
-															<img src="/static/images/uploads/userava5.jpg" alt="">
-															<div>
-																<h3>Impressive Special Effects and Cast</h3>
-																<div class="no-star">
-																	<i class="ion-android-star"></i>
-																	<i class="ion-android-star"></i>
-																	<i class="ion-android-star"></i>
-																	<i class="ion-android-star"></i>
-																	<i class="ion-android-star"></i>
-																	<i class="ion-android-star"></i>
-																	<i class="ion-android-star"></i>
-																	<i class="ion-android-star"></i>
-																	<i class="ion-android-star last"></i>
-																	<i class="ion-android-star last"></i>
-																</div>
-																<p class="time">
-																	26 March 2017 by <a href="moviesingle.html#"> johnnylee</a>
-																</p>
-															</div>
-														</div>
-														<p>The Avengers raid a Hydra base in Sokovia commanded by Strucker and they retrieve Loki's scepter. They also discover that Strucker had been conducting experiments with the orphan twins Pietro Maximoff (Aaron Taylor-Johnson), who has super speed, and Wanda Maximoff (Elizabeth Olsen), who can control minds and project energy. Tony Stark (Robert Downey Jr.) discovers an Artificial Intelligence in the scepter and convinces Bruce Banner (Mark Ruffalo) to secretly help him to transfer the A.I. to his Ultron defense system. However, the Ultron understands that is necessary to annihilate mankind to save the planet, attacks the Avengers and flees to Sokovia with the scepter. He builds an armature for self-protection and robots for his army and teams up with the twins. The Avengers go to Clinton Barton's house to recover, but out of the blue, Nick Fury (Samuel L. Jackson) arrives and convinces them to fight against Ultron. Will they succeed? </p>
-
-														<p>"Avengers: Age of Ultron" is an entertaining adventure with impressive special effects and cast. The storyline might be better, since most of the characters do not show any chemistry. However, it is worthwhile watching this film since the amazing special effects are not possible to be described in words. Why Pietro has to die is also not possible to be explained. My vote is eight.</p>
-													</div> -->
-													<div class="topbar-filter">
-														<label>Reviews per page:</label>
-														<select>
-															<option value="range">5 Reviews</option>
-															<option value="saab">10 Reviews</option>
-														</select>
-														<div class="pagination2">
-															<span>Page 1 of 6:</span>
-															<a class="active" href="moviesingle.html#">1</a>
-															<a href="moviesingle.html#">2</a>
-															<a href="moviesingle.html#">3</a>
-															<a href="moviesingle.html#">4</a>
-															<a href="moviesingle.html#">5</a>
-															<a href="moviesingle.html#">6</a>
-															<a href="moviesingle.html#"><i class="ion-arrow-right-b"></i></a>
-														</div>
 													</div>
+												
+												<pagination
+													:data="currentMovieReviews"
+													@page:update="updatePage"
+													@pageSize:update="updatePageSize"
+													:currentPage="currentPage"
+													:pageSize="pageSize"
+												>
+
+												</pagination>
 												</div>
 											</div>
 												</tab>
@@ -248,14 +217,17 @@ import StarRating from 'vue-star-rating'
 import TrailerModal from '@/components/layouts/public/ModalTrailer.vue'
 import ReviewModal from '@/components/layouts/public/ModalReview.vue'
 import MovieSchedule from '@/components/layouts/Movies/MovieSchedule.vue'
-
+import Pagination from '@/components/layouts/public/Pagination.vue'
 export default {
     data: function () {
       return {
 		index: null,
 		showTrailerModal: false,
 		showReviewModal : false,
-		showMovieSchedule : false
+		showMovieSchedule : false,
+		pageSize: 3,
+		currentPage: 0,
+
       };
 	},
 	computed: {
@@ -269,6 +241,12 @@ export default {
 		},
 		currentMovieReviews() {
 			return this.$store.getters.currentReviews;
+		},
+		visibleReviews() {
+			return this.$store.getters.updateVisibleReviews({
+				currentPage: this.currentPage,
+				pageSize: this.pageSize
+			})
 		}
 	},
 	created() {
@@ -276,6 +254,7 @@ export default {
 		this.fetchAllReview();
 		this.fetchCurrentReviews();
 	},
+
 	beforeRouteEnter (to, from, next) {
 		next(vm => {
 			vm.fetchAllMovies();
@@ -331,6 +310,12 @@ export default {
 				})
 				eventBus.$emit("openLogin", true)
 			}
+		},
+		updatePage(pageNumber) {
+			this.currentPage = pageNumber;
+		},
+		updatePageSize(pageSize) {
+			this.pageSize = parseInt(pageSize);
 		}
 	},
 	
@@ -339,7 +324,8 @@ export default {
 	  StarRating,
 	  appTrailerModal : TrailerModal,
 	  appReviewModal: ReviewModal,
-	  appMovieSchedule: MovieSchedule
+	  appMovieSchedule: MovieSchedule,
+	  Pagination
     },
   }
 </script>
@@ -442,4 +428,8 @@ export default {
 		.wrap-tab-detail .tabs-component-tab {
 			padding-top : 19px;
 		}
+
+	.wrap-mv-user-review{
+		min-height: 504px;
+	}
 </style>

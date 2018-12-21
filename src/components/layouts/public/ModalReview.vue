@@ -112,6 +112,7 @@ import StarRating from 'vue-star-rating'
                         rating: this.rating==0? this.currentMovie[0].rating: this.rating,
                         //created_at: time
                     }).then(()=>{
+                        this.$emit("page:update", 0)
                     })
                     .catch(err => console.log(err))
                     this.$swal({

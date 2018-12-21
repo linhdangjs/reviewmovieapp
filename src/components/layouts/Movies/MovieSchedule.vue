@@ -340,6 +340,22 @@
             getMovieTuesdayBHD() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'tuesday', 'bhd');},
             getMovieTuesdayCGV() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'tuesday', 'cgv');},
             getMovieTuesdayLOTTE() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'tuesday', 'lotte');},
+            getMovieWedBHD() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'wed', 'bhd');},
+            getMovieWedCGV() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'wed', 'cgv');},
+            getMovieWedLOTTE() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'wed', 'lotte');},
+            getMovieThuBHD() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'thu', 'bhd');},
+            getMovieThuCGV() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'thu', 'cgv');},
+            getMovieThuLOTTE() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'thu', 'lotte');},
+            getMovieFriBHD() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'fri', 'bhd');},
+            getMovieFriCGV() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'fri', 'cgv');},
+            getMovieFriLOTTE() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'fri', 'lotte');},
+            getMovieSatBHD() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'sat', 'bhd');},
+            getMovieSatCGV() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'sat', 'cgv');},
+            getMovieSatLOTTE() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'sat', 'lotte');},
+            getMovieSunBHD() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'sun', 'bhd');},
+            getMovieSunCGV() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'sun', 'cgv');},
+            getMovieSunLOTTE() {return this.$store.getters.getMovieSchedule(this.$route.params.id, 'sun', 'lotte');}
+
         },
         methods: {
             tabClicked (selectedTab) {
