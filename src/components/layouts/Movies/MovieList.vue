@@ -55,13 +55,13 @@
                         
                         <div class="pagination2">
                             <span>Page 1 of 2:</span>
-                            <a class="active" href="moviegrid.html#">1</a>
-                            <a href="moviegrid.html#">2</a>
-                            <a href="moviegrid.html#">3</a>
-                            <a href="moviegrid.html#">...</a>
-                            <a href="moviegrid.html#">78</a>
-                            <a href="moviegrid.html#">79</a>
-                            <a href="moviegrid.html#"><i class="ion-arrow-right-b"></i></a>
+                            <a class="active" >1</a>
+                            <a>2</a>
+                            <a>3</a>
+                            <a>...</a>
+                            <a>78</a>
+                            <a>79</a>
+                            <a><i class="ion-arrow-right-b"></i></a>
                         </div>
                     </div>
                 </div>

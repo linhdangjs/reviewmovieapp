@@ -76,7 +76,7 @@ import firebase from 'firebase'
                 return this.$store.getters.user;
             },
             currentUserBills() {
-                return this.$store.getters.getCurrentUserBill;
+                return this.$store.getters.getCurrentUserBill.sort((a, b) => b.booked_at - a.booked_at);
             }
 
         },

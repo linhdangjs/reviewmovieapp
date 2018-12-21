@@ -92,7 +92,7 @@
                                         <div class="col-md-8">
                                             <router-link tag="a" class="title-movie" :to="{name: 'MovieDetail', params: {id: this.$route.query.movie_id}}" style="width:100%;font-weight:bold; cursor:pointer">Movie: {{ currentMovie[0].name }}</router-link>
                                             <p>Rạp {{ currentTicketRoom.cine_name }}</p>
-                                            <p>Suất : {{ currentTicketRoom.show_time }}</p>
+                                            <p>Suất : {{ currentTicketRoom.show_time }}'</p>
                                             <p>Giá Vé: 75.000 VNĐ/vé</p>
                                         </div>
                                     </div>
@@ -284,9 +284,13 @@ import { eventBus } from '@/main.js'
                     
                 },
                 resetSelected() {
-                    console.log(this.currentTicketRoom.listseat.RowA)
+                    //console.log(this.currentTicketRoom.listseat.RowA)
                     this.seatSelected = [];
                     this.seatNameSelected = [];
+                    this.seatSelectedRowA = [],
+                    this.seatSelectedRowB = [],
+                    this.seatSelectedRowC = [],
+                    this.seatSelectedRowD = [],
                     eventBus.$emit("resetSelected", false);
                 },
                 submitBookTicket() {
@@ -323,6 +327,7 @@ import { eventBus } from '@/main.js'
                         confirmButtonText: 'Vâng, Tôi Muốn Thanh Toán!'
                         }).then((result) => {
                         if (result.value) {
+                            console.log(result.value)
                             this.$store.dispatch("submitBookTicket", data)
                             this.$store.dispatch("addBillByUserID", dataBill)
                             this.$swal({
