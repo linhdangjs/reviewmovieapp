@@ -161,7 +161,7 @@
 														<star-rating :max-rating="10" :rating="review.rating" :read-only="true" :star-size="20" :show-rating="false" :border-width="0.5" border-color="#9BA6B2" inactive-color="#040506" active-color="#ffbd00" :increment="0.5"></star-rating>
 													</div>
 													<p class="time">
-														{{ review.time }} by <a> {{ review.user_email }}</a>
+														{{ review.created_at }} by <a> {{ review.user_email }}</a>
 													</p>
 												</div>
 											</div>
@@ -190,7 +190,7 @@
 	</div>
 </div>
 	<appTrailerModal :videoID="currentTvShow[0].trailerID" v-show="showTrailerModal" @closeTrailer="showTrailerModal = false"/>
-	<appReviewModalTV v-if="showReviewModalTV" @closeReviewTV="showReviewModalTV = false"/>
+	<appReviewModalTV @page:update="updatePage" v-if="showReviewModalTV" @closeReviewTV="showReviewModalTV = false"/>
     </div>
 </template>
 

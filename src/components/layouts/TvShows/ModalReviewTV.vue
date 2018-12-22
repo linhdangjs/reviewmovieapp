@@ -11,7 +11,7 @@
             </slot>
              <button class="modal-default-button btn-x" @click="$emit('closeReviewTV')">X</button>
           </div>
-        <form id="frmReview" @submit.prevent="onSubmitReview">
+        <form id="frmReview" @submit.prevent="onSubmitReview(0)">
           <div class="modal-body">
             <slot name="body">
                     
@@ -93,7 +93,7 @@ import StarRating from 'vue-star-rating'
             setRating(rating) {
                 this.rating = rating;
             },
-            onSubmitReview() {
+            onSubmitReview(currentPage) {
                 if(this.title && this.content) {
                     this.$store.dispatch("postReview", {
                         user_uid: this.user.uid,
@@ -108,7 +108,7 @@ import StarRating from 'vue-star-rating'
                         content: this.content,
                         rating: this.rating==0? this.currentTvShow[0].rating: this.rating,
                     }).then(()=>{
-                        this.$emit("page:update", 0)
+                        this.$emit("page:update", currentPage)
                     })
                     .catch(err => console.log(err))
                     this.$swal({

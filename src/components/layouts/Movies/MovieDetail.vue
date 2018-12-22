@@ -204,8 +204,8 @@
 		</div>
 	</div>
 </div>
-	<appTrailerModal :videoID="currentMovie[0].trailerID" v-show="showTrailerModal" @closeTrailer="showTrailerModal = false"/>
-	<appReviewModal v-if="showReviewModal" @closeReview="showReviewModal = false"/>
+	<appTrailerModal  :videoID="currentMovie[0].trailerID" v-show="showTrailerModal" @closeTrailer="showTrailerModal = false"/>
+	<appReviewModal @page:update="updatePage" v-if="showReviewModal" @closeReview="showReviewModal = false"/>
 	<appMovieSchedule v-if="showMovieSchedule" @closeMovieSchedule="showMovieSchedule = false"/>
     </div>
 </template>
@@ -312,6 +312,7 @@ export default {
 			}
 		},
 		updatePage(pageNumber) {
+			console.log(pageNumber);
 			this.currentPage = pageNumber;
 		},
 		updatePageSize(pageSize) {

@@ -11,7 +11,7 @@
             </slot>
              <button class="modal-default-button btn-x" @click="$emit('closeReview')">X</button>
           </div>
-        <form id="frmReview" @submit.prevent="onSubmitReview">
+        <form id="frmReview" @submit.prevent="onSubmitReview(0)">
           <div class="modal-body">
             <slot name="body">
                     
@@ -95,7 +95,7 @@ import StarRating from 'vue-star-rating'
             setRating(rating) {
                 this.rating = rating;
             },
-            onSubmitReview() {
+            onSubmitReview(currentPage) {
                 //var time = firebase.firestore.FieldValue.serverTimestamp();
                 if(this.title && this.content) {
                     this.$store.dispatch("postReview", {
@@ -112,7 +112,7 @@ import StarRating from 'vue-star-rating'
                         rating: this.rating==0? this.currentMovie[0].rating: this.rating,
                         //created_at: time
                     }).then(()=>{
-                        this.$emit("page:update", 0)
+                        this.$emit("page:update", currentPage)
                     })
                     .catch(err => console.log(err))
                     this.$swal({
