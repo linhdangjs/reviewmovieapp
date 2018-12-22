@@ -34,7 +34,10 @@
                         <a class="list"><i class="ion-ios-list-outline "></i></a>
                         <a class="grid"><i class="ion-grid active"></i></a>
                     </div>
-                    <div class="flex-wrap-movielist">
+                      <div class="resetList" @click="resetListMovie">
+                        <img src="/static/images/uploads/reset.png" alt="Reset Button">
+                    </div>
+                    <div v-if="init" class="flex-wrap-movielist">
                             <div v-for="(movie, index) in movies" :key="index" class="movie-item-style-2 movie-item-style-1">
                                 <v-lazy-image :src="movie.photoUrl" />
                                 <div class="hvr-inner">
@@ -47,6 +50,26 @@
                             </div>					
 
                     </div>		
+                   <!-- <div class="query-title" v-if="queryResult.length>0 && queryMovieName !==''" style="padding-bottom: 20px">
+                                <p>Kết quả tìm kiếm cho từ khóa "<span class="keyword" style="color:#d1043ee6; font-size: 16px; font-weight:bold">{{ queryMovieName }}</span>"</p>
+                    </div> -->
+                  
+                    <div v-if="queryResult.length>0" class="flex-wrap-movielist">
+                            <div v-for="(movie, index) in queryResult" :key="index" class="movie-item-style-2 movie-item-style-1">
+                                <v-lazy-image :src="movie.photoUrl" />
+                                <div class="hvr-inner">
+                                    <router-link tag="a" :to="'movie/'+movie.movie_id"> Read more <i class="ion-android-arrow-dropright"></i> </router-link>
+                                </div>
+                                <div class="mv-item-infor">
+                                    <h6><router-link tag="a" :to="'movie/'+ movie.movie_id">{{ movie.name }}</router-link></h6>
+                                    <p class="rate"><i class="ion-android-star"></i><span>{{ movie.rating }}</span> /10</p>
+                                </div>
+                            </div>					
+
+                    </div>	
+                    <div v-if="queryResult.length==0" class="notification" style="padding-bottom: 30px; text-align:center">
+                        <p>Không có kết quả tìm kiếm nào phù hợp!</p>
+                    </div>
                     <div class="topbar-filter">
                         <label>Movies per page:</label>
                         <select>
@@ -70,49 +93,35 @@
                     <div class="sidebar">
                         <div class="searh-form">
                             <h4 class="sb-title">Search for movie</h4>
-                            <form class="form-style-1">
+                            <form class="form-style-1" @submit.prevent="submitSearch">
                                 <div class="row">
                                     <div class="col-md-12 form-it">
                                         <label>Movie name</label>
-                                        <input type="text" placeholder="Enter keywords">
+                                        <input type="text" v-model="queryMovieName" placeholder="Enter keywords">
                                     </div>
                                     <div class="col-md-12 form-it">
-                                        <label>Genres & Subgenres</label>
+                                        <label>Genres</label>
                                         <div class="group-ip">
-                                            <select
+                                            <select v-model="queryGenres"
                                                 name="skills">
                                                 <option value="">Enter to filter genres</option>
-                                                <option value="Action1">Action 1</option>
-                                                <option value="Action2">Action 2</option>
-                                                <option value="Action3">Action 3</option>
-                                                <option value="Action4">Action 4</option>
-                                                <option value="Action5">Action 5</option>
+                                                <option value="Sci-fi">Sci-fi</option>
+                                                <option value="Horror">Horror</option>
+                                                <option value="Action">Action</option>
+                                                <option value="Advanture">Advanture</option>
+                                                <option value="Comedy">Comedy</option>
+                                                <option value="Drama">Drama</option>
+                                                <option value="sport">Sport</option>
                                             </select>
                                         </div>	
                                     </div>
                                     <div class="col-md-12 form-it">
                                         <label>Rating Range</label>
-                                        <select>
-                                        <option value="range">-- Select the rating range below --</option>
-                                        <option value="saab">-- Select the rating range below --</option>
+                                        <select v-model="queryRating">
+                                        <option value="">Choose rating rage</option>
+                                        <option value="below">-- Select the rating range below 7 stars --</option>
+                                        <option value="over">-- Select the rating range over 7 stars --</option>
                                         </select>
-                                    </div>
-                                    <div class="col-md-12 form-it">
-                                        <label>Release Year</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <select>
-                                                <option value="range">From</option>
-                                                <option value="number">10</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <select>
-                                                <option value="range">To</option>
-                                                <option value="number">20</option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-md-12 ">
                                         <input class="submit" type="submit" value="submit">
@@ -149,7 +158,13 @@ import Header from '@/components/layouts/public/Header.vue'
 import VLazyImage from "v-lazy-image";
 export default {
     data() {
-        return {}
+        return {
+            queryMovieName : "",
+            queryGenres : "",
+            queryRating: "",
+            queryResult: [],
+            init: true,
+        }
     },
     computed: {
         movies() {
@@ -165,6 +180,86 @@ export default {
             this.$store.dispatch("getAllMovies").then(() => {
                 //console.log(this.$store.getters.movies)
             })
+        },
+        submitSearch() {
+            this.init = false;
+            if(this.queryMovieName !== "") {
+                if(this.queryGenres !== "") {
+                    if(this.queryRating == "below") {
+                        this.queryResult =  this.movies
+                                                .filter(movie => movie.name.toLowerCase()
+                                                .indexOf(this.queryMovieName.toLowerCase()) > -1 
+                                                && movie.tags.indexOf(this.queryGenres) > -1
+                                                && movie.rating < 7)
+                    } else if(this.queryRating == "over") {
+                        this.queryResult =  this.movies
+                                                .filter(movie => movie.name.toLowerCase()
+                                                .indexOf(this.queryMovieName.toLowerCase()) > -1 
+                                                && movie.tags.indexOf(this.queryGenres) > -1
+                                                && movie.rating >= 7)
+                     
+                    } else {
+                        this.queryResult =  this.movies
+                                                .filter(movie => movie.name.toLowerCase()
+                                                .indexOf(this.queryMovieName.toLowerCase()) > -1 
+                                                && movie.tags.indexOf(this.queryGenres) > -1)
+                    }
+                } else {
+                    if(this.queryRating == "below") {
+                        this.queryResult =  this.movies
+                                                .filter(movie => movie.name.toLowerCase()
+                                                .indexOf(this.queryMovieName.toLowerCase()) > -1
+                                                && movie.rating < 7)
+                    } else if(this.queryRating == "over") {
+                        this.queryResult =  this.movies
+                                                .filter(movie => movie.name.toLowerCase()
+                                                .indexOf(this.queryMovieName.toLowerCase()) > -1
+                                                && movie.rating >= 7)
+                    
+                    } else {
+                        this.queryResult =  this.movies
+                                                .filter(movie => movie.name.toLowerCase()
+                                                .indexOf(this.queryMovieName.toLowerCase()) > -1)
+                    }
+                }
+            } else {
+                if(this.queryGenres !== "") {
+                    if(this.queryRating == "below") {
+                        this.queryResult =  this.movies
+                                                .filter(movie => 
+                                                movie.rating < 7
+                                                && movie.tags.indexOf(this.queryGenres) > -1) 
+                    } else if(this.queryRating == "over") {
+                        this.queryResult =  this.movies
+                                                .filter(movie => 
+                                                movie.rating >= 7
+                                                && movie.tags.indexOf(this.queryGenres) > -1)  
+                    } else {
+                        this.queryResult =  this.movies
+                                                .filter(movie => 
+                                                movie.tags.indexOf(this.queryGenres) > -1) 
+                    }
+                } else {
+                    if(this.queryRating == "below") {
+                        this.queryResult =  this.movies
+                                                .filter(movie => 
+                                                movie.rating < 7) 
+                    } else if(this.queryRating == "over") {
+                        this.queryResult =  this.movies
+                                                .filter(movie => 
+                                                movie.rating >= 7)  
+                    } else {
+                        this.queryResult = this.movies;
+                    }
+                }
+            }
+        },
+        resetListMovie() {
+            this.queryMovieName = "";
+            this.queryGenres = "";
+            this.queryRating = "";
+            this.queryResult = [];
+            this.init = true;
         }
     },
     components: { 
@@ -181,5 +276,17 @@ export default {
 }
 .v-lazy-image-loaded {
   filter: blur(0);
+}
+.resetList {
+    text-align: right;
+    position: absolute;
+    right: -50px;
+    top: 0px;
+    z-index: 300;
+    cursor: pointer;
+}
+.resetList img {
+    width: 35px;
+    height: 35px;
 }
 </style>
