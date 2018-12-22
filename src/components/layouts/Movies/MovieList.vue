@@ -1,5 +1,6 @@
 <template>
 <div class="wrap-movie-grid">
+    <app-header />
             <div class="hero common-hero">
         <div class="container">
             <div class="row">
@@ -7,7 +8,7 @@
                     <div class="hero-ct">
                         <h1 style="text-align:center; margin-left: 0"> movie listing - grid</h1>
                         <ul class="breadcumb">
-                            <li class="active"><a href="moviegrid.html#">Home</a></li>
+                            <li class="active"><a>Home</a></li>
                             <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
                         </ul>
                     </div>
@@ -20,7 +21,7 @@
             <div class="row ipad-width">
                 <div class="col-md-8 col-sm-12 col-xs-12">
                     <div class="topbar-filter">
-                        <p>Found <span>1,608 movies</span> in total</p>
+                        <p>Found <span>{{ movies.length }}</span> in total</p>
                         <label>Sort by:</label>
                         <select>
                             <option value="popularity">Popularity Descending</option>
@@ -30,8 +31,8 @@
                             <option value="date">Release date Descending</option>
                             <option value="date">Release date Ascending</option>
                         </select>
-                        <a href="#" class="list"><i class="ion-ios-list-outline "></i></a>
-                        <a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
+                        <a class="list"><i class="ion-ios-list-outline "></i></a>
+                        <a class="grid"><i class="ion-grid active"></i></a>
                     </div>
                     <div class="flex-wrap-movielist">
                             <div v-for="(movie, index) in movies" :key="index" class="movie-item-style-2 movie-item-style-1">
@@ -69,7 +70,7 @@
                     <div class="sidebar">
                         <div class="searh-form">
                             <h4 class="sb-title">Search for movie</h4>
-                            <form class="form-style-1" action="moviegrid.html#">
+                            <form class="form-style-1">
                                 <div class="row">
                                     <div class="col-md-12 form-it">
                                         <label>Movie name</label>
@@ -144,6 +145,7 @@
 </template>
 
 <script>
+import Header from '@/components/layouts/public/Header.vue'
 import VLazyImage from "v-lazy-image";
 export default {
     data() {
@@ -165,7 +167,10 @@ export default {
             })
         }
     },
-    components: { VLazyImage }
+    components: { 
+        VLazyImage ,
+        appHeader: Header    
+    }
 }
 </script>
 

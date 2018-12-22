@@ -1,5 +1,6 @@
 <template>
     <div class="wrap-user-view">
+        <appHeader />
         <div class="main-user-profile">
             <div class="hero user-hero">
                 <div class="container">
@@ -55,6 +56,7 @@
 </template>
 
 <script>
+import Header from '@/components/layouts/public/Header.vue'
 import firebase from 'firebase'
 import VLazyImage from "v-lazy-image";
     export default {
@@ -80,6 +82,9 @@ import VLazyImage from "v-lazy-image";
         },
         methods: {
 
+        },
+        components : {
+            appHeader : Header
         }
     }
 </script>

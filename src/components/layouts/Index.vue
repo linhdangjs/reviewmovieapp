@@ -1,5 +1,6 @@
 <template>
     <div class="wrap-content">
+            <appHeader />
             <appMainSlider />
             <appMovieContent />
             <!-- <appTrailers /> -->
@@ -10,7 +11,7 @@
 
 <script>
 
-
+import Header from '@/components/layouts/public/Header.vue'
 import MainSlider from '@/components/layouts/HomePage/SlickMainSlider.vue'
 import Login from '@/components/layouts/public/Login.vue'
 import SignUp from '@/components/layouts/public/SignUp.vue'
@@ -28,12 +29,13 @@ import LastestNews from '@/components/layouts/HomePage/LastestNews.vue'
             movies() {
                 return this.$store.getters.movies;
             }
-        },
+        }, 
         created() {
             console.log('created');
            this.fetchAllMovies();
            
         },
+ 
         methods: {
             fetchAllMovies() {
                 this.$store.dispatch("getAllMovies").then(() => {
@@ -42,6 +44,7 @@ import LastestNews from '@/components/layouts/HomePage/LastestNews.vue'
             }
         },
         components: {
+            appHeader : Header,
             appMainSlider: MainSlider,
             appLogin : Login,
             appSignUp : SignUp,

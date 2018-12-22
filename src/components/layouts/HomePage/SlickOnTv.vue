@@ -41,7 +41,7 @@
                     </slickTab>
                 </div>
         </tab>
-        <tab name="#Coming Soon">
+        <!-- <tab name="#Coming Soon">
                <div class="row">
                              <slickTab
                             class="slick-multiItemSlider"
@@ -63,7 +63,6 @@
                                 <div class="movie-item">
                                     <div class="mv-img">
                                         <v-lazy-image :src="tvshow.photoUrl" width="185" height="284" />
-                                        <!-- <img src="static/images/uploads/mv-item1.jpg" alt="" width="185" height="284"> -->
                                     </div> 
                                     <div class="hvr-inner">
                                         <router-link tag="a" :to="'tvshow/'+tvshow.tvshow_id">Read more <i class="ion-android-arrow-dropright"></i> </router-link>
@@ -76,15 +75,6 @@
                             </div>
                     </slickTab>
                 </div>
-        </tab>
-
-        <!-- <tab id="oh-hi-mark" name="#Custom fragment">
-            The fragment that is appended to the url can be customized
-        </tab>
-        <tab prefix="<span class='glyphicon glyphicon-star'></span> " 
-             name="#Prefix and suffix" 
-             suffix=" <span class='badge'>4</span>">
-            A prefix and a suffix can be added
         </tab> -->
     </tabs>
            
@@ -104,8 +94,8 @@ import VLazyImage from "v-lazy-image";
                         slidesToScroll: 4,
                         arrows: false,
                         draggable:true,
-                        autoplay: true,
-                        autoplaySpeed: 2000,
+                        // autoplay: true,
+                        // autoplaySpeed: 2000,
                         dots: true,
                         responsive: [
                         {

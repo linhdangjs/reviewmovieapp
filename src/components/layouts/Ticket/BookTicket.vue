@@ -1,5 +1,6 @@
 <template>
 <div class="wrap-book-ticket">
+    <appHeader />
             <div class="hero common-hero">
         <div class="container">
             <div class="row">
@@ -178,6 +179,7 @@
 </template>
 
 <script>
+import Header from '@/components/layouts/public/Header.vue'
 import Seat from '@/components/layouts/Ticket/Seat.vue'
 import { eventBus } from '@/main.js'
     export default {
@@ -351,7 +353,8 @@ import { eventBus } from '@/main.js'
                 }
             },
             components: {
-                appSeat : Seat
+                appSeat : Seat,
+                appHeader: Header    
             }
     }
 </script>

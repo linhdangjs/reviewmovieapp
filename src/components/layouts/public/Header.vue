@@ -86,14 +86,34 @@
             
             <!-- top search form -->
             <div class="top-search">
-                <select>
-                    <option value="united">TV show</option>
-                    <option value="saab">Others</option>
+                <select v-model="typeSearch" @change="queryData">
+                    <option value="movie">Movies In Theater</option>
+                    <option value="tvshow">TV show</option>
                 </select>
-                <input type="text" placeholder="Search for a movie, TV Show or celebrity that you are looking for">
+                <input type="text" v-model="querySearch" @input="queryData" placeholder="Search for a movie, TV Show or celebrity that you are looking for">
             </div>
+           
         </div>
+       
     </header>
+    <div class="resultSearch" v-if="queryResult.length > 0">
+        <div class="close-box" @click="closeBox">
+            <img src="/static/images/uploads/close-box.png" alt="">    
+        </div> 
+        <div v-if="typeSearch=='movie'" class="result-movie">
+            <router-link tag="div" :to="{name: 'MovieDetail', params: {id: result.movie_id }}" class="resultItem" v-for="(result, index) in queryResult" :key="index" >
+                <img :src="result.photoUrl" alt="">
+                <span>{{ result.name }}</span>
+            </router-link>
+        </div>
+        <div v-if="typeSearch=='tvshow'" class="result-tvshow">
+            <router-link tag="div" :to="{name: 'TvShowDetail', params: {id: result.tvshow_id }}" class="resultItem" v-for="(result, index) in queryResult" :key="index">
+                <img :src="result.photoUrl" alt="">
+                <span>{{ result.name }}</span>
+            </router-link>
+        </div>
+ 
+    </div>
         <!-- END | Header -->
     <appLogin v-if="showLogin" @closeLogin="showLogin = false"/>
     <appSignUp v-if="showSignUp" @closeSignUp="showSignUp = false"/>
@@ -115,10 +135,14 @@ export default {
                 displayName : "",
                 email: "",
                 uid: "",
-                photoUrl: ""
+                photoUrl: "",
             },
             showLogin : false,
-            showSignUp: false
+            showSignUp: false,
+            typeSearch: "movie",
+            querySearch: "",
+            queryResult: [],
+        
         }
     },
     created() {
@@ -131,6 +155,8 @@ export default {
         console.log(tokenUser);
         if(tokenUser) this.currentUser = JSON.parse(tokenUser);
         this.$store.commit('setUser', JSON.parse(tokenUser))
+        this.$store.dispatch("getAllMovies");
+        this.$store.dispatch("getAllTvShows");
     },
     // mounted() { 
     //      this.$on("openLogin", value => {
@@ -150,7 +176,17 @@ export default {
         },
         user() {
                 return this.$store.getters.user;
-            }
+            },
+        movies() {
+            return this.$store.getters.movies;
+        },
+        tvshows() {
+            return this.$store.getters.tvshows;
+        },
+        resetQuery() {
+            this.querySearch = "";
+            this.queryResult = [];
+        }
     },
     watch: {
             user (value) {
@@ -171,6 +207,28 @@ export default {
                 if(this.$route.path === "/user/profile" || this.$route.path === "/user/myreviews" || this.$route.path === "/ticket"
                 || this.$route.path === "/user/bills") this.$router.push('/')
             })
+        },
+        queryData() {
+            if(this.querySearch.toLowerCase() !== "") {
+                 if(this.typeSearch === "movie") {
+                    this.queryResult = this.movies.filter(movie => {
+                        return movie.name.toLowerCase().indexOf(this.querySearch) > -1;
+                    })
+                } 
+                if(this.typeSearch === "tvshow"){
+                    console.log
+                    this.queryResult = this.tvshows.filter(tvshow => {
+                        return tvshow.name.toLowerCase().indexOf(this.querySearch) > -1;
+                    })
+                }
+            } else {
+                this.queryResult = []
+            }
+           
+        },
+        closeBox() {
+            this.querySearch = "";
+            this.queryResult = [];
         }
     },
     components : {
@@ -181,6 +239,44 @@ export default {
 </script>
 
 <style>
-    
+    .resultSearch {
+        background-color: #080d13ed;
+        width: 70%;
+        float: right;
+        border-right: 4px solid #020d18;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        position: absolute;
+        z-index: 9999;
+        top: 27%;
+        right: 104px;
+    }
+    .resultSearch .close-box {
+        position: absolute;
+        top: -5px;
+        right: -21px;
+        cursor: pointer;
+    }
+    .resultSearch .close-box img{
+        width: 30px;
+        height: 30px;
+    }
+    .resultItem {
+        color: white;
+        margin-bottom: 10px;
+        padding: 5px;
+        cursor: pointer;
+    }
+    .resultItem:hover {
+        background-color: #182838E6;
+    }
+    .resultItem img {
+        width: 50px;
+        height: 60px;
+        margin-right: 20px;
+    }
+    /* .resultItem span {
+      
+    } */
  </style>
     

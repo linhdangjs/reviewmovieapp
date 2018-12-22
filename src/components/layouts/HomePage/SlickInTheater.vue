@@ -5,7 +5,7 @@
 			<router-link tag="a" to="/movies" class="viewall">View all <i class="ion-ios-arrow-right"></i></router-link>
 		</div>
         <tabs :options="{ useUrlFragment: false }" @clicked="tabClicked" @changed="tabChanged">
-        <tab name="#Now Showing">
+        <tab name="#Coming Soon">
                     <div class="row">
                              <slickTab
                             class="slick-multiItemSlider"
@@ -41,7 +41,7 @@
                     </slickTab>
                 </div>
         </tab>
-        <tab name="#Coming Soon">
+        <!-- <tab name="#Coming Soon">
                <div class="row">
                              <slickTab
                             class="slick-multiItemSlider"
@@ -63,7 +63,6 @@
                                 <div class="movie-item">
                                     <div class="mv-img">
                                         <v-lazy-image :src="movie.photoUrl" width="185" height="284" />
-                                        <!-- <img src="static/images/uploads/mv-item1.jpg" alt="" width="185" height="284"> -->
                                     </div> 
                                     <div class="hvr-inner">
                                          <router-link tag="a" :to="'movie/'+movie.movie_id">Read more <i class="ion-android-arrow-dropright"></i> </router-link>
@@ -76,7 +75,7 @@
                             </div>
                     </slickTab>
                 </div>
-        </tab>
+        </tab> -->
 
         <!-- <tab id="oh-hi-mark" name="#Custom fragment">
             The fragment that is appended to the url can be customized
@@ -104,8 +103,8 @@ import VLazyImage from "v-lazy-image";
                         slidesToScroll: 4,
                         arrows: false,
                         draggable:true,
-                        autoplay: true,
-                        autoplaySpeed: 2000,
+                        // autoplay: true,
+                        // autoplaySpeed: 2000,
                         dots: true,
                         responsive: [
                         {

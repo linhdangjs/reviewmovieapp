@@ -1,5 +1,6 @@
 <template>
     <div class="wrap-tvshow-grid">
+            <app-header />
             <div class="hero common-hero">
         <div class="container">
             <div class="row">
@@ -20,7 +21,7 @@
             <div class="row ipad-width">
                 <div class="col-md-8 col-sm-12 col-xs-12">
                     <div class="topbar-filter">
-                        <p>Found <span>1,608 movies</span> in total</p>
+                        <p>Found <span>{{ tvshows.length }}</span> in total</p>
                         <label>Sort by:</label>
                         <select>
                             <option value="popularity">Popularity Descending</option>
@@ -144,6 +145,7 @@
 </template>
 
 <script>
+import Header from '@/components/layouts/public/Header.vue'
 import VLazyImage from "v-lazy-image";
 export default {
     data() {
@@ -163,7 +165,9 @@ export default {
             this.$store.dispatch("getAllTvShows");
         }
     },
-    components: { VLazyImage }
+    components: { VLazyImage ,
+        appHeader: Header
+    }
 }
 </script>
 

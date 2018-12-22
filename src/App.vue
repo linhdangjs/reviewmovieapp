@@ -1,7 +1,7 @@
 <template>
   <div id="app" >
     <appPreloader v-if="loading" />
-    <appHeader v-if="!loading"/>
+    <!-- <appHeader v-if="!loading"/> -->
     <transition name="slide">
       <router-view v-if="!loading"/>
     </transition>
@@ -38,6 +38,19 @@ export default {
         this.$store.commit('setUser', JSON.parse(tokenUser))
         this.fetchAllData();
     },
+  beforeUpdate() {
+                if (this.$refs.slick) {
+                    this.$refs.slick.destroy();
+                }
+            },
+  updated() {
+                this.$nextTick(function () {
+                    if (this.$refs.slick) {
+                        //console.log(this.$refs.slick)
+                        this.$refs.slick.create(this.slickOptions);
+                        }
+                });
+            },
   methods: {
         async fetchAllData() {
           console.log('fetchdata');
