@@ -8,7 +8,7 @@
                     <div class="hero-ct">
                         <h1 style="text-align:center; margin-left: 0"> TVSHOW LIST</h1>
                         <ul class="breadcumb">
-                            <li class="active"><a href="moviegrid.html#">Home</a></li>
+                            <li class="active"><a>Home</a></li>
                             <li> <span class="ion-ios-arrow-right"></span> TVSHOW LIST</li>
                         </ul>
                     </div>
@@ -32,9 +32,12 @@
                             <option value="date">Release date Ascending</option>
                         </select>
                         <a href="#" class="list"><i class="ion-ios-list-outline "></i></a>
-                        <a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
+                        <a class="grid"><i class="ion-grid active"></i></a>
                     </div>
-                    <div class="flex-wrap-movielist">
+                                  <div class="resetList" @click="resetListTvShow">
+                        <img src="/static/images/uploads/reset.png" alt="Reset Button">
+                    </div>
+                    <div v-if="init" class="flex-wrap-movielist">
                             <div v-for="(tvshow, index) in tvshows" :key="index" class="movie-item-style-2 movie-item-style-1">
                                 <v-lazy-image :src="tvshow.photoUrl" />
                                 <div class="hvr-inner">
@@ -46,23 +49,39 @@
                                 </div>
                             </div>					
 
-                    </div>		
+                    </div>		    
+                    <div v-if="queryResult.length>0" class="flex-wrap-movielist">
+                            <div v-for="(tvshow, index) in queryResult" :key="index" class="movie-item-style-2 movie-item-style-1">
+                                <v-lazy-image :src="tvshow.photoUrl" />
+                                <div class="hvr-inner">
+                                    <router-link tag="a" :to="'tvshow/'+tvshow.tvshow_id"> Read more <i class="ion-android-arrow-dropright"></i> </router-link>
+                                </div>
+                                <div class="mv-item-infor">
+                                    <h6><router-link tag="a" :to="'tvshow/'+ tvshow.tvshow_id">{{ tvshow.name }}</router-link></h6>
+                                    <p class="rate"><i class="ion-android-star"></i><span>{{ tvshow.rating }}</span> /10</p>
+                                </div>
+                            </div>					
+
+                    </div>	
+                    <div v-if="queryResult.length==0 && !init" class="notification" style="padding-bottom: 30px; text-align:center">
+                        <p>Không có kết quả tìm kiếm nào phù hợp!</p>
+                    </div>	
                     <div class="topbar-filter">
-                        <label>Movies per page:</label>
+                        <label>TVShows per page:</label>
                         <select>
-                            <option value="range">20 Movies</option>
-                            <option value="saab">10 Movies</option>
+                            <option value="range">20 TVShows</option>
+                            <option value="saab">10 TVShows</option>
                         </select>
                         
                         <div class="pagination2">
                             <span>Page 1 of 2:</span>
-                            <a class="active" href="moviegrid.html#">1</a>
-                            <a href="moviegrid.html#">2</a>
-                            <a href="moviegrid.html#">3</a>
-                            <a href="moviegrid.html#">...</a>
-                            <a href="moviegrid.html#">78</a>
-                            <a href="moviegrid.html#">79</a>
-                            <a href="moviegrid.html#"><i class="ion-arrow-right-b"></i></a>
+                            <a class="active">1</a>
+                            <a>2</a>
+                            <a>3</a>
+                            <a>...</a>
+                            <a>78</a>
+                            <a>79</a>
+                            <a><i class="ion-arrow-right-b"></i></a>
                         </div>
                     </div>
                 </div>
@@ -70,49 +89,31 @@
                     <div class="sidebar">
                         <div class="searh-form">
                             <h4 class="sb-title">Search for tvshow</h4>
-                            <form class="form-style-1" action="moviegrid.html#">
+                            <form class="form-style-1" @submit.prevent="submitSearch">
                                 <div class="row">
                                     <div class="col-md-12 form-it">
                                         <label>TvShow name</label>
-                                        <input type="text" placeholder="Enter keywords">
+                                        <input v-model="queryTvShowName" type="text" placeholder="Enter keywords">
                                     </div>
                                     <div class="col-md-12 form-it">
                                         <label>Genres & Subgenres</label>
                                         <div class="group-ip">
-                                            <select
+                                            <select v-model="queryGenres"
                                                 name="skills">
                                                 <option value="">Enter to filter genres</option>
-                                                <option value="Action1">Action 1</option>
-                                                <option value="Action2">Action 2</option>
-                                                <option value="Action3">Action 3</option>
-                                                <option value="Action4">Action 4</option>
-                                                <option value="Action5">Action 5</option>
+                                                <option value="Funny">Funny</option>
+                                                <option value="Music">Music</option>
+                                                <option value="Talkshow">Talk Show</option>
                                             </select>
                                         </div>	
                                     </div>
                                     <div class="col-md-12 form-it">
                                         <label>Rating Range</label>
-                                        <select>
-                                        <option value="range">-- Select the rating range below --</option>
-                                        <option value="saab">-- Select the rating range below --</option>
+                                        <select v-model="queryRating">
+                                        <option value="">Choose range ratings</option>
+                                        <option value="below">-- Select the rating range below 7 stars --</option>
+                                        <option value="over">-- Select the rating range over 7 stars --</option>
                                         </select>
-                                    </div>
-                                    <div class="col-md-12 form-it">
-                                        <label>Release Year</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <select>
-                                                <option value="range">From</option>
-                                                <option value="number">10</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <select>
-                                                <option value="range">To</option>
-                                                <option value="number">20</option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-md-12 ">
                                         <input class="submit" type="submit" value="submit">
@@ -149,7 +150,13 @@ import Header from '@/components/layouts/public/Header.vue'
 import VLazyImage from "v-lazy-image";
 export default {
     data() {
-        return {}
+        return {
+            queryTvShowName : "",
+            queryGenres : "",
+            queryRating: "",
+            queryResult: [],
+            init: true,
+        }
     },
     computed: {
         tvshows() {
@@ -163,6 +170,86 @@ export default {
     methods: {
         fetchAllTvShows() {
             this.$store.dispatch("getAllTvShows");
+        },
+        submitSearch() {
+            this.init = false;
+            if(this.queryTvShowName !== "") {
+                if(this.queryGenres !== "") {
+                    if(this.queryRating == "below") {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => tvshow.name.toLowerCase()
+                                                .indexOf(this.queryTvShowName.toLowerCase()) > -1 
+                                                && tvshow.tags.indexOf(this.queryGenres) > -1
+                                                && tvshow.rating < 7)
+                    } else if(this.queryRating == "over") {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => tvshow.name.toLowerCase()
+                                                .indexOf(this.queryTvShowName.toLowerCase()) > -1 
+                                                && tvshow.tags.indexOf(this.queryGenres) > -1
+                                                && tvshow.rating >= 7)
+                     
+                    } else {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => tvshow.name.toLowerCase()
+                                                .indexOf(this.queryTvShowName.toLowerCase()) > -1 
+                                                && tvshow.tags.indexOf(this.queryGenres) > -1)
+                    }
+                } else {
+                    if(this.queryRating == "below") {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => tvshow.name.toLowerCase()
+                                                .indexOf(this.queryTvShowName.toLowerCase()) > -1
+                                                && tvshow.rating < 7)
+                    } else if(this.queryRating == "over") {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => tvshow.name.toLowerCase()
+                                                .indexOf(this.queryTvShowName.toLowerCase()) > -1
+                                                && tvshow.rating >= 7)
+                    
+                    } else {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => tvshow.name.toLowerCase()
+                                                .indexOf(this.queryTvShowName.toLowerCase()) > -1)
+                    }
+                }
+            } else {
+                if(this.queryGenres !== "") {
+                    if(this.queryRating == "below") {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => 
+                                                tvshow.rating < 7
+                                                && tvshow.tags.indexOf(this.queryGenres) > -1) 
+                    } else if(this.queryRating == "over") {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => 
+                                                tvshow.rating >= 7
+                                                && tvshow.tags.indexOf(this.queryGenres) > -1)  
+                    } else {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => 
+                                                tvshow.tags.indexOf(this.queryGenres) > -1) 
+                    }
+                } else {
+                    if(this.queryRating == "below") {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => 
+                                                tvshow.rating < 7) 
+                    } else if(this.queryRating == "over") {
+                        this.queryResult =  this.tvshows
+                                                .filter(tvshow => 
+                                                tvshow.rating >= 7)  
+                    } else {
+                        this.queryResult = this.tvshows;
+                    }
+                }
+            }
+        },
+        resetListTvShow() {
+            this.queryTvShowName = "";
+            this.queryGenres = "";
+            this.queryRating = "";
+            this.queryResult = [];
+            this.init = true;
         }
     },
     components: { VLazyImage ,
@@ -178,5 +265,17 @@ export default {
 }
 .v-lazy-image-loaded {
   filter: blur(0);
+}
+.resetList {
+    text-align: right;
+    position: absolute;
+    right: -50px;
+    top: 0px;
+    z-index: 300;
+    cursor: pointer;
+}
+.resetList img {
+    width: 35px;
+    height: 35px;
 }
 </style>

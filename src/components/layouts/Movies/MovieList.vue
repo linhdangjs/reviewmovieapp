@@ -67,7 +67,7 @@
                             </div>					
 
                     </div>	
-                    <div v-if="queryResult.length==0" class="notification" style="padding-bottom: 30px; text-align:center">
+                    <div v-if="queryResult.length==0 && !init" class="notification" style="padding-bottom: 30px; text-align:center">
                         <p>Không có kết quả tìm kiếm nào phù hợp!</p>
                     </div>
                     <div class="topbar-filter">
