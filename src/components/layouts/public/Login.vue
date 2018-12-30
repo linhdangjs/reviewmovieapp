@@ -16,17 +16,18 @@
             <slot name="body">
                     
                 <div class="row">
-                    <label for="email">
-                        Email:
-                        <input v-model="email" type="text" name="email" id="email" placeholder="" />
-                    </label>
+                    <div class="input-group">
+                        <input v-model="email" type="text" name="email" id="email" required />     
+                         <label for="email">Email</label>   
+                    </div>
                 </div>
             
                 <div class="row">
-                    <label for="password">
-                        Password:
-                        <input v-model="password" type="password" name="password" id="password" placeholder="" />
-                    </label>
+                    <div class="input-group">
+                        <input v-model="password" type="password" name="password" id="password" required />
+                        <label for="password">Password</label>
+                    </div>
+                    
                 </div>
 
             </slot>
@@ -34,11 +35,7 @@
             <div class="modal-footer">
                 <slot name="footer">
                        <div class="lds-ring" v-if="loading"><div></div><div></div><div></div><div></div></div>
-                     <button type="submit" class="btnLogin"  :disabled="loading" id="btnLogin">
-                   
-                         
-                    OK
-                </button>
+                     <button type="submit" class="btnLogin"  :disabled="loading" id="btnLogin"><span>OK</span></button>
                 </slot>
  
             </div>
@@ -153,23 +150,25 @@ import VueSweetalert2 from 'vue-sweetalert2';
 }
 
 .modal-container {
-
+    text-shadow: .4px .4px 5px rgba(0,0,0, .2);
     color: white;
-  width: 300px;
-  position: fixed-top;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background: url(/static/img/slider-bg.ae23a17.jpg) center no-repeat;
-  border-radius: 4px;
-  box-shadow: 0px 0px 5px 7px rgba(223, 211, 211, 0.33);
-  transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
-  box-sizing: border-box;
+    width: 300px;
+    position: fixed-top;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    /* background: url(/static/img/slider-bg.ae23a17.jpg) center no-repeat; */
+    border-radius: 4px;
+    box-shadow: 4.4px 5px 4px 2px  rgba(223, 211, 211, 0.33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
 }
 
 .modal-header h3 {
   margin-top: 0;
-  color: #42b983;
+  color: #28c944e6;
+  user-select: none;
 }
 .modal-footer {
     box-sizing: border-box;
@@ -196,35 +195,83 @@ import VueSweetalert2 from 'vue-sweetalert2';
   transform: scale(1.1);
 }
 /* custom */
-label, input {
-    width: 96%;
-    padding: 5px;
-    margin: 5px;
-    border-radius: 5px;
+.input-group {
+    margin: 1.6rem 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+form input {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    padding: 6px 4px;
+    color: rgb(20, 19, 19);
+    /* background-color: #0b0b1ab3; */
+    border: none;
+    border-bottom: 2px solid #78e0a3;
+    outline: none;
+    /* border-radius: 5px; */
+}
+form input:focus {
+    border-bottom: 2px solid #78e0a3;
+}
+form input:invalid {
+    box-shadow: none;
+     -moz-box-shadow: none;
+}
+form label {
+    position: absolute;
+    top: 5px;
+    left: 30px;
+    font-weight: 300;
+    font-size: 15px;
+    pointer-events: none;
+    color: gray;
+    transition: 200ms ease;
+}
+input:focus + label, input:valid + label {
+    top: -18px;
+    left: 26px;
+    font-size: 14px;
+    color: #28c944e6;
+    font-weight: 500;
 }
 .btn-x {
-    background-color: rgb(231, 56, 56);
+    background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
     border-radius: 5px;
     border: none;
     text-align: center;
     box-sizing: border-box;
 }
+
 .btnLogin {
-    background-color: rgb(56, 216, 117);
+    background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
     border-radius: 5px;
     border: none;
     text-align: center;
     box-sizing: border-box;
     width: 35%;
     padding: 5px 25px;
-
+    cursor: pointer;
+    box-shadow: 2px 2px 12px (0,0,0, .3);
+    outline: none;
 
 }
 .btnLogin:disabled {
-    background: rgba(149, 209, 173, 0.788);
+    background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
     cursor: not-allowed;
 
 }
+
+
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+
 
 button {
     cursor: pointer;
