@@ -1,7 +1,7 @@
 # reviewmovieapp
 
 > Review Movie App With VueJS and Firebase <br/>
-> Link Demo: <a href="https://www.youtube.com/watch?v=lfy6R2iHH90" target="blank">Youtube</a>
+> Link Demo: <a href="https://www.youtube.com/watch?v=lfy6R2iHH90">Youtube</a>
 ## Build Setup
 
 ``` bash
